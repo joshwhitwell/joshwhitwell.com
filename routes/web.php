@@ -20,9 +20,9 @@ Route::get('/', function () {
     return Illuminate\Foundation\Inspiring::quote();
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/me', function () {
+    return Inertia::render('Me');
+})->middleware(['auth', 'verified'])->name('me');
 
 Route::middleware('auth')->group(function () {
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
