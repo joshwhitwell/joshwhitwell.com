@@ -9,7 +9,7 @@ import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 const appName = import.meta.env.VITE_APP_NAME || "Josh Whitwell";
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: () => appName,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,
