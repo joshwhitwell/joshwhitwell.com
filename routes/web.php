@@ -2,8 +2,9 @@
 
 // use App\Http\Controllers\ProfileController;
 // use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,14 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Illuminate\Foundation\Inspiring::quote();
+    $string = Illuminate\Foundation\Inspiring::quote();
+    $quote = Illuminate\Support\Str::between($string, '<options=bold>“ ', ' ”</>');
+    $attribution = Illuminate\Support\Str::between($string, '<fg=gray>— ', '</>');
+
+    return Inertia::render('JoshWhitwell/Index', [
+        'quote' => $quote,
+        'attribution' => $attribution,
+    ]);
 });
 
 Route::get('/me', function () {
