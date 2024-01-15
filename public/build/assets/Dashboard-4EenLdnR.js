@@ -1,1 +1,0 @@
-import{o as t,f as o,g as a,u as r,i as s,j as u}from"./app-cwUwJOn8.js";const _={__name:"Dashboard",setup(c){return(e,f)=>(t(),o(r(u),{href:e.route("logout"),as:"button",method:"post"},{default:a(()=>[s(" Log Out ")]),_:1},8,["href"]))}};export{_ as default};

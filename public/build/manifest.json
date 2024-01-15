@@ -1,6 +1,6 @@
 {
   "resources/js/Pages/Auth/ConfirmPassword.vue": {
-    "file": "assets/ConfirmPassword-zctl7q_X.js",
+    "file": "assets/ConfirmPassword-bCjdJ5NG.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -8,7 +8,7 @@
     "src": "resources/js/Pages/Auth/ConfirmPassword.vue"
   },
   "resources/js/Pages/Auth/ForgotPassword.vue": {
-    "file": "assets/ForgotPassword-QcUc0Sub.js",
+    "file": "assets/ForgotPassword-xmMftnHO.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -16,7 +16,7 @@
     "src": "resources/js/Pages/Auth/ForgotPassword.vue"
   },
   "resources/js/Pages/Auth/Login.vue": {
-    "file": "assets/Login-cnuAAqmP.js",
+    "file": "assets/Login-4elHuQn8.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -24,7 +24,7 @@
     "src": "resources/js/Pages/Auth/Login.vue"
   },
   "resources/js/Pages/Auth/Register.vue": {
-    "file": "assets/Register-WtTS8GiZ.js",
+    "file": "assets/Register-lfi9DPZ9.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -32,7 +32,7 @@
     "src": "resources/js/Pages/Auth/Register.vue"
   },
   "resources/js/Pages/Auth/ResetPassword.vue": {
-    "file": "assets/ResetPassword-u81XShJr.js",
+    "file": "assets/ResetPassword-jBsq5ZX0.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -40,23 +40,43 @@
     "src": "resources/js/Pages/Auth/ResetPassword.vue"
   },
   "resources/js/Pages/Auth/VerifyEmail.vue": {
-    "file": "assets/VerifyEmail-6ZLQT573.js",
+    "file": "assets/VerifyEmail-uFudQcSB.js",
     "imports": [
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Auth/VerifyEmail.vue"
   },
-  "resources/js/Pages/Dashboard.vue": {
-    "file": "assets/Dashboard-4EenLdnR.js",
+  "resources/js/Pages/JoshWhitwell/Index.vue": {
+    "file": "assets/Index-CIzA4gso.js",
+    "imports": [
+      "resources/js/Pages/JoshWhitwell/Partials/InspiringQuote.vue",
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/JoshWhitwell/Index.vue"
+  },
+  "resources/js/Pages/JoshWhitwell/Partials/InspiringQuote.vue": {
+    "css": [
+      "assets/InspiringQuote-Xsr76IvV.css"
+    ],
+    "file": "assets/InspiringQuote-dekkP8hB.js",
     "imports": [
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
-    "src": "resources/js/Pages/Dashboard.vue"
+    "src": "resources/js/Pages/JoshWhitwell/Partials/InspiringQuote.vue"
+  },
+  "resources/js/Pages/Me.vue": {
+    "file": "assets/Me-CGrfoU1l.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Me.vue"
   },
   "resources/js/Pages/Profile/Edit.vue": {
-    "file": "assets/Edit-DF6P07IA.js",
+    "file": "assets/Edit-JW0H0pPZ.js",
     "imports": [
       "resources/js/Pages/Profile/Partials/DeleteUserForm.vue",
       "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue",
@@ -67,7 +87,7 @@
     "src": "resources/js/Pages/Profile/Edit.vue"
   },
   "resources/js/Pages/Profile/Partials/DeleteUserForm.vue": {
-    "file": "assets/DeleteUserForm-qTLm2hzy.js",
+    "file": "assets/DeleteUserForm-ySlw0FuE.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -75,7 +95,7 @@
     "src": "resources/js/Pages/Profile/Partials/DeleteUserForm.vue"
   },
   "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue": {
-    "file": "assets/UpdatePasswordForm-XliI8era.js",
+    "file": "assets/UpdatePasswordForm-sDw3AUpb.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -83,7 +103,7 @@
     "src": "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue"
   },
   "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue": {
-    "file": "assets/UpdateProfileInformationForm-ozIXXsG5.js",
+    "file": "assets/UpdateProfileInformationForm-qN6U58tg.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -91,6 +111,9 @@
     "src": "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue"
   },
   "resources/js/app.js": {
+    "css": [
+      "assets/app-SVGE7FbF.css"
+    ],
     "dynamicImports": [
       "resources/js/Pages/Auth/ConfirmPassword.vue",
       "resources/js/Pages/Auth/ForgotPassword.vue",
@@ -98,13 +121,15 @@
       "resources/js/Pages/Auth/Register.vue",
       "resources/js/Pages/Auth/ResetPassword.vue",
       "resources/js/Pages/Auth/VerifyEmail.vue",
-      "resources/js/Pages/Dashboard.vue",
+      "resources/js/Pages/JoshWhitwell/Index.vue",
+      "resources/js/Pages/JoshWhitwell/Partials/InspiringQuote.vue",
+      "resources/js/Pages/Me.vue",
       "resources/js/Pages/Profile/Edit.vue",
       "resources/js/Pages/Profile/Partials/DeleteUserForm.vue",
       "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue",
       "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue"
     ],
-    "file": "assets/app-cwUwJOn8.js",
+    "file": "assets/app-g4LjBGGv.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
