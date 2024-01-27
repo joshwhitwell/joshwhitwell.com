@@ -93,6 +93,7 @@ h2 {
 textarea {
   background-color: transparent;
   border: 1px solid var(--neutral-300);
+  border-radius: 0;
   box-sizing: border-box;
   font-family: inherit;
   font-size: inherit;
