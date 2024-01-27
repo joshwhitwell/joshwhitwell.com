@@ -1,4 +1,5 @@
 @import url("colors.css");
+@import url("type.css");
 
 html {
   -webkit-font-smoothing: antialiased;
@@ -8,7 +9,7 @@ html {
 body {
   background-color: var(--neutral-50);
   color: var(--neutral-900);
-  font-family: Helvetica, sans-serif;
-  font-size: 16px;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
   margin: 0;
 }

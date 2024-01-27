@@ -1,1 +1,0 @@
-import o from"./InspiringQuote-dekkP8hB.js";import{o as r,f as e}from"./app-g4LjBGGv.js";const c={__name:"Index",props:{quote:String,attribution:String},setup(t){return(n,i)=>(r(),e(o,{quote:t.quote,attribution:t.attribution},null,8,["quote","attribution"]))}};export{c as default};
