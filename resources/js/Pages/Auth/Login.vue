@@ -1,5 +1,7 @@
 <script setup>
 import { Link, useForm } from "@inertiajs/vue3";
+import TextInput from "@/Components/Inputs/TextInput.vue";
+import CheckboxInput from "@/Components/Inputs/CheckboxInput.vue";
 
 defineProps({
   canResetPassword: {
@@ -22,41 +24,42 @@ const submit = () => {
 
 <template>
   <form @submit.prevent="submit">
-    <label for="email">Email</label>
-    <input
-      id="email"
+    <TextInput
       name="email"
-      type="email"
-      v-model="form.email"
-      required
-      autofocus
+      label="Who are you?"
+      help="Don’t think too hard about this one."
+      :autofocus="true"
       autocomplete="username"
+      :error="form.errors.email"
+      v-model="form.email"
     />
-    <p v-show="form.errors.email">{{ form.errors.email }}</p>
-
-    <label for="password">Password</label>
-    <input
-      id="password"
+    <TextInput
       name="password"
       type="password"
-      v-model="form.password"
-      required
+      label="How do I know it’s you?"
+      help="Prove to me you are who you say you are."
       autocomplete="current-password"
+      :error="form.errors.password"
+      v-model="form.password"
     />
-    <p v-show="form.errors.password">{{ form.errors.password }}</p>
-
-    <input
-      id="remember"
+    <CheckboxInput
       name="remember"
-      type="checkbox"
+      label="Come here often?"
+      help="I’ll remember you for next time."
+      :error="form.errors.remember"
       v-model="form.remember"
     />
-    <label for="remember">Remember me</label>
-    <p v-show="form.errors.remember">{{ form.errors.remember }}</p>
 
     <Link v-if="canResetPassword" :href="route('password.request')">
       Forgot your password?
     </Link>
-    <button type="submit" :disabled="form.processing">Log in</button>
+    <button type="submit" :disabled="form.processing">Enter</button>
   </form>
 </template>
+
+<style scoped>
+form {
+  margin: 0 auto;
+  max-width: 672px;
+}
+</style>

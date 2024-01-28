@@ -31,29 +31,32 @@ section {
   background-color: var(--neutral-900);
   box-sizing: border-box;
   flex-shrink: 0;
-  height: 150px;
-  padding: 32px;
-  width: 150px;
+  height: 140px;
+  padding: 28px;
+  width: 140px;
 }
 
 .quote {
   background-color: var(--neutral-100);
   display: flex;
   flex-direction: column;
+  font-weight: 500;
   margin: 0;
   width: 100%;
 }
 
-.quote svg {
+svg {
+  width: 28px;
+  height: 28px;
+  margin-left: -28px;
+}
+
+path {
   color: var(--red-700);
-  width: 32px;
-  height: 32px;
-  margin-left: -32px;
 }
 
 .quote > p {
   color: var(--red-700);
-  font-weight: 600;
   margin: 0;
 }
 

@@ -32,6 +32,17 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'I can’t let you in unless you tell me who you are.',
+            'email.string' => 'That’s not really what I’m looking for.',
+            'email.email' => 'That’s not really what I’m looking for.',
+            'password.required' => 'I can’t let you in unless you prove you are you who say you are.',
+            'password.string' => 'That doesn’t prove anything.',
+        ];
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -45,7 +56,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'You’re not who you say you are.',
             ]);
         }
 

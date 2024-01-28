@@ -10,3 +10,9 @@ defineProps({
 <template>
   <InspiringQuote :quote="quote" :attribution="attribution" />
 </template>
+
+<style>
+body {
+  padding: 0;
+}
+</style>

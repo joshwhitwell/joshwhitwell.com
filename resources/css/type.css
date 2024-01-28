@@ -1,4 +1,80 @@
 :root {
   --font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-size: 16px;
+  --font-size: 14px;
+  --vertical-spacing: 14px;
+}
+
+* {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  line-height: var(--vertical-spacing);
+  color: var(--neutral-900);
+}
+
+html,
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+h1,
+.h1 {
+  font-size: 3.815rem;
+  line-height: 4rem;
+}
+
+h2,
+.h2 {
+  font-size: 3.052rem;
+  line-height: 3rem;
+}
+
+h3,
+.h3 {
+  font-size: 2.441rem;
+  line-height: 3rem;
+}
+
+h4,
+.h4 {
+  font-size: 1.953rem;
+  line-height: 2rem;
+}
+
+h5,
+.h5 {
+  font-size: 1.563rem;
+  line-height: 2rem;
+}
+
+h6,
+.h6 {
+  font-size: 1.25rem;
+  line-height: 2rem;
+}
+
+p,
+.p {
+  font-size: 1rem;
+  line-height: 1rem;
+  margin-bottom: calc(var(--vertical-spacing) / 2);
+}
+
+small,
+.small {
+  font-size: 0.8rem;
+}
+
+.extra-small,
+.extra-small {
+  font-size: 0.64rem;
 }

@@ -12,6 +12,5 @@ import Notes from "./Partials/Notes.vue";
 .me {
   margin: 0 auto;
   max-width: 85ch;
-  padding: 45px 15px;
 }
 </style>
