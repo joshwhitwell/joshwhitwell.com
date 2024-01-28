@@ -3,7 +3,7 @@
     "file": "assets/_plugin-vue_export-helper-x3n3nnut.js"
   },
   "resources/js/Pages/Auth/ConfirmPassword.vue": {
-    "file": "assets/ConfirmPassword-gjFLBqC5.js",
+    "file": "assets/ConfirmPassword-LcQZtR9f.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -11,7 +11,7 @@
     "src": "resources/js/Pages/Auth/ConfirmPassword.vue"
   },
   "resources/js/Pages/Auth/ForgotPassword.vue": {
-    "file": "assets/ForgotPassword-6f09LAFC.js",
+    "file": "assets/ForgotPassword-9lZHwF-q.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -19,15 +19,19 @@
     "src": "resources/js/Pages/Auth/ForgotPassword.vue"
   },
   "resources/js/Pages/Auth/Login.vue": {
-    "file": "assets/Login-M53nR0mW.js",
+    "css": [
+      "assets/Login-J5A2x8-1.css"
+    ],
+    "file": "assets/Login-wp6g6Gnp.js",
     "imports": [
-      "resources/js/app.js"
+      "resources/js/app.js",
+      "__plugin-vue_export-helper-x3n3nnut.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Auth/Login.vue"
   },
   "resources/js/Pages/Auth/Register.vue": {
-    "file": "assets/Register---sUWoBH.js",
+    "file": "assets/Register-jELysAgm.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -35,7 +39,7 @@
     "src": "resources/js/Pages/Auth/Register.vue"
   },
   "resources/js/Pages/Auth/ResetPassword.vue": {
-    "file": "assets/ResetPassword-HXqfXfqn.js",
+    "file": "assets/ResetPassword-J0OA94w_.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -43,7 +47,7 @@
     "src": "resources/js/Pages/Auth/ResetPassword.vue"
   },
   "resources/js/Pages/Auth/VerifyEmail.vue": {
-    "file": "assets/VerifyEmail-3q74nxzP.js",
+    "file": "assets/VerifyEmail-Qr7aYoiH.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -51,7 +55,10 @@
     "src": "resources/js/Pages/Auth/VerifyEmail.vue"
   },
   "resources/js/Pages/JoshWhitwell/Index.vue": {
-    "file": "assets/Index-jlVk7Xri.js",
+    "css": [
+      "assets/Index-F40X7DB5.css"
+    ],
+    "file": "assets/Index-8oBcXwfG.js",
     "imports": [
       "resources/js/Pages/JoshWhitwell/Partials/InspiringQuote.vue",
       "resources/js/app.js",
@@ -62,9 +69,9 @@
   },
   "resources/js/Pages/JoshWhitwell/Partials/InspiringQuote.vue": {
     "css": [
-      "assets/InspiringQuote-Xsr76IvV.css"
+      "assets/InspiringQuote-VeWiGy8z.css"
     ],
-    "file": "assets/InspiringQuote-jBtEsSSk.js",
+    "file": "assets/InspiringQuote-cuuf5hWT.js",
     "imports": [
       "__plugin-vue_export-helper-x3n3nnut.js",
       "resources/js/app.js"
@@ -74,9 +81,9 @@
   },
   "resources/js/Pages/Me/Index.vue": {
     "css": [
-      "assets/Index-KFcc9tC9.css"
+      "assets/Index-009JeCC-.css"
     ],
-    "file": "assets/Index-wYVlSRQ1.js",
+    "file": "assets/Index-dSfMuT0K.js",
     "imports": [
       "resources/js/Pages/Me/Partials/Notes.vue",
       "__plugin-vue_export-helper-x3n3nnut.js",
@@ -89,7 +96,7 @@
     "css": [
       "assets/Notes-5_iJJCZK.css"
     ],
-    "file": "assets/Notes-DkJYy2Sy.js",
+    "file": "assets/Notes-90ppdBod.js",
     "imports": [
       "resources/js/app.js",
       "__plugin-vue_export-helper-x3n3nnut.js"
@@ -98,7 +105,7 @@
     "src": "resources/js/Pages/Me/Partials/Notes.vue"
   },
   "resources/js/Pages/Profile/Edit.vue": {
-    "file": "assets/Edit-u1Yhm9U4.js",
+    "file": "assets/Edit-bjrY-fxO.js",
     "imports": [
       "resources/js/Pages/Profile/Partials/DeleteUserForm.vue",
       "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue",
@@ -109,7 +116,7 @@
     "src": "resources/js/Pages/Profile/Edit.vue"
   },
   "resources/js/Pages/Profile/Partials/DeleteUserForm.vue": {
-    "file": "assets/DeleteUserForm-JDRWzMWC.js",
+    "file": "assets/DeleteUserForm-lRQkILl4.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -117,7 +124,7 @@
     "src": "resources/js/Pages/Profile/Partials/DeleteUserForm.vue"
   },
   "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue": {
-    "file": "assets/UpdatePasswordForm-Zg1Wtoz5.js",
+    "file": "assets/UpdatePasswordForm-ENusIOo8.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -125,7 +132,7 @@
     "src": "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue"
   },
   "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue": {
-    "file": "assets/UpdateProfileInformationForm-qiP9h3Bg.js",
+    "file": "assets/UpdateProfileInformationForm-aJowyRp2.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -134,7 +141,7 @@
   },
   "resources/js/app.js": {
     "css": [
-      "assets/app-FE6amZxg.css"
+      "assets/app-KHGjQ4gm.css"
     ],
     "dynamicImports": [
       "resources/js/Pages/Auth/ConfirmPassword.vue",
@@ -152,7 +159,7 @@
       "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue",
       "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue"
     ],
-    "file": "assets/app-JYDzEiVn.js",
+    "file": "assets/app-qUxtXUD-.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
