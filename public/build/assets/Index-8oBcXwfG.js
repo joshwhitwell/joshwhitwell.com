@@ -1,1 +1,0 @@
-import o from"./InspiringQuote-cuuf5hWT.js";import{o as r,j as e}from"./app-qUxtXUD-.js";import"./_plugin-vue_export-helper-x3n3nnut.js";const m={__name:"Index",props:{quote:String,attribution:String},setup(t){return(i,n)=>(r(),e(o,{quote:t.quote,attribution:t.attribution},null,8,["quote","attribution"]))}};export{m as default};

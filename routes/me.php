@@ -9,7 +9,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Me/Index');
     })->name('me');
 
-    Route::prefix('my')->group(function () {
+    Route::prefix('my')->name('my.')->group(function () {
         Route::resource('notes', NoteController::class)->only(['store']);
+
+        Route::get('type', function () {
+            return Inertia::render('My/Type');
+        })->name('type');
     });
 });

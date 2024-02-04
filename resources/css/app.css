@@ -3,18 +3,17 @@
 @import url("inputs.css");
 
 * {
+  border: none;
   box-sizing: border-box;
-  padding: 0;
+  list-style: none;
   margin: 0;
   max-width: 100%;
+  outline: none;
+  padding: 0;
   width: 100%;
 }
 
 body,
 html {
   background-color: var(--neutral-50);
-}
-
-body {
-  padding: 42px 14px;
 }
