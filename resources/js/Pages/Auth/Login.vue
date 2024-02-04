@@ -60,6 +60,7 @@ const submit = () => {
 <style scoped>
 form {
   margin: 0 auto;
+  padding: 25vh var(--vertical-spacing);
   max-width: 672px;
 }
 </style>

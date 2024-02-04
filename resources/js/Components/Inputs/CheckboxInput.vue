@@ -43,7 +43,7 @@ const checked = defineModel();
       />
     </div>
     <div>
-      <label class="input-label" v-if="label" :for="name">{{ label }}</label>
+      <label class="input-label h6" v-if="label" :for="name">{{ label }}</label>
       <p v-if="help" class="input-help">{{ help }}</p>
       <small class="input-error" v-show="error">{{ error }}</small>
     </div>
@@ -67,8 +67,12 @@ const checked = defineModel();
   margin-right: 1rem;
   width: 1.5rem;
 }
-.checked {
-  background-color: var(--red-600);
+.checked:after {
+  content: "";
+  width: 0.75rem;
+  height: 0.75rem;
+  position: absolute;
+  background-color: var(--neutral-500);
 }
 input {
   height: 100%;

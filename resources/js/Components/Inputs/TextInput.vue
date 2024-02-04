@@ -39,7 +39,7 @@ const model = defineModel();
 
 <template>
   <div class="input-container">
-    <label class="input-label" v-if="label" :for="name">{{ label }}</label>
+    <label class="input-label h6" v-if="label" :for="name">{{ label }}</label>
     <p class="input-help" v-if="help">{{ help }}</p>
     <input
       :id="name"
