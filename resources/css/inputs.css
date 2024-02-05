@@ -7,11 +7,11 @@ textarea {
   font-family: var(--font-family);
   font-size: var(--font-size);
   line-height: var(--line-height);
-  height: calc(var(--vertical-spacing) * 2);
+  height: calc(var(--spacing) * 2);
 }
 
 textarea {
-  height: calc(var(--vertical-spacing) * 6);
+  height: calc(var(--spacing) * 6);
 }
 
 input,
@@ -19,7 +19,7 @@ select,
 textarea {
   background-color: transparent;
   border: 2px solid var(--neutral-300);
-  padding: calc(var(--vertical-spacing) / 2);
+  padding: calc(var(--spacing) / 2);
 }
 
 input:focus,
@@ -38,14 +38,14 @@ button {
 }
 
 input[type="checkbox"] {
-  height: var(--vertical-spacing);
-  width: var(--vertical-spacing);
+  height: var(--spacing);
+  width: var(--spacing);
 }
 
 .input-container {
   display: flex;
   flex-direction: column;
-  margin-bottom: calc(var(--vertical-spacing) * 2);
+  margin-bottom: calc(var(--spacing) * 2);
 }
 
 .input-label {
@@ -59,7 +59,7 @@ input[type="checkbox"] {
 
 .input-help + .input,
 .input-label + .input {
-  margin-top: calc(var(--vertical-spacing) / 2);
+  margin-top: calc(var(--spacing) / 2);
 }
 
 .input-error {
@@ -68,5 +68,5 @@ input[type="checkbox"] {
 }
 
 .input + .input-error {
-  margin-top: calc(var(--vertical-spacing) / 2);
+  margin-top: calc(var(--spacing) / 2);
 }

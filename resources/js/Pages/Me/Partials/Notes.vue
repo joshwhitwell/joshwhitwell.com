@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
+import { ref } from "vue";
 import PaperPlane from "../../../Svg/PaperPlane.vue";
 defineProps({
   notes: {
@@ -47,7 +47,7 @@ form {
 }
 
 textarea {
-  height: calc(var(--vertical-spacing) * 10);
+  height: calc(var(--spacing) * 10);
   resize: none;
 }
 
@@ -96,7 +96,7 @@ li a {
 
 a span {
   color: var(--neutral-400);
-  margin-right: var(--vertical-spacing);
+  margin-right: var(--spacing);
 }
 
 li:nth-child(4) {

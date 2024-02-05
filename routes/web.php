@@ -13,6 +13,7 @@ Route::get('/', function () {
     return Inertia::render('JoshWhitwell/Index', [
         'quote' => $quote,
         'attribution' => $attribution,
+        'bodyClass' => ''
     ]);
 });
 
