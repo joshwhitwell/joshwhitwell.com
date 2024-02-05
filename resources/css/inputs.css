@@ -4,9 +4,14 @@ select,
 textarea {
   border-radius: 0;
   color: var(--font-color);
+  font-family: var(--font-family);
   font-size: var(--font-size);
   line-height: var(--line-height);
   height: calc(var(--vertical-spacing) * 2);
+}
+
+textarea {
+  height: calc(var(--vertical-spacing) * 6);
 }
 
 input,

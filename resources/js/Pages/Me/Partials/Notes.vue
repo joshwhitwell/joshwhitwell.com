@@ -2,131 +2,67 @@
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PaperPlane from "../../../Svg/PaperPlane.vue";
-
+defineProps({
+  notes: {
+    type: Array,
+    default: () => [],
+  },
+});
 const note = useForm({
   body: "",
 });
 const saveNoteButton = ref(null);
 const saveNote = () => {
-  note.post(route("notes.store"), {
+  note.post(route("my.notes.store"), {
     onSuccess: () => {
       note.reset();
       saveNoteButton.value.blur();
     },
   });
 };
-
-const now = ref(new Date());
-setInterval(() => {
-  now.value = new Date();
-}, 60000);
 </script>
 
 <template>
-  <form class="notes" @submit.prevent="saveNote">
-    <h2>
-      <span class="date--long">
-        {{
-          now.toLocaleString("en-US", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })
-        }}
-      </span>
-      <span class="date--short">
-        {{
-          now.toLocaleString("en-US", {
-            month: "2-digit",
-            day: "2-digit",
-            year: "numeric",
-          })
-        }}
-      </span>
-      {{
-        now.toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "numeric",
-        })
-      }}
-    </h2>
+  <form @submit.prevent="saveNote">
     <textarea id="note" name="note" v-model="note.body" />
     <button ref="saveNoteButton"><PaperPlane /></button>
   </form>
+  <ul v-if="notes.length">
+    <li v-for="note in notes" :key="note.id">
+      <a :href="route('my.notes.edit', note.id)">
+        <span>{{ note.created_at }}</span>
+        {{ note.body }}
+      </a>
+    </li>
+    <li v-if="notes.length === 3">
+      <a :href="route('my.notes.index')">&hellip;</a>
+    </li>
+  </ul>
 </template>
 
 <style scoped>
-.notes {
-  position: relative;
-  height: 228px;
-  width: 100%;
-}
-
-h2 {
-  color: var(--neutral-400);
-  font-weight: 400;
-  font-style: italic;
-  margin: 0;
-  padding: 10px 0 0 10px;
-  position: absolute;
-}
-
-.date--long {
-  display: none;
-}
-
-.date--short {
-  display: inline;
-}
-
-@media (min-width: 700px) {
-  .date--long {
-    display: inline;
-  }
-
-  .date--short {
-    display: none;
-  }
+form {
+  display: flex;
+  flex-direction: column;
 }
 
 textarea {
-  background-color: transparent;
-  border: 1px solid var(--neutral-300);
-  border-radius: 0;
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: inherit;
-  height: 100%;
-  margin: 0;
-  outline: none;
-  padding: 43px 0 0 10px;
-  position: absolute;
+  height: calc(var(--vertical-spacing) * 10);
   resize: none;
-  width: 100%;
-}
-
-textarea:focus {
-  border-color: var(--neutral-500);
 }
 
 button {
   align-items: center;
   background: none;
-  border: none;
-  bottom: 0;
+  border-top: none;
+  border-left: 2px solid var(--neutral-300);
+  border-right: 2px solid var(--neutral-300);
+  border-bottom: 2px solid var(--neutral-300);
   box-sizing: border-box;
   cursor: pointer;
+  color: var(--neutral-300);
   display: flex;
   justify-content: center;
-  padding: 10px;
-  position: absolute;
-  right: 0;
-}
-
-button:focus {
-  border: 1px solid var(--neutral-700);
-  outline: none;
 }
 
 svg {
@@ -135,8 +71,35 @@ svg {
   width: 20px;
 }
 
-button:hover > svg,
-button:focus > svg {
-  color: var(--neutral-700);
+li {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  margin: 0.5rem 0 0;
+}
+
+a:after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, transparent 0%, var(--neutral-50) 99%);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+li a {
+  color: var(--font-color);
+}
+
+a span {
+  color: var(--neutral-400);
+  margin-right: var(--vertical-spacing);
+}
+
+li:nth-child(4) {
+  margin-top: 0;
 }
 </style>
