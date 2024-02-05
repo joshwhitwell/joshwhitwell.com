@@ -1,7 +1,6 @@
 <script setup>
 import QuoteLeft from "../../../Svg/QuoteLeft.vue";
 import QuoteRight from "../../../Svg/QuoteRight.vue";
-
 defineProps({
   quote: String,
   attribution: String,
@@ -26,7 +25,6 @@ defineProps({
 section {
   display: flex;
 }
-
 .neutral {
   background-color: var(--neutral-900);
   box-sizing: border-box;
@@ -35,7 +33,6 @@ section {
   padding: 32px;
   width: 160px;
 }
-
 .quote {
   background-color: var(--neutral-100);
   display: flex;
@@ -43,17 +40,14 @@ section {
   margin: 0;
   width: 100%;
 }
-
 svg {
   width: 32px;
   height: 32px;
   margin-left: -32px;
 }
-
 path {
   color: var(--red-700);
 }
-
 .quote > p {
   color: var(--red-700);
   margin: 0;
@@ -61,7 +55,6 @@ path {
   display: flex;
   align-items: center;
 }
-
 footer {
   align-items: center;
   color: var(--neutral-900);

@@ -1,6 +1,5 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-
 const props = defineProps({
   email: {
     type: String,
@@ -11,14 +10,12 @@ const props = defineProps({
     required: true,
   },
 });
-
 const form = useForm({
   token: props.token,
   email: props.email,
   password: "",
   password_confirmation: "",
 });
-
 const submit = () => {
   form.post(route("password.store"), {
     onFinish: () => form.reset("password", "password_confirmation"),
@@ -39,7 +36,6 @@ const submit = () => {
       autocomplete="username"
     />
     <p v-show="form.errors.email">{{ form.errors.email }}</p>
-
     <label for="password">Password</label>
     <input
       id="password"
@@ -50,7 +46,6 @@ const submit = () => {
       autocomplete="new-password"
     />
     <p v-show="form.errors.password">{{ form.errors.password }}</p>
-
     <label for="password_confirmation">Confirm Password</label>
     <input
       id="password_confirmation"
@@ -63,7 +58,6 @@ const submit = () => {
     <p v-show="form.errors.password_confirmation">
       {{ form.errors.password_confirmation }}
     </p>
-
     <button type="submit" :disabled="form.processing">Reset Password</button>
   </form>
 </template>

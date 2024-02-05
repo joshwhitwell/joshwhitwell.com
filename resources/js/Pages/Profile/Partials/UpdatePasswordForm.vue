@@ -1,16 +1,13 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
-
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
-
 const form = useForm({
   current_password: "",
   password: "",
   password_confirmation: "",
 });
-
 const updatePassword = () => {
   form.put(route("password.update"), {
     preserveScroll: true,
@@ -33,12 +30,10 @@ const updatePassword = () => {
   <section>
     <header>
       <h2>Update Password</h2>
-
       <p>
         Ensure your account is using a long, random password to stay secure.
       </p>
     </header>
-
     <form @submit.prevent="updatePassword">
       <label for="current_password">Current Password</label>
       <input
@@ -53,7 +48,6 @@ const updatePassword = () => {
       <p v-show="form.errors.current_password">
         {{ form.errors.current_password }}
       </p>
-
       <label for="password">New Password</label>
       <input
         id="password"
@@ -65,7 +59,6 @@ const updatePassword = () => {
         ref="passwordInput"
       />
       <p v-show="form.errors.password">{{ form.errors.password }}</p>
-
       <label for="password_confirmation">Confirm Password</label>
       <input
         id="password_confirmation"
@@ -78,7 +71,6 @@ const updatePassword = () => {
       <p v-show="form.errors.password_confirmation">
         {{ form.errors.password_confirmation }}
       </p>
-
       <button type="submit" :disabled="form.processing">Save</button>
       <p v-if="form.recentlySuccessful">Saved.</p>
     </form>

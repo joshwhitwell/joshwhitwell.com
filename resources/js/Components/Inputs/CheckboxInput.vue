@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps, defineModel } from "vue";
 defineProps({
   name: {
     type: String,
@@ -52,9 +51,9 @@ const checked = defineModel();
 
 <style scoped>
 .input-container {
+  align-items: center;
   display: flex;
   flex-direction: row;
-  align-items: center;
 }
 .input-mask {
   align-items: center;
@@ -68,11 +67,11 @@ const checked = defineModel();
   width: 1.5rem;
 }
 .checked:after {
+  background-color: var(--neutral-500);
   content: "";
-  width: 0.75rem;
   height: 0.75rem;
   position: absolute;
-  background-color: var(--neutral-500);
+  width: 0.75rem;
 }
 input {
   height: 100%;

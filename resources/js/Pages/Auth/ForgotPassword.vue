@@ -1,10 +1,8 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-
 const form = useForm({
   email: "",
 });
-
 const submit = () => {
   form.post(route("password.email"));
 };
@@ -16,7 +14,6 @@ const submit = () => {
     will email you a password reset link that will allow you to choose a new
     one.
   </div>
-
   <form @submit.prevent="submit">
     <label for="email">Email</label>
     <input
@@ -29,7 +26,6 @@ const submit = () => {
       autocomplete="username"
     />
     <p v-show="form.errors.email">{{ form.errors.username }}</p>
-
     <button type="submit" :disabled="form.processing">
       Email Password Reset Link
     </button>

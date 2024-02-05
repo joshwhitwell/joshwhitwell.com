@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <div class="type">
     <h1>This is an h1</h1>
@@ -117,5 +115,3 @@
     </form>
   </div>
 </template>
-
-<style scoped></style>

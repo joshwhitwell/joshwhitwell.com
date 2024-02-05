@@ -45,12 +45,10 @@ form {
   display: flex;
   flex-direction: column;
 }
-
 textarea {
   height: calc(var(--spacing) * 10);
   resize: none;
 }
-
 button {
   align-items: center;
   background: none;
@@ -64,13 +62,11 @@ button {
   display: flex;
   justify-content: center;
 }
-
 svg {
   color: var(--neutral-400);
   height: 20px;
   width: 20px;
 }
-
 li {
   width: 100%;
   white-space: nowrap;
@@ -78,7 +74,6 @@ li {
   position: relative;
   margin: 0.5rem 0 0;
 }
-
 a:after {
   content: "";
   display: block;
@@ -89,16 +84,13 @@ a:after {
   top: 0;
   left: 0;
 }
-
 li a {
   color: var(--font-color);
 }
-
 a span {
   color: var(--neutral-400);
   margin-right: var(--spacing);
 }
-
 li:nth-child(4) {
   margin-top: 0;
 }
