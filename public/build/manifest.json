@@ -1,4 +1,9 @@
 {
+  "resources/css/app.css": {
+    "file": "assets/app-3yKmYROF.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
   "resources/css/joshwhitwell.css": {
     "file": "assets/joshwhitwell-BugvYQMb.css",
     "src": "resources/css/joshwhitwell.css",
