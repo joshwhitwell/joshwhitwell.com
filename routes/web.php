@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Writing;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\My\WritingController;
 
 Route::get('/', function () {
     return view('joshwhitwell');
@@ -12,17 +12,9 @@ Route::middleware('auth')->group(function () {
         return view('me');
     })->name('me');
 
-    Route::post('/writings', function () {
-        $data = request()->validate([
-            'title' => ['sometimes', 'nullable', 'string', 'max:255'],
-            'body' => ['required', 'string'],
-            'written_at' => ['sometimes', 'nullable', 'date'],
-        ]);
-
-        Writing::create($data);
-
-        return redirect()->route('me');
-    })->name('writings.store');
+    Route::prefix('my')->name('my.')->group(function () {
+        Route::resource('writings', WritingController::class);
+    });
 });
 
 require __DIR__.'/auth.php';

@@ -1,5 +1,5 @@
 @import "./colors.css";
 
 body {
-  background-color: var(--color-slate-200);
+  background-color: var(--color-neutral-100);
 }
