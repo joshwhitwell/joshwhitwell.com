@@ -11,7 +11,7 @@
     @case ('richtext')
       <input id="{{ $id }}" name="{{ $name }}" type="hidden" value="{{ $value }}"/>
       <trix-editor input="{{ $id }}"></trix-editor>
-      @break
+    @break
 
     @case ('textarea')
       <textarea
@@ -23,7 +23,7 @@
         {{ $placeholder ? 'placeholder=' . $placeholder : '' }}
         {{ $autocomplete ? 'autocomplete=' . $autocomplete : '' }}
       >{{ $value }}</textarea>
-      @break
+    @break
 
     @default
       <input
@@ -41,6 +41,6 @@
   @endswitch
 
   @error($name)
-    <div>{{ $message }}</div>
+    <p>{{ $message }}</p>
   @enderror
 </div>
