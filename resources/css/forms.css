@@ -1,0 +1,40 @@
+.x-input {
+  display: flex;
+  flex-direction: column;
+  margin-block-end: 24px;
+}
+
+.x-input--checkbox {
+  align-items: center;
+  flex-direction: row;
+}
+
+.x-input-label {
+  margin-block-end: 8px;
+}
+
+.x-input--checkbox .x-input-label {
+  margin-block-end: 0;
+  margin-inline-end: 8px;
+}
+
+.x-input-help {
+  margin-block-start: 0;
+  margin-block-end: 8px;
+}
+
+.x-input-error {
+  color: var(--color-red-600);
+  margin-block: 8px;
+}
+
+.x-input--has-error .x-input-label {
+  color: var(--color-red-600);
+}
+
+.x-input-input {
+  padding: 8px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 4px;
+  font-size: 16px;
+}

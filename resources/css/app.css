@@ -1,2 +1,4 @@
-@import "./colors.css";
+@import "./color.css";
+@import "./type.css";
 @import "./trix.css";
+@import "./forms.css";

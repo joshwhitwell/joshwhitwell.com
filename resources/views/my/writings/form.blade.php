@@ -11,6 +11,7 @@
     <x-input
       name="title"
       label="Title"
+      help-text="A short, descriptive title for your writing."
       :value="old('title') ?? $writing->title"
       :autofocus="true"
     />
@@ -19,6 +20,7 @@
       name="body"
       label="Body"
       type="richtext"
+      help-text="The main content of your writing."
       :value="old('body') ?? $writing->body"
     />
 
@@ -26,6 +28,7 @@
       name="written_at"
       label="Written At"
       type="date"
+      help-text="The date you wrote this writing."
       :value="old('written_at') ?? $writing->written_at"
     />
 

@@ -1,10 +1,14 @@
-<div>
+<div @class([
+  'x-input',
+  "x-input--$type",
+  'x-input--has-error' => $errors->has($name),
+])>
   @if ($label)
-    <label for="{{ $name }}">{{ $label }}</label>
+    <label for="{{ $name }}" class="x-input-label">{{ $label }}</label>
   @endif
 
   @if ($helpText)
-    <p>{{ $helpText }}</p>
+    <p class="x-input-help">{{ $helpText }}</p>
   @endif
 
   @switch ($type)
@@ -31,6 +35,7 @@
         name="{{ $name }}"
         type="{{ $type }}"
         value="{{ $value }}"
+        class="x-input-input"
         {{ $checked ? 'checked' : '' }}
         {{ $required ? 'required' : '' }}
         {{ $disabled ? 'disabled' : '' }}
@@ -41,6 +46,6 @@
   @endswitch
 
   @error($name)
-    <p>{{ $message }}</p>
+    <p class="x-input-error">{{ $message }}</p>
   @enderror
 </div>

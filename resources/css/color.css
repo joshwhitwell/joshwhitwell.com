@@ -1,4 +1,10 @@
 :root {
+  /* White */
+  --color-white: #ffffff;
+
+  /* Black */
+  --color-black: #000000;
+
   /* Slate */
 
   --color-slate-50: #f8fafc;
