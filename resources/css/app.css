@@ -2,3 +2,33 @@
 @import "./type.css";
 @import "./trix.css";
 @import "./forms.css";
+@import "./layouts.css";
+
+body {
+  background-color: var(--color-neutral-100);
+  display: grid;
+  grid-template-areas: "nav header" "nav main";
+  grid-template-columns: 200px 1fr;
+  margin: 0;
+}
+
+nav {
+  grid-area: nav;
+}
+
+header {
+  grid-area: header;
+}
+
+main {
+  grid-area: main;
+}
+
+a {
+  color: var(--color-neutral-700);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

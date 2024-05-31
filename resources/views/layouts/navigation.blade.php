@@ -1,4 +1,4 @@
-<nav>
+<nav class="layouts-navigation">
   <ul>
     <li>
       <a href="{{ route('joshwhitwell') }}"> Josh Whitwell </a>

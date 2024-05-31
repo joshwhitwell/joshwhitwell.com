@@ -1,0 +1,19 @@
+.layouts-navigation {
+  background-color: var(--color-neutral-700);
+  color: var(--color-neutral-100);
+  display: flex;
+}
+
+.layouts-navigation ul {
+  margin: 0;
+  padding: 16px;
+}
+
+.layouts-navigation li {
+  list-style-type: none;
+}
+
+.layouts-navigation a {
+  color: var(--color-neutral-100);
+  text-decoration: none;
+}
