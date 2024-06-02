@@ -7,6 +7,6 @@
   @if (!empty($buttons) && $buttons->hasActualContent())
     {{ $buttons }}
   @else
-    <button type="submit">{{ $submitButtonText }}</button>
+    <button type="submit" class="x-form-button h6">{{ $submitButtonText }}</button>
   @endif
 </form>

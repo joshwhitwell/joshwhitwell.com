@@ -7,21 +7,8 @@
 body {
   background-color: var(--color-neutral-100);
   display: grid;
-  grid-template-areas: "nav header" "nav main";
   grid-template-columns: 200px 1fr;
   margin: 0;
-}
-
-nav {
-  grid-area: nav;
-}
-
-header {
-  grid-area: header;
-}
-
-main {
-  grid-area: main;
 }
 
 a {
@@ -31,4 +18,32 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+button,
+.button {
+  background-color: var(--color-neutral-100);
+  border: 2px solid var(--color-neutral-700);
+  border-left: none;
+  color: var(--color-neutral-700);
+  cursor: pointer;
+  font-size: var(--text-size-100);
+  letter-spacing: 0.75px;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+button:hover,
+.button:hover {
+  text-decoration: underline;
+}
+
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
 }

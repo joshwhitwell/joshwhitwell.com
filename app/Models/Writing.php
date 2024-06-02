@@ -21,7 +21,7 @@ class Writing extends Model
                 if ($this->title) {
                     return $this->title;
                 } else if ($this->id) {
-                    return 'Writing ' . $this->id;
+                    return "#$this->id";
                 } else {
                     return 'New Writing';
                 }

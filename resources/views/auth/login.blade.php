@@ -1,5 +1,5 @@
 <x-app-layout title="Login">
-  <x-form :action="route('login')">
+  <x-form :action="route('login')" submit-button-text="Log In">
     <x-input
       id="email"
       name="email"
@@ -21,10 +21,9 @@
     />
 
     <x-input
-      id="remember_me"
       name="remember"
       type="checkbox"
-      label="Remember"
+      label="Stay Logged In"
       value="1"
       :checked="old('remember') ? true : false"
     />

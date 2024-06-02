@@ -4,7 +4,24 @@
   'x-input--has-error' => $errors->has($name),
 ])>
   @if ($label)
-    <label for="{{ $name }}" class="x-input-label">{{ $label }}</label>
+    <label for="{{ $name }}" class="x-input-label h6">
+      {{ $label }}
+      @if ($type === 'checkbox')
+        <input
+          id="{{ $id }}"
+          name="{{ $name }}"
+          type="{{ $type }}"
+          value="{{ $value }}"
+          class="x-input-input"
+          {{ $checked ? 'checked' : '' }}
+          {{ $required ? 'required' : '' }}
+          {{ $disabled ? 'disabled' : '' }}
+          {{ $autofocus ? 'autofocus' : '' }}
+          {{ $placeholder ? 'placeholder=' . $placeholder : '' }}
+          {{ $autocomplete ? 'autocomplete=' . $autocomplete : '' }}
+        >
+      @endif
+    </label>
   @endif
 
   @if ($helpText)
@@ -27,6 +44,9 @@
         {{ $placeholder ? 'placeholder=' . $placeholder : '' }}
         {{ $autocomplete ? 'autocomplete=' . $autocomplete : '' }}
       >{{ $value }}</textarea>
+    @break
+
+    @case ('checkbox')
     @break
 
     @default

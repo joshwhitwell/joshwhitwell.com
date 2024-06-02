@@ -11,6 +11,7 @@
 
 .x-input-label {
   margin-block-end: 8px;
+  text-indent: -4px;
 }
 
 .x-input--checkbox .x-input-label {
@@ -24,17 +25,47 @@
 }
 
 .x-input-error {
-  color: var(--color-red-600);
+  color: var(--color-red-500);
   margin-block: 8px;
 }
 
 .x-input--has-error .x-input-label {
-  color: var(--color-red-600);
+  color: var(--color-red-500);
+}
+
+.x-input--has-error .x-input-input {
+  border-color: var(--color-red-500);
 }
 
 .x-input-input {
-  padding: 8px;
-  border: 1px solid var(--color-gray-300);
-  border-radius: 4px;
+  background-color: transparent;
+  border: 2px solid var(--color-neutral-700);
+  border-left: none;
+  border-radius: 0;
   font-size: 16px;
+  padding: 8px;
+}
+
+.x-input-input:focus {
+  border-color: var(--color-blue-500);
+  outline: none;
+}
+
+.x-input-input[type="checkbox"] {
+  margin: 0;
+  width: 1px;
+}
+
+.x-input-input[type="checkbox"]::after {
+  content: "";
+  display: block;
+  height: 16px;
+  width: 16px;
+  border: 2px solid var(--color-neutral-700);
+  margin-block-start: -4px;
+  margin-inline-start: 8px;
+}
+
+.x-input-input[type="checkbox"]:checked::after {
+  background-color: var(--color-neutral-700);
 }

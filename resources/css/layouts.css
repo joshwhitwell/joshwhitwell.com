@@ -1,19 +1,40 @@
-.layouts-navigation {
+.x-navigation {
   background-color: var(--color-neutral-700);
   color: var(--color-neutral-100);
   display: flex;
+  min-height: 100vh;
+  z-index: 1;
 }
 
-.layouts-navigation ul {
+.x-navigation-ul {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   padding: 16px;
+  position: relative;
+  width: 100%;
 }
 
-.layouts-navigation li {
+.x-navigation-li {
   list-style-type: none;
 }
 
-.layouts-navigation a {
+.x-navigation-li:last-child {
+  bottom: 16px;
+  position: sticky;
+  margin-top: auto;
+}
+
+.x-navigation-a {
   color: var(--color-neutral-100);
-  text-decoration: none;
+}
+
+.x-navigation button {
+  background-color: var(--color-neutral-100);
+  border: 1px solid var(--color-neutral-100);
+  color: var(--color-neutral-700);
+  cursor: pointer;
+  font-size: var(--text-size-100);
+  padding: 0.5rem;
+  width: 100%;
 }

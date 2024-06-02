@@ -14,18 +14,18 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
   <body>
-    @auth
-      @include('layouts.navigation')
-    @endauth
+    <x-navigation />
 
-    @if (isset($header))
-    <header>
-      {{ $header }}
-    </header>
-    @endif
+    <div>
+      @if (isset($header))
+      <header>
+        {{ $header }}
+      </header>
+      @endif
 
-    <main>
-      {{ $slot }}
-    </main>
+      <main>
+        {{ $slot }}
+      </main>
+    </div>
   </body>
 </html>

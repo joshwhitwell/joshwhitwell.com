@@ -1,10 +1,10 @@
-<x-app-layout title="My Writings">
+<x-app-layout title="Writings">
 
   <x-slot name="header">
-    <h1>My Writings</h1>
+    <h1>Writings</h1>
   </x-slot>
 
-  <a href="{{ route('my.writings.create') }}">+ New Writing</a>
+  <a href="{{ route('my.writings.create') }}" class="button">+ New Writing</a>
 
   @if ($writings->isNotEmpty())
     <ol>
