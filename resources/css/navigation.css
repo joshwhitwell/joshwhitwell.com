@@ -2,7 +2,9 @@
   background-color: var(--color-neutral-700);
   color: var(--color-neutral-100);
   display: flex;
-  min-height: 100vh;
+  height: 100dvh;
+  position: sticky;
+  top: 0;
   z-index: 1;
 }
 
@@ -11,7 +13,6 @@
   flex-direction: column;
   margin: 0;
   padding: 16px;
-  position: relative;
   width: 100%;
 }
 
@@ -20,8 +21,6 @@
 }
 
 .x-navigation-li:last-child {
-  bottom: 16px;
-  position: sticky;
   margin-top: auto;
 }
 
@@ -30,11 +29,12 @@
 }
 
 .x-navigation button {
-  background-color: var(--color-neutral-100);
-  border: 1px solid var(--color-neutral-100);
-  color: var(--color-neutral-700);
-  cursor: pointer;
+  background-color: var(--color-neutral-700);
+  border: 2px solid var(--color-neutral-100);
+  color: var(--color-neutral-100);
   font-size: var(--text-size-100);
-  padding: 0.5rem;
+  line-height: 1.6;
+  letter-spacing: normal;
+  padding: 4px;
   width: 100%;
 }
