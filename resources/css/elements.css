@@ -36,6 +36,10 @@ button:hover,
   text-decoration: underline;
 }
 
+.button + .button {
+  margin-block-start: 8px;
+}
+
 li {
   list-style-type: none;
 }
