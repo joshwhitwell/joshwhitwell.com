@@ -1,10 +1,22 @@
 trix-editor {
-  border: 1px solid #bbb;
-  border-radius: 3px;
-  margin: 0;
-  padding: 0.4em 0.6em;
-  min-height: 5em;
+  background-color: transparent;
+  border: 2px solid var(--color-neutral-700);
+  border-left: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  color: var(--color-neutral-900);
+  font-size: 16px;
+  padding: 8px;
+  width: 90%;
+}
+
+trix-editor:focus {
+  border-color: var(--color-blue-500);
   outline: none;
+}
+
+trix-toolbar {
+  width: 90%;
 }
 
 trix-toolbar * {
@@ -14,69 +26,51 @@ trix-toolbar * {
 trix-toolbar .trix-button-row {
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   overflow-x: auto;
+}
+
+trix-toolbar .trix-button-group:not(:first-child) {
+  display: none;
 }
 
 trix-toolbar .trix-button-group {
   display: flex;
-  margin-bottom: 10px;
-  border: 1px solid #bbb;
-  border-top-color: #ccc;
-  border-bottom-color: #888;
-  border-radius: 3px;
-}
-trix-toolbar .trix-button-group:not(:first-child) {
-  margin-left: 1.5vw;
-}
-@media (max-width: 768px) {
-  trix-toolbar .trix-button-group:not(:first-child) {
-    margin-left: 0;
-  }
+  border: 2px solid var(--color-neutral-700);
+  border-radius: 0;
+  border-left: none;
+  border-bottom: none;
 }
 
 trix-toolbar .trix-button-group-spacer {
-  flex-grow: 1;
-}
-@media (max-width: 768px) {
-  trix-toolbar .trix-button-group-spacer {
-    display: none;
-  }
+  display: none;
 }
 
 trix-toolbar .trix-button {
   position: relative;
   float: left;
-  color: rgba(0, 0, 0, 0.6);
-  font-size: 0.75em;
+  color: var(--color-neutral-700);
+  font-size: 1rem;
   font-weight: 600;
   white-space: nowrap;
   padding: 0 0.5em;
   margin: 0;
   outline: none;
   border: none;
-  border-bottom: 1px solid #ddd;
   border-radius: 0;
   background: transparent;
 }
-trix-toolbar .trix-button:not(:first-child) {
-  border-left: 1px solid #ccc;
-}
+
 trix-toolbar .trix-button.trix-active {
-  background: #cbeefa;
-  color: black;
+  color: var(--color-neutral-100);
 }
+
 trix-toolbar .trix-button:not(:disabled) {
   cursor: pointer;
 }
+
 trix-toolbar .trix-button:disabled {
   color: rgba(0, 0, 0, 0.125);
-}
-@media (max-width: 768px) {
-  trix-toolbar .trix-button {
-    letter-spacing: -0.01em;
-    padding: 0 0.3em;
-  }
 }
 
 trix-toolbar .trix-button--icon {
