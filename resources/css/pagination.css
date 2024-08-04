@@ -1,0 +1,14 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  margin-block: 16px;
+}
+
+.page-item {
+  padding-inline: 8px;
+}
+
+.page-item.disabled,
+.page-item.active {
+  color: var(--color-neutral-400);
+}
