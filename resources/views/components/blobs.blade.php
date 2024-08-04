@@ -1,10 +1,10 @@
-<section>
-  <canvas id="blobs"></canvas>
+<section class="x-blobs">
+  <canvas id="blobs-canvas"></canvas>
 
   <script type="module">
     import GUI from "https://cdn.jsdelivr.net/npm/lil-gui@0.18.2/+esm";
 
-    const canvasEl = document.getElementById("blobs");
+    const canvasEl = document.getElementById("blobs-canvas");
     const devicePixelRatio = Math.min(window.devicePixelRatio, 2);
 
     const params = {
@@ -245,8 +245,8 @@
     }
 
     function resizeCanvas() {
-      canvasEl.width = window.innerWidth * devicePixelRatio;
-      canvasEl.height = window.innerHeight * devicePixelRatio;
+      canvasEl.width = window.innerWidth * 1;
+      canvasEl.height = window.innerWidth * 1;
       velocity = createDoubleFBO(canvasEl.width, canvasEl.height);
     }
 
@@ -494,3 +494,10 @@
     }
   </script>
 </section>
+
+<style>
+  .x-blobs {
+    box-sizing: border-box;
+    width: 100%;
+  }
+</style>
