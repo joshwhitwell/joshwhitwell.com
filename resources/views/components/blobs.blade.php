@@ -5,7 +5,6 @@
     import GUI from "https://cdn.jsdelivr.net/npm/lil-gui@0.18.2/+esm";
 
     const canvasEl = document.getElementById("blobs-canvas");
-    const devicePixelRatio = Math.min(window.devicePixelRatio, 2);
 
     const params = {
       pointerMultiplier: 0.05,
@@ -245,8 +244,8 @@
     }
 
     function resizeCanvas() {
-      canvasEl.width = window.innerWidth * 1;
-      canvasEl.height = window.innerWidth * 1;
+      canvasEl.width = window.innerWidth;
+      canvasEl.height = window.innerHeight;
       velocity = createDoubleFBO(canvasEl.width, canvasEl.height);
     }
 
