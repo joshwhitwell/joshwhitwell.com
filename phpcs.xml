@@ -82,7 +82,6 @@
   <file>public</file>
   <file>resources</file>
   <file>routes</file>
-  <file>tests</file>
 
   <exclude-pattern>*/cache/*</exclude-pattern>
   <exclude-pattern>*/*.js</exclude-pattern>
