@@ -17,9 +17,12 @@ html {
   font-size: 100%;
 }
 
-body {
-  font-weight: 400;
+body,
+.body {
+  letter-spacing: normal;
   line-height: 1.6;
+  font-size: var(--text-size-100);
+  font-weight: 400;
   color: var(--color-neutral-700);
 }
 
