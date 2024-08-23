@@ -3,8 +3,8 @@
 namespace App\View\Components;
 
 use Closure;
-use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Illuminate\Contracts\View\View;
 
 class Input extends Component
 {
@@ -24,9 +24,15 @@ class Input extends Component
         public bool $required = false,
         public bool $disabled = false,
         public bool $autofocus = false,
+        public array $options = [],
+        public bool $allowNull = true,
     )
     {
         $this->id = $id ?: $name;
+
+        if ($this->allowNull) {
+            $this->options = ['' => '-- select an option --'] + $this->options;
+        }
 
         if ($this->type !== 'checkbox') {
             $this->checked = false;

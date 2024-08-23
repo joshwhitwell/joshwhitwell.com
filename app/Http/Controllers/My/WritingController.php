@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 class WritingController extends Controller
 {
     public array $validationRules = [
+        'type' => 'sometimes|nullable|string|max:255',
         'title' => 'sometimes|nullable|string|max:255',
         'body' => 'required|string|min:1',
         'visibility' => 'sometimes|boolean',

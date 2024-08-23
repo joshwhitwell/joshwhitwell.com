@@ -17,6 +17,15 @@
     />
 
     <x-input
+      name="type"
+      label="Type"
+      type="select"
+      help-text="The type of writing this is."
+      :value="old('type') ?? $writing->type"
+      :options="$writing::$types"
+    />
+
+    <x-input
       name="body"
       label="Body"
       type="richtext"

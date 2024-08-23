@@ -49,6 +49,26 @@
     @case ('checkbox')
     @break
 
+    @case ('select')
+      <select
+        id="{{ $id }}"
+        name="{{ $name }}"
+        class="x-input-input"
+        {{ $required ? 'required' : '' }}
+        {{ $disabled ? 'disabled' : '' }}
+        {{ $autofocus ? 'autofocus' : '' }}
+      >
+        @foreach ($options as $optionValue => $optionLabel)
+          <option
+            value="{{ $optionValue }}"
+            {{ $optionValue === $value ? 'selected' : '' }}
+          >
+          {{ $optionLabel }}
+        </option>
+        @endforeach
+      </select>
+    @break
+
     @default
       <input
         id="{{ $id }}"

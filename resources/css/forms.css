@@ -76,3 +76,7 @@
 form + form {
   margin-block-start: 8px;
 }
+
+select.x-input-input {
+  appearance: none;
+}

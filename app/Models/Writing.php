@@ -8,10 +8,16 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class Writing extends Model
 {
     protected $fillable = [
+        'type',
         'title',
         'body',
         'visibility',
         'written_at',
+    ];
+
+    public static $types = [
+        'journal' => 'Journal',
+        'quote' => 'Quote',
     ];
 
     protected function internalTitle(): Attribute
@@ -25,6 +31,15 @@ class Writing extends Model
                 } else {
                     return 'New Writing';
                 }
+            },
+        );
+    }
+
+    protected function typeLabel(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                return static::$types[$this->type] ?? null;
             },
         );
     }
