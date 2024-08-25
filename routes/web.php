@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\My\SourceController;
 use App\Http\Controllers\My\WritingController;
 
 Route::get('/', function () {
@@ -13,6 +14,7 @@ Route::middleware('auth')->group(function () {
     })->name('me');
 
     Route::prefix('my')->name('my.')->group(function () {
+        Route::resource('sources', SourceController::class);
         Route::resource('writings', WritingController::class);
     });
 });

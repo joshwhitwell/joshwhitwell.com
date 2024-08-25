@@ -23,10 +23,10 @@ class Writing extends Model
     protected function internalTitle(): Attribute
     {
         return Attribute::make(
-            get: function ($value) {
+            get: function () {
                 if ($this->title) {
                     return $this->title;
-                } else if ($this->id) {
+                } elseif ($this->id) {
                     return "#$this->id";
                 } else {
                     return 'New Writing';
@@ -38,7 +38,7 @@ class Writing extends Model
     protected function typeLabel(): Attribute
     {
         return Attribute::make(
-            get: function ($value) {
+            get: function () {
                 return static::$types[$this->type] ?? null;
             },
         );

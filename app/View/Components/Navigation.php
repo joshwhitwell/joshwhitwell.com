@@ -19,6 +19,7 @@ class Navigation extends Component
             ['href' => route('joshwhitwell'), 'text' => 'Josh Whitwell'],
             ['href' => route('me'), 'text' => 'Me'],
             ['href' => route('my.writings.index'), 'text' => 'Writings'],
+            ['href' => route('my.sources.index'), 'text' => 'Sources'],
         ], fn ($e) => $e['text']);
         $navItems[] = ['action' => route('logout'), 'text' => 'Log Out'];
         $this->navItems = $navItems;

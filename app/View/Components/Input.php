@@ -26,8 +26,7 @@ class Input extends Component
         public bool $autofocus = false,
         public array $options = [],
         public bool $allowNull = true,
-    )
-    {
+    ) {
         $this->id = $id ?: $name;
 
         if ($this->allowNull) {

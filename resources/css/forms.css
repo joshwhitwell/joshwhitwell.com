@@ -46,6 +46,7 @@
   color: var(--color-neutral-900);
   font-size: 16px;
   padding: 8px;
+  height: 40px;
   width: 90%;
 }
 
@@ -79,4 +80,28 @@ form + form {
 
 select.x-input-input {
   appearance: none;
+}
+
+.x-form-repeatable {
+  margin-block: 48px;
+}
+
+.x-form-row {
+  display: flex;
+  max-width: 90%;
+  width: 100%;
+}
+
+.x-form-repeatable .x-input {
+  margin-block-start: 0;
+  margin-block-end: 16px;
+  width: 100%;
+}
+
+.x-form-repeatable .x-form-row:last-child .x-input {
+  margin-block-end: 0;
+}
+
+.x-form-row .x-input-input {
+  width: 100%;
 }
