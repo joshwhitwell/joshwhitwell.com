@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('source_title')->nullable();
             $table->string('section_title')->nullable();
-            $table->string('publication_year')->nullable();
-            $table->string('publication_month')->nullable();
-            $table->string('publication_day')->nullable();
-            $table->string('publisher')->nullable();
-            $table->string('publisher_place')->nullable();
+            $table->text('body')->nullable();
+            $table->string('publisher_year')->nullable();
+            $table->string('publisher_name')->nullable();
+            $table->string('publisher_location')->nullable();
+            $table->string('pages')->nullable();
             $table->text('contributors')->nullable();
+            $table->integer('visibility')->default(1);
             $table->timestamps();
         });
     }

@@ -10,10 +10,13 @@ class Source extends Model
     protected $fillable = [
         'source_title',
         'section_title',
-        'publication_year',
-        'publisher',
-        'publisher_place',
+        'body',
+        'publisher_year',
+        'publisher_name',
+        'publisher_location',
+        'pages',
         'contributors',
+        'visibility',
     ];
 
     protected $casts = [
@@ -31,7 +34,9 @@ class Source extends Model
     {
         return Attribute::make(
             get: function () {
-                if ($this->source_title) {
+                if ($this->section_title) {
+                    return $this->section_title;
+                } elseif ($this->source_title) {
                     return $this->source_title;
                 } elseif ($this->id) {
                     return "#$this->id";
@@ -57,27 +62,27 @@ class Source extends Model
                     $citation .= "<i>$this->source_title</i>. ";
                 }
 
-                if ($this->publisher_place) {
-                    $citation .= $this->publisher_place
-                        . ($this->publisher
+                if ($this->publisher_location) {
+                    $citation .= $this->publisher_location
+                        . ($this->publisher_name
                             ? ': '
-                            : ($this->publication_year !== null
+                            : ($this->publisher_year !== null
                                 ? ', '
                                 : '. '
                             )
                         );
                 }
 
-                if ($this->publisher) {
-                    $citation .= $this->publisher
-                        . ($this->publication_year !== null
+                if ($this->publisher_name) {
+                    $citation .= $this->publisher_name
+                        . ($this->publisher_year !== null
                             ? ', '
                             : '. '
                         );
                 }
 
-                if ($this->publication_year !== null) {
-                    $citation .= "$this->publication_year. ";
+                if ($this->publisher_year !== null) {
+                    $citation .= "$this->publisher_year. ";
                 }
 
                 return $citation;

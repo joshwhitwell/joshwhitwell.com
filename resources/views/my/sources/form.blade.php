@@ -24,24 +24,39 @@
     />
 
     <x-input
-      name="publisher"
-      label="Publisher"
+      name="body"
+      label="Body"
+      type="richtext"
+      help-text="The content of the source."
+      :value="old('body') ?? $source->body"
+    />
+
+    <x-input
+      name="publisher_name"
+      label="Publisher Name"
       help-text="The publisher of the source."
-      :value="old('publisher') ?? $source->publisher"
+      :value="old('publisher_name') ?? $source->publisher_name"
     />
 
     <x-input
-      name="publisher_place"
-      label="Publisher Place"
-      help-text="The place where the source was published."
-      :value="old('publisher_place') ?? $source->publisher_place"
+      name="publisher_location"
+      label="Publisher Location"
+      help-text="The location where the source was published."
+      :value="old('publisher_location') ?? $source->publisher_location"
     />
 
     <x-input
-      name="publication_year"
-      label="Publication Year"
+      name="publisher_year"
+      label="Publisher Year"
       help-text="The year the source was published."
-      :value="old('publication_year') ?? $source->publication_year"
+      :value="old('publisher_year') ?? $source->publisher_year"
+    />
+
+    <x-input
+      name="pages"
+      label="Pages"
+      help-text="The page range of the source."
+      :value="old('pages') ?? $source->pages"
     />
 
     <div class="x-form-repeatable">
@@ -89,6 +104,18 @@
         />
       </div>
     </div>
+
+    <x-input
+      name="visibility"
+      label="Visible?"
+      type="checkbox"
+      value="1"
+      :checked="
+      old('visibility') !== null
+        ? (bool) old('visibility')
+        : (bool) $source->visibility
+    "
+    />
   </x-form>
 
   @if ($source->exists)

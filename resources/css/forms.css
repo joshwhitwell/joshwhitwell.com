@@ -50,6 +50,10 @@
   width: 90%;
 }
 
+.x-input--checkbox .x-input-label .x-input-input {
+  height: auto;
+}
+
 .x-input-input:focus {
   border-color: var(--color-blue-500);
   outline: none;

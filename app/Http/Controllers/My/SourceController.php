@@ -11,10 +11,13 @@ class SourceController extends Controller
     public array $validationRules = [
         'source_title' => 'sometimes|nullable|string|max:255',
         'section_title' => 'sometimes|nullable|string|max:255',
-        'publication_year' => 'sometimes|nullable|integer',
-        'publisher' => 'sometimes|nullable|string|max:255',
-        'publisher_place' => 'sometimes|nullable|string|max:255',
+        'body' => 'sometimes|nullable|string',
+        'publisher_year' => 'sometimes|nullable|integer',
+        'publisher_name' => 'sometimes|nullable|string|max:255',
+        'publisher_location' => 'sometimes|nullable|string|max:255',
+        'pages' => 'sometimes|nullable|string|max:255',
         'contributors' => 'sometimes|nullable|array',
+        'visibility' => 'sometimes|boolean',
     ];
 
     public function index()
@@ -31,7 +34,7 @@ class SourceController extends Controller
             'formAction' => route('my.sources.store'),
             'formMethod' => 'POST',
             'submitButtonText' => 'Create',
-            'source' => new Source,
+            'source' => new Source(['visibility' => 1]),
         ]);
     }
 
@@ -73,15 +76,25 @@ class SourceController extends Controller
 
     public function getValidated(Request $request): array
     {
+        $request->merge([
+            'visibility' => (bool) $request->input('visibility')
+        ]);
+
         $validated = $request->validate($this->validationRules);
 
+        if (!empty($validated['pages'])) {
+            $validated['pages'] = str_replace('-', '–', $validated['pages']);
+        }
+
         if (is_array($validated['contributors'])) {
-            $validated['contributors'] = array_values(
+            $contributors = array_values(
                 array_filter(
                     $validated['contributors'],
                     fn($contributor) => !empty($contributor['first_name']) || !empty($contributor['last_name'])
                 )
             );
+
+            $validated['contributors'] = $contributors ?: null;
         }
 
         return $validated;

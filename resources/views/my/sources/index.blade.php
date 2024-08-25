@@ -10,9 +10,12 @@
     @foreach ($sources as $source)
     <li>
       <h2 class="flex align-items-center gap-1">
-        <a href="{{ route('my.sources.edit', $source) }}"
-          >{!! $source->citation !!}
+        <a href="{{ route('my.sources.edit', $source) }}">
+          {{ $source->internalTitle }}
         </a>
+        @if (!$source->visibility)
+        <div class="body pill-tag pill-tag--red">Private</div>
+        @endif
       </h2>
       <p>{{ $source->created_at->format('M j, Y') }}</p>
     </li>
