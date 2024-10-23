@@ -7,7 +7,9 @@ export default defineConfig({
             input: [
                 "resources/css/app.css",
                 "resources/css/joshwhitwell.css",
+                "resources/css/lift.css",
                 "resources/js/app.js",
+                "resources/js/lift.js",
             ],
             refresh: true,
         }),

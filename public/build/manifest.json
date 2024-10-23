@@ -9,10 +9,21 @@
     "src": "resources/css/joshwhitwell.css",
     "isEntry": true
   },
+  "resources/css/lift.css": {
+    "file": "assets/lift-B_SY1GJM.css",
+    "src": "resources/css/lift.css",
+    "isEntry": true
+  },
   "resources/js/app.js": {
     "file": "assets/app-DF5rYOGb.js",
     "name": "app",
     "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/lift.js": {
+    "file": "assets/lift-l0sNRNKZ.js",
+    "name": "lift",
+    "src": "resources/js/lift.js",
     "isEntry": true
   }
 }
