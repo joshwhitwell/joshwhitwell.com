@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+summary.list-none::-webkit-details-marker {
+    display: none;
+}
+
+* {
+    /*FireFox*/
+    scrollbar-width: none;
+    /*IE10+*/
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+*::-webkit-scrollbar {
+    /*Chrome, Safari, Edge*/
+    display: none;
+}
