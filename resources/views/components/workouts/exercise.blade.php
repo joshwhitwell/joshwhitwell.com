@@ -36,7 +36,7 @@
             :exerciseIdx="$exerciseIdx"
             :setIdx="$i"
             :isWarmUp="true"
-            rest="~1-2 min"
+            :exercise="$exercise"
         />
 
     @endfor
@@ -48,7 +48,8 @@
             :workoutIdx="$workoutIdx"
             :exerciseIdx="$exerciseIdx"
             :setIdx="$i"
-            :rest="$exercise['rest'] ?? null"
+            :exercise="$exercise"
+            :isLastSet="$i === $exercise['working_sets']"
         />
 
     @endfor
