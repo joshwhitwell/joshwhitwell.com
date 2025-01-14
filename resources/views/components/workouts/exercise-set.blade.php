@@ -18,6 +18,8 @@
             $setIdx,
             $suffix
         ]);
+    $repsId = $getInputName('reps');
+    $weightId = $getInputName('weight');
 ?>
 
 <div class="my-4 bg-slate-400 rounded p-4">
@@ -86,14 +88,14 @@
 
     <div class="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] gap-x-2 mt-2">
         <label
-            for="{{ $getInputName('reps') }}"
+            for="{{ $repsId }}"
             class="text-xs uppercase mb-1"
         >
             Reps
         </label>
 
         <label
-            for="{{ $getInputName('weight') }}"
+            for="{{ $weightId }}"
             class="text-xs uppercase mb-1"
         >
             Weight
@@ -103,16 +105,20 @@
 
         <input
             type="number"
-            id="{{ $getInputName('reps') }}"
-            name="{{ $getInputName('reps') }}"
+            id="{{ $repsId }}"
+            name="{{ $repsId }}"
             class="bg-white rounded-md min-h-10 px-3 font-mono"
+            :value="getFromLocalStorage('{{ $repsId }}')"
+            @input="saveToLocalStorage"
         />
 
         <input
             type="number"
-            id="{{ $getInputName('weight') }}"
-            name="{{ $getInputName('weight') }}"
+            id="{{ $weightId }}"
+            name="{{ $weightId }}"
             class="bg-white rounded-md min-h-10 px-3 font-mono"
+            :value="getFromLocalStorage('{{ $weightId }}')"
+            @input="saveToLocalStorage"
         />
 
         <button

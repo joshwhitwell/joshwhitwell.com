@@ -27,10 +27,30 @@
 
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
 </head>
 
-<body class="p-4 text-black bg-white max-w-prose mx-auto box-border">
+<body class="p-4 text-black bg-white max-w-prose mx-auto box-border" x-data="workoutApp()">
     {{ $slot }}
 </body>
+
+<script>
+    function workoutApp() {
+        return {
+            getFromLocalStorage(key) {
+                return window.localStorage.getItem(key);
+            },
+            saveToLocalStorage(e) {
+                const key = e?.target?.id;
+                const value = e?.target?.value;
+
+                if (key) {
+                    window.localStorage.setItem(key, value);
+                }
+            },
+        };
+    }
+</script>
 
 </html>
