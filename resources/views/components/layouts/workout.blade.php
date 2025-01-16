@@ -49,6 +49,9 @@
                     window.localStorage.setItem(key, value);
                 }
             },
+            getPlaceholder(key) {
+                return window.localStorage.getItem(key);
+            },
         };
     }
 </script>

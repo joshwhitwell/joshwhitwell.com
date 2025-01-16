@@ -11,6 +11,7 @@
 <?php
     $getInputName = fn ($suffix) =>
         implode('_', [
+            $exercise['exercise_key'],
             $weekIdx,
             $workoutIdx,
             $exerciseIdx,
@@ -18,8 +19,20 @@
             $setIdx,
             $suffix
         ]);
+    $getPlaceholderName = fn ($suffix) =>
+        implode('_', [
+            $exercise['exercise_key'],
+            $weekIdx - 1,
+            $workoutIdx,
+            $exerciseIdx,
+            $isWarmUp ? 'warm_up' : 'set',
+            $setIdx,
+            $suffix
+        ]);
     $repsId = $getInputName('reps');
+    $repsPlaceholderId = $getPlaceholderName('reps');
     $weightId = $getInputName('weight');
+    $weightPlaceholderId = $getPlaceholderName('weight');
 ?>
 
 <div class="my-4 bg-slate-400 rounded p-4">
@@ -109,6 +122,7 @@
             name="{{ $repsId }}"
             class="bg-white rounded-md min-h-10 px-3 font-mono"
             :value="getFromLocalStorage('{{ $repsId }}')"
+            :placeholder="getPlaceholder('{{ $repsPlaceholderId }}')"
             @input="saveToLocalStorage"
         />
 
@@ -118,6 +132,7 @@
             name="{{ $weightId }}"
             class="bg-white rounded-md min-h-10 px-3 font-mono"
             :value="getFromLocalStorage('{{ $weightId }}')"
+            :placeholder="getPlaceholder('{{ $weightPlaceholderId }}')"
             @input="saveToLocalStorage"
         />
 
