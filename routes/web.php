@@ -1,21 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WorkoutProgramController;
 
 Route::get('/', function () {
     return;
 });
 
-Route::get('/{workout}', function (string $workout) {
-    $path = storage_path("app/public/$workout.json");
+Route::get(
+    'workout-programs/{program}',
+    [WorkoutProgramController::class, 'show']
+)->name('workout-programs.show');
 
-    if (!file_exists($path)) {
-        abort(404);
-    }
+Route::get(
+    'workout-programs/{program}/weeks/{week}',
+    [WorkoutProgramController::class, 'showWeek']
+)->name('workout-programs.weeks.show');
 
-    $json = json_decode(file_get_contents(storage_path("app/public/$workout.json")), true);
-
-    return view('workout', [
-        'weeks' => $json
-    ]);
-});
+Route::get(
+    'workout-programs/{program}/weeks/{week}/workouts/{workout}',
+    [WorkoutProgramController::class, 'showWorkout']
+)->name('workout-programs.weeks.workouts.show');
