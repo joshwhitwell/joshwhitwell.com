@@ -12,8 +12,12 @@ class PureBodyBuildingSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        if (($handle = fopen(storage_path('app/public/ppl-new.csv'), 'r')) === false) {
+    {   
+        $handle = file_exists(storage_path('app/public/ppl-new.csv'))
+            ? fopen(storage_path('app/public/ppl-new.csv'), 'r')
+            : null;
+
+        if (!$handle) {
             return;
         }
 

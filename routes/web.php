@@ -1,11 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WorkoutProgramController;
 
 Route::get('/', function () {
+    if (auth()->check()) {
+        return 'Logged in';
+    }
+
     return;
 });
+
+Route::get('login', [LoginController::class, 'login'])->name('login');
+
+Route::post('login', [LoginController::class, 'authenticate']);
+
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get(
     'workout-programs/{program}',
