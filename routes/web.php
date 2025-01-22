@@ -17,10 +17,6 @@ Route::get('login', [LoginController::class, 'login'])->name('login');
 
 Route::post('login', [LoginController::class, 'authenticate']);
 
-Route::get('/login', function () {
-    return;
-})->name('login');
-
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware([DenyAsNotFound::class])->group(function () {
