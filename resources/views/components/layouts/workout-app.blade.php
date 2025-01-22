@@ -24,17 +24,31 @@
 
     <body>
 
-        @if (!empty($breadcrumbs))
+        <header class="bg-gray-900 text-white p-4 min-h-[56px]">
 
-            <header>
+            <?php
+                $back = $breadcrumbs[count($breadcrumbs) - 2] ?? null;
+            ?>
 
-                <x-workout-app.breadcrumbs :$breadcrumbs />
+            @if ($back)
 
-            </header>
+                <a href="{{ $back['route'] }}">
+                    &larr;
+                    <span class="ml-1">{{ $back['name'] }}</span>
+                </a>
 
-        @endif
+            @else
 
-        <main>
+                <a href="/">
+                    <span class="ml-1">Home</span>
+                </a>
+
+            @endif
+
+        </header>
+
+
+        <main class="px-4">
 
             {{ $slot }}
 

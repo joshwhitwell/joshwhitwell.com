@@ -8,7 +8,7 @@
 
                 <li>
 
-                    <h2>{{ $phase['name'] }}</h2>
+                    <h2 class="text-4xl my-9">{{ $phase['name'] }}</h2>
 
                     @if (!empty ($phase['weeks']))
 
@@ -16,9 +16,9 @@
 
                             @foreach ($phase['weeks'] as $week)
 
-                                <li>
+                                <li class="my-7">
 
-                                    <h3>
+                                    <h3 class="text-3xl">
 
                                         <a href="{{ $week['route'] }}">{{ $week['name'] }}</a>
 
@@ -32,9 +32,9 @@
 
                                                 <li>
 
-                                                    <h4>
+                                                    <h4 class="text-xl my-4">
 
-                                                        <a href="{{ $workout['route'] }}">{{ $workout['name'] }}</a>
+                                                        <a href="{{ $workout['route'] }}" class="text-blue-500">{{ $workout['name'] }}</a>
 
                                                     </h4>
 

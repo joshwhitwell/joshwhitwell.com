@@ -1,23 +1,11 @@
 @props(['breadcrumbs'])
 
-@if (!empty($breadcrumbs))
+<?php
+    $back = $breadcrumbs[count($breadcrumbs) - 2] ?? null;
+?>
 
-    <nav>
+@if ($back)
 
-        <ol>
-
-            @foreach ($breadcrumbs as $breadcrumb)
-
-                <li>
-
-                    <a href="{{ $breadcrumb['route'] }}">{{ $breadcrumb['name'] }}</a>
-
-                </li>
-
-            @endforeach
-
-        </ol>
-
-    </nav>
+    <a href="{{ $back['route'] }}" class="text-blue-500">{{ $back['name'] }}</a>
 
 @endif

@@ -1,151 +1,158 @@
 <x-layouts.workout-app :$headTitle :$breadcrumbs>
 
-    <h4 class="text-2xl my-7 mx-4">{{$workout['name']}}</h4>
+    <h4 class="text-2xl my-7">{{$workout['name']}}</h4>
 
-@if (!empty($workout['exercises']))
+    @if (!empty($workout['exercises']))
 
-    <ol>
+        <ol>
 
-        @foreach ($workout['exercises'] as $exercise)
+            @foreach ($workout['exercises'] as $exercise)
 
-            <li class="my-7 mx-4">
+                <li class="my-7">
 
-                <h5 class="text-xl mb-1">
+                    <h5 class="text-xl mb-1">
 
-                    {{ $exercise['name'] }}
+                        {{ $exercise['name'] }}
 
-                    @if (!empty($exercise['url']))
+                        @if (!empty($exercise['url']))
 
-                        <a href="{{ $exercise['url'] }}" target="_blank" class="text-base text-blue-500 ml-1">Watch</a>
+                            <a href="{{ $exercise['url'] }}" target="_blank" class="text-base text-blue-500 ml-1">Watch</a>
+
+                        @endif
+
+                    </h5>
+
+                    @if (!empty($exercise['notes']))
+
+                        <p class="mb-1 text-gray-600">
+
+                            {{ $exercise['notes'] }}
+
+                        </p>
 
                     @endif
 
-                </h5>
+                    @if (!empty($exercise['substitutionOne']))
 
-                @if (!empty($exercise['notes']))
+                        <div class="mb-1">
 
-                    <p class="mb-1">
+                            <a href="{{ $exercise['substitutionOne']['url'] }}" target="_blank" class="text-base text-blue-500">
 
-                        {{ $exercise['notes'] }}
+                                {{ $exercise['substitutionOne']['name'] }}
 
-                    </p>
+                            </a>
 
-                @endif
+                        </div>
 
-                @if (!empty($exercise['substitutionOne']))
+                    @endif
 
-                    <div class="mb-1">
+                    @if (!empty($exercise['substitutionTwo']))
 
-                        <a href="{{ $exercise['substitutionOne']['url'] }}" target="_blank" class="text-base text-blue-500">
+                        <div class="mb-1">
 
-                            {{ $exercise['substitutionOne']['name'] }}
+                            <a href="{{ $exercise['substitutionTwo']['url'] }}" target="_blank" class="text-base text-blue-500">
 
-                        </a>
+                                {{ $exercise['substitutionTwo']['name'] }}
 
-                    </div>
+                            </a>
 
-                @endif
+                        </div>
 
-                @if (!empty($exercise['substitutionTwo']))
+                    @endif
 
-                    <div class="mb-1">
+                    @if (!empty($exercise['maxWarmUpSets']))
 
-                        <a href="{{ $exercise['substitutionTwo']['url'] }}" target="_blank" class="text-base text-blue-500">
+                        <ol>
 
-                            {{ $exercise['substitutionTwo']['name'] }}
+                            @for ($i = 1; $i <= $exercise['maxWarmUpSets']; $i++)
 
-                        </a>
+                                <li class="my-5">
 
-                    </div>
+                                    <h6 class="text-lg">
 
-                @endif
+                                        Warm-Up Set {{ $i }}
 
-                @if (!empty($exercise['maxWarmUpSets']))
+                                        @if (isset($exercise['minWarmUpSets']) && $i > $exercise['minWarmUpSets'])
 
-                    <ol>
+                                            <span class="text-sm text-gray-600">(Optional)</span>
 
-                        @for ($i = 1; $i <= $exercise['maxWarmUpSets']; $i++)
+                                        @endif
 
-                            <li>
+                                    </h6>
 
-                                <h6 class="text-lg my-5">
+                                    <div class="grid grid-cols-2 gap-1">
+                                        <label for="reps">Reps</label>
+                                        <label for="weight">Weight</label>
+                                        <input type="number" name="reps" id="reps" class="text-base border border-gray-300 rounded-md shadow-sm min-w-40 p-2 mb-3">
+                                        <input type="number" name="weight" id="weight" class="text-base border border-gray-300 rounded-md shadow-sm min-w-40 p-2 mb-3">
+                                    </div>
 
-                                    Warm-Up Set {{ $i }}
+                                </li>
 
-                                    @if (isset($exercise['minWarmUpSets']) && $i > $exercise['minWarmUpSets'])
+                            @endfor
 
-                                        <span class="text-sm">(Optional)</span>
+                        </ol>
+
+                    @endif
+
+                    @if (!empty($exercise['maxSets']))
+
+                        <ol>
+
+                            @for ($i = 1; $i <= $exercise['maxSets']; $i++)
+
+                                <li class="my-5">
+
+                                    <h6 class="text-lg">
+
+                                        Set {{ $i }}
+
+                                        @if (isset($exercise['minSets']) && $i > $exercise['minSets'])
+
+                                            <span class="text-sm text-gray-600">(Optional)</span>
+
+                                        @endif
+
+                                        @if (!empty($exercise['rpeRepsRest'][$i]))
+
+                                            <span class="text-sm text-gray-600">{!! $exercise['rpeRepsRest'][$i] !!}</span>
+
+                                        @endif
+
+                                    </h6>
+
+                                    @if ($i === $exercise['maxSets'] && !empty($exercise['lastSetIntensityTechnique']))
+
+                                        <p class="text-sm text-gray-600">
+
+                                            {{ $exercise['lastSetIntensityTechnique'] }}
+
+                                        </p>
 
                                     @endif
 
-                                </h6>
+                                    <div class="grid grid-cols-2 gap-1">
+                                        <label for="reps">Reps</label>
+                                        <label for="weight">Weight</label>
+                                        <input type="number" name="reps" id="reps" class="text-base border border-gray-300 rounded-md shadow-sm min-w-40 p-2 mb-3">
+                                        <input type="number" name="weight" id="weight" class="text-base border border-gray-300 rounded-md shadow-sm min-w-40 p-2 mb-3">
+                                    </div>
 
-                            </li>
+                                </li>
 
-                        @endfor
+                            @endfor
 
-                    </ol>
+                        </ol>
 
-                @endif
+                    @endif
 
-                @if (!empty($exercise['maxSets']))
+                </li>
 
-                    <ol>
+            @endforeach
 
-                        @for ($i = 1; $i <= $exercise['maxSets']; $i++)
+        </ol>
 
-                            <li class="my-5">
-
-                                <h6 class="text-lg">
-
-                                    Set {{ $i }}
-
-                                    @if (isset($exercise['minSets']) && $i > $exercise['minSets'])
-
-                                        <span class="text-sm">(Optional)</span>
-
-                                    @endif
-
-                                    @if (!empty($exercise['rpeRepsRest'][$i]))
-
-                                        <span class="text-sm">{!! $exercise['rpeRepsRest'][$i] !!}</span>
-
-                                    @endif
-
-                                </h6>
-
-                                @if ($i === $exercise['maxSets'] && !empty($exercise['lastSetIntensityTechnique']))
-
-                                    <p class="text-sm">
-
-                                        {{ $exercise['lastSetIntensityTechnique'] }}
-
-                                    </p>
-
-                                @endif
-
-                                <div class="grid grid-cols-2 gap-1">
-                                    <label for="reps">Reps</label>
-                                    <label for="weight">Weight</label>
-                                    <input type="number" name="reps" id="reps" class="border">
-                                    <input type="number" name="weight" id="weight" class="border">
-                                </div>
-
-                            </li>
-
-                        @endfor
-
-                    </ol>
-
-                @endif
-
-            </li>
-
-        @endforeach
-
-    </ol>
-
-@endif
+    @endif
 
 </x-layouts.workout-app>
 
