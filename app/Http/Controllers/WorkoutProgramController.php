@@ -35,10 +35,10 @@ class WorkoutProgramController extends Controller
         $workout->load([
             'program',
             'week',
-            'exerciseWorkouts',
-            'exerciseWorkouts.exercise',
-            'exerciseWorkouts.substitutionOne',
-            'exerciseWorkouts.substitutionTwo',
+            'workoutExercises',
+            'workoutExercises.exercise',
+            'workoutExercises.substitutionOne',
+            'workoutExercises.substitutionTwo',
         ]);
 
         return view('workout-app.workout', $workout->showResource);

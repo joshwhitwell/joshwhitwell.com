@@ -136,7 +136,7 @@ class PureBodyBuildingSeeder extends Seeder
             }
 
             if ($exercise) {
-                $workout->exerciseWorkouts()->create([
+                $workout->workoutExercises()->create([
                     'exercise_id' => $exercise->id,
                     'sub_1_id' => $subExerciseOne ? $subExerciseOne->id : null,
                     'sub_2_id' => $subExerciseTwo ? $subExerciseTwo->id : null,

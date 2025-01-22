@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\WorkoutExercise;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
@@ -17,9 +18,9 @@ class Workout extends Model
         return $this->belongsTo(WorkoutProgramWeek::class, 'workout_program_week_id');
     }
 
-    public function exerciseWorkouts()
+    public function workoutExercises()
     {
-        return $this->hasMany(ExerciseWorkout::class)
+        return $this->hasMany(WorkoutExercise::class)
             ->orderBy('order');
     }
 
@@ -55,8 +56,8 @@ class Workout extends Model
                 ],
                 'workout' => [
                     'name' => $this->name,
-                    'exercises' => $this->exerciseWorkouts->map(
-                        fn ($exerciseWorkout) => $exerciseWorkout->showResource
+                    'exercises' => $this->workoutExercises->map(
+                        fn ($workoutExercise) => $workoutExercise->showResource
                     )
                 ]
             ]

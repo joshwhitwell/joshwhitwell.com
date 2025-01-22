@@ -11,7 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exercise_workout', function (Blueprint $table) {
+        Schema::create('workout_exercises', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('exercise_id')->constrained()->cascadeOnDelete();
             $table->foreignId('workout_id')->constrained()->cascadeOnDelete();
             $table->foreignId('sub_1_id')->nullable()->constrained('exercises')->nullOnDelete();
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->integer('min_rest')->default(0);
             $table->integer('max_rest')->default(0);
             $table->text('notes')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -36,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exercise_workout');
+        Schema::dropIfExists('workout_exercises');
     }
 };
