@@ -1,0 +1,22 @@
+.app-navigation-drawer {
+  display: none;
+}
+
+.app-navigation-drawer[data-open] {
+    display: block;
+}
+
+.app-navigation-drawer__nav {
+  background-color: var(--app-theme-color-surface-2);
+  border-radius: 0px 16px 16px 0px;
+  height: 100%;
+  overflow: scroll;
+  position: fixed;
+  width: 320px;
+}
+
+@media screen and (min-width: 960px) {
+  .app-navigation-drawer__nav {
+    width: 240px;
+  }
+}

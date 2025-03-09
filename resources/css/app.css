@@ -1,1 +1,20 @@
+@import 'variables.css';
+@import 'elements.css';
+@import 'components/app-bar.css';
+@import 'components/app-icon-button.css';
+@import 'components/app-navigation-drawer.css';
+
+.app {
+ background-color: var(--app-theme-color-background);
+ min-height: 100vh;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24;
+  transition: font-variation-settings .2s cubic-bezier(.2,0,0,1);
+}
 
