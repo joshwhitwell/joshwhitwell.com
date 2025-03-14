@@ -1,1 +1,6 @@
-
+th,
+td {
+  white-space: nowrap;
+  text-align: left;
+  padding: 0 8px;
+}

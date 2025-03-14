@@ -14,7 +14,76 @@
 	@endif
 </head>
 
-<body></body>
+<body>
+  <form id='exercise_log_form' action="{{ route('exercise-logs.store') }}" method="POST">
+    <input type='hidden' id="user_id" name="user_id" value="1" />
+
+    <div class="input--outlined">
+      <select name="exercise_id" id="exercise_id">
+        @foreach (\App\Models\Exercise::orderBy('name')->get() as $exercise)
+          <option value="{{ $exercise->id }}">{{ $exercise->name }}</option>
+        @endforeach
+      </select>
+      <label for="exercise_id" class="label">Exercise</label>
+    </div>
+
+    @for ($set = 1; $set <= 3; $set++)
+      <div class='input-row'>
+        @foreach (['reps' => 'Reps', 'weight' => 'Weight', 'duration' => 'Duration'] as $key => $label)
+          <div class="input--outlined">
+            <input type="number" id="sets[{{$set}}][{{$key}}]" name="sets[{{$set}}][{{$key}}]">
+            <label for="sets[{{$set}}][{{$key}}]" class="label">{{ $label }}</label>
+          </div>
+        @endforeach
+      </div>
+    @endfor
+
+    <button type="submit">Save</button>
+
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+  </form>
+</body>
 
 </html>
 
+
+<style>
+:root {
+  --border-color: lightgray;
+  --border-radius: 4px;
+}
+
+input, select {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 12px 16px;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  column-gap: 8px; 
+}
+
+.input--outlined {
+  display: flex;
+  flex-direction: column;
+
+  .label {
+    font-size: 12px;
+    background-color: white;
+    transform: translateY(-49px);
+    padding: 0 4px;
+    margin-left: 12px;
+    width: fit-content;
+  }
+}
+</style>
