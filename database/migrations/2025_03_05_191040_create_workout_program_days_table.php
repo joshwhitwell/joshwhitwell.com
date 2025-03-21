@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workouts', function (Blueprint $table) {
+        Schema::create('workout_program_days', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('workout_program_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('workout_program_week_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
-            // $table->foreignId('workout_program_id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('workout_program_phase_id')->nullable()->constrained()->nullOnDelete();
-            // $table->unsignedTinyInteger('order');
+            $table->unsignedTinyInteger('order')->nullable();
             $table->timestamps();
         });
     }

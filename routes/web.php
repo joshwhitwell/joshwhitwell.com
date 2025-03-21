@@ -4,10 +4,15 @@ use App\Models\WorkoutLog;
 use App\Models\ExerciseLog;
 use Illuminate\Http\Request;
 use App\Models\ExerciseSetLog;
+use App\Models\WorkoutProgram;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('index');
+    $program = WorkoutProgram::find(1);
+    
+    return view('index', [
+        'program' => $program
+    ]);
 });
 
 Route::post('workout-logs', function (Request $request) {

@@ -15,7 +15,10 @@
 </head>
 
 <body>
-  <form id='workout_log_form' action="{{ route('workout-logs.store') }}" method="POST">
+  <h1>{{ $program->name }}</h1>
+
+  
+  {{-- <form id='workout_log_form' action="{{ route('workout-logs.store') }}" method="POST">
     @csrf
     <input type='hidden' id="user_id" name="user_id" value="1" />
 
@@ -62,7 +65,7 @@
           </ul>
         </div>
         @endif
-  </form>
+  </form> --}}
 </body>
 
 </html>
