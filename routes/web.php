@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\WorkoutLog;
 use App\Models\ExerciseLog;
 use Illuminate\Http\Request;
 use App\Models\ExerciseSetLog;
@@ -9,29 +10,40 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::post('exercise-logs', function (Request $request) {
+Route::post('workout-logs', function (Request $request) {
     // Auth::login(User::find(1));
+    // dd($request->all());
 
-    $fill = $request->validate([
-        'exercise_id' => 'required|integer|exists:exercises,id',
-        'user_id' => 'required|integer|exists:users,id',
-        'sets' => 'required|array'
+    // $fill = $request->validate([
+    //     'exercise_id' => 'required|integer|exists:exercises,id',
+    //     'user_id' => 'required|integer|exists:users,id',
+    //     'sets' => 'required|array'
+    // ]);
+
+    $workoutLog = WorkoutLog::create([
+        'user_id' => $request->user_id,
+        'workout_id' => $request->workout_id,
     ]);
 
-    $exerciseLog = ExerciseLog::create([
-        'exercise_id' => $fill['exercise_id'],
-        'user_id' => $fill['user_id'],
-    ]);
-
-    foreach ($fill['sets'] as $setNumber => $set) {
-        ExerciseSetLog::create([
-            'exercise_log_id' => $exerciseLog->id,
-            'set_number' => $setNumber,
-            'reps' => $set['reps'],
-            'weight' => $set['weight'],
-            'duration' => $set['duration'],
+    foreach ($request->exercises as $exercise) {
+        $exerciseLog = ExerciseLog::create([
+            'user_id' => $request->user_id,
+            'exercise_id' => $exercise['id'],
+            'workout_log_id' => $workoutLog->id
         ]);
+
+        foreach ($exercise['sets'] as $setNumber => $set) {
+            ExerciseSetLog::create([
+                'exercise_log_id' => $exerciseLog->id,
+                'set_number' => $setNumber,
+                'reps' => $set['reps'],
+                'weight' => $set['weight'],
+                'duration' => $set['duration'],
+            ]);
+        }
     }
 
+
+
     return redirect()->back();
-})->name('exercise-logs.store');
+})->name('workout-logs.store');
