@@ -17,7 +17,65 @@
 <body>
   <h1>{{ $program->name }}</h1>
 
-  
+  @foreach ($program->workoutProgramPhases as $phase)
+  <h2>{{ $phase->name }}</h2>
+
+  @foreach ($phase->workoutProgramWeeks as $week)
+  <h3>{{ $week->name }}</h3>
+
+  @foreach ($week->workoutProgramDays as $day)
+  <h4>{{ $day->name }}</h4>
+
+  @foreach ($day->workoutProgramDayExercises as $exercise)
+  <h5>{{ $exercise->exercise->name }}</h5>
+
+  @foreach (['substitutionOne', 'substitutionTwo', 'rest_string', 'notes'] as $attr)
+  @if (!empty($exercise->{$attr}))
+  <div>{{ $exercise->{$attr}->name ?? $exercise->{$attr} }}</div>
+  @endif
+  @endforeach
+
+  @foreach ($exercise->workoutProgramDayExerciseSets as $set)
+  <h6>
+    {{ $set->is_warm_up ? 'Warm Up' : 'Set' }} {{ $set->order }}
+    @if ($set->is_optional)
+    <small>(Optional)</small>
+    @endif
+  </h6>
+
+  @if (!empty($set->intensity_technique))
+  <div>{{ $set->intensity_technique }}</div>
+  @endif
+
+  @if (!empty($set->rpe))
+  <div>RPE: {{ $set->rpe }}</div>
+  @endif
+
+  @if (!empty($set->rep_string))
+  <div>{{ $set->rep_string }}</div>
+  @endif
+
+  <div>
+    <form action="{{ route('set-logs.store', $set) }}" method="POST">
+      @csrf
+      <label for="reps">
+        Reps
+        <input type="text" name="reps" value="{{ $set->log->reps ?? null }}">
+      </label>
+      <label for="weight">
+        Weight
+        <input type="text" name="weight" value="{{ $set->log->weight ?? null }}">
+      </label>
+      <button>Save</button>
+    </form>
+  </div>
+  @endforeach
+
+  @endforeach
+  @endforeach
+  @endforeach
+  @endforeach
+
   {{-- <form id='workout_log_form' action="{{ route('workout-logs.store') }}" method="POST">
     @csrf
     <input type='hidden' id="user_id" name="user_id" value="1" />
@@ -72,7 +130,7 @@
 
 
 <style>
-  :root {
+  /* :root {
     --border-color: lightgray;
     --border-radius: 4px;
   }
@@ -102,5 +160,5 @@
       margin-left: 12px;
       width: fit-content;
     }
-  }
+  } */
 </style>

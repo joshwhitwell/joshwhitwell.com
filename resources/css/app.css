@@ -1,6 +1,35 @@
-th,
-td {
-  white-space: nowrap;
-  text-align: left;
-  padding: 0 8px;
+* {
+
+}
+
+h1 {
+  font-size: 89.76px;
+}
+
+h2 {
+  font-size: 67.34px;
+}
+
+h3 {
+  font-size: 50.52px;
+}
+
+h4 {
+  font-size: 37.9px;
+}
+
+h5 {
+  font-size: 28.43px;
+}
+
+h6 {
+  font-size: 21.33px;
+}
+
+p {
+  font-size: 16px;
+}
+
+small {
+  font-size: 12px;
 }
