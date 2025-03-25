@@ -3,17 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\WorkoutProgramDayExerciseSet;
 
 class WorkoutProgramDayExerciseSetLog extends Model
 {
-    public function scopeWithPreviousLog($query)
+    public function workoutProgramDayExerciseSet()
     {
-        return $query->addSelect([
-            'previous_log' => WorkoutProgramDayExerciseSetLog::select('id')
-                ->whereColumn('user_id', 'workout_program_day_exercise_set_logs.user_id')
-                // ->whereColumn('exercise_id', 'workout_program_day_exercise_set_logs.exercise_id')
-                ->orderBy('created_at', 'desc')
-                ->limit(1)
-        ]);
+        return $this->belongsTo(WorkoutProgramDayExerciseSet::class);
     }
 }

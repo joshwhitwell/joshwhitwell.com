@@ -7,10 +7,15 @@ use Illuminate\Support\Str;
 use App\Models\WorkoutProgram;
 use Illuminate\Database\Seeder;
 use App\Models\WorkoutProgramDay;
+use App\Models\WorkoutProgramLog;
 use App\Models\WorkoutProgramWeek;
+use App\Enums\WorkoutProgramStatus;
 use App\Models\WorkoutProgramPhase;
+use App\Models\WorkoutProgramDayLog;
 use App\Models\WorkoutProgramDayExercise;
+use App\Models\WorkoutProgramDayExerciseLog;
 use App\Models\WorkoutProgramDayExerciseSet;
+use App\Models\WorkoutProgramDayExerciseSetLog;
 
 class WorkoutProgramSeeder extends Seeder
 {
@@ -19,7 +24,6 @@ class WorkoutProgramSeeder extends Seeder
      */
     public function run(): void
     {
-        // phpcs:ignore
         $path = storage_path('app/public/ppl.csv');
         $handle = fopen($path, 'r');
         $index = null;
@@ -210,5 +214,54 @@ class WorkoutProgramSeeder extends Seeder
         }
 
         fclose($handle);
+
+        $this->initProgramLog();
+    }
+
+    public function initProgramLog()
+    {
+        $startedAt = now();
+        $program = WorkoutProgram::with([
+            'workoutProgramDays',
+            'workoutProgramDays.workoutProgramDayExercises',
+            'workoutProgramDays.workoutProgramDayExercises.workoutProgramDayExerciseSets'
+        ])->first();
+
+        $programLog = WorkoutProgramLog::create([
+            'user_id' => 1,
+            'workout_program_id' => $program->id,
+            'status' => WorkoutProgramStatus::NOT_STARTED,
+            'started_at' => $startedAt,
+        ]);
+
+        foreach ($program->workoutProgramDays as $day) {
+            $dayLog = WorkoutProgramDayLog::create([
+                'user_id' => 1,
+                'workout_program_day_id' => $day->id,
+                'workout_program_log_id' => $programLog->id,
+                'status' => WorkoutProgramStatus::NOT_STARTED,
+                'started_at' => $startedAt,
+            ]);
+
+            foreach ($day->workoutProgramDayExercises as $exercise) {
+                $exerciseLog = WorkoutProgramDayExerciseLog::create([
+                    'user_id' => 1,
+                    'workout_program_day_exercise_id' => $exercise->id,
+                    'workout_program_day_log_id' => $dayLog->id,
+                    'status' => WorkoutProgramStatus::NOT_STARTED,
+                    'started_at' => $startedAt,
+                ]);
+
+                foreach ($exercise->workoutProgramDayExerciseSets as $set) {
+                    $setLog = WorkoutProgramDayExerciseSetLog::create([
+                        'user_id' => 1,
+                        'workout_program_day_exercise_set_id' => $set->id,
+                        'workout_program_day_exercise_log_id' => $exerciseLog->id,
+                        'status' => WorkoutProgramStatus::NOT_STARTED,
+                        'started_at' => $startedAt,
+                    ]);
+                }
+            }
+        }
     }
 }

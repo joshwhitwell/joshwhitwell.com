@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Exercise;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\WorkoutProgramDayExerciseSet;
 use Illuminate\Database\Eloquent\Casts\Attribute;

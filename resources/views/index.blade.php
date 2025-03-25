@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <h1>{{ $program->name }}</h1>
+  {{-- <h1>{{ $program->name }}</h1>
 
   @foreach ($program->workoutProgramPhases as $phase)
   <h2>{{ $phase->name }}</h2>
@@ -74,7 +74,7 @@
   @endforeach
   @endforeach
   @endforeach
-  @endforeach
+  @endforeach --}}
 
   {{-- <form id='workout_log_form' action="{{ route('workout-logs.store') }}" method="POST">
     @csrf

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\WorkoutProgramDayExerciseSetLog;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class WorkoutProgramDayExerciseSet extends Model
