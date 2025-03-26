@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\WorkoutProgram;
 use App\Models\WorkoutProgramLog;
+use App\Enums\WorkoutProgramStatus;
 use App\Models\WorkoutProgramDayLog;
 use Illuminate\Support\Facades\Route;
 use App\Models\WorkoutProgramDayExerciseSet;
@@ -51,6 +52,13 @@ Route::get('/my/programs/{programLog}/days/{programDayLog}', function (WorkoutPr
     ]);
 });
 
+Route::put('/workout-program-day-logs/{log}', function (WorkoutProgramDayLog $log, Request $request) {
+    $log->fill($request->only('status'));
+    $log->save();
+    
+    return redirect()->back();
+});
+
 Route::get('/', function () {
     $program = WorkoutProgram::with([
         'workoutProgramPhases' => fn ($q) => $q->take(1),
@@ -71,49 +79,10 @@ Route::get('/', function () {
     ]);
 });
 
-Route::post('workout-program-day-exercise-sets/{workoutProgramDayExerciseSet}/workout-program-day-exercise-set-logs', function (WorkoutProgramDayExerciseSet $workoutProgramDayExerciseSet, Request $request) {
-    // dd($request->all());
-    Auth::login(User::find(1));
+Route::put('workout-program-day-exercise-set-logs/{log}', function (WorkoutProgramDayExerciseSetLog $log, Request $request) {
+    $fill = $request->only(['reps', 'weight', 'duration']);
 
-    WorkoutProgramDayExerciseSetLog::updateOrCreate([
-        'user_id' => auth()->id(),
-        'workout_program_day_exercise_set_id' => $workoutProgramDayExerciseSet->id,
-    ],
-        $request->only(['reps', 'weight'])
-    );
-    // dd($request->all());
-
-    // $fill = $request->validate([
-    //     'exercise_id' => 'required|integer|exists:exercises,id',
-    //     'user_id' => 'required|integer|exists:users,id',
-    //     'sets' => 'required|array'
-    // ]);
-
-    // $workoutLog = WorkoutLog::create([
-    //     'user_id' => $request->user_id,
-    //     'workout_id' => $request->workout_id,
-    // ]);
-
-    // foreach ($request->exercises as $exercise) {
-    //     $exerciseLog = ExerciseLog::create([
-    //         'user_id' => $request->user_id,
-    //         'exercise_id' => $exercise['id'],
-    //         'workout_log_id' => $workoutLog->id
-    //     ]);
-
-    //     foreach ($exercise['sets'] as $setNumber => $set) {
-    //         ExerciseSetLog::create([
-    //             'exercise_log_id' => $exerciseLog->id,
-    //             'set_number' => $setNumber,
-    //             'reps' => $set['reps'],
-    //             'weight' => $set['weight'],
-    //             'duration' => $set['duration'],
-    //         ]);
-    //     }
-    // }
-
-
-
+    $log->update($fill);
 
     return redirect()->back();
-})->name('set-logs.store');
+})->name('set-logs.update');

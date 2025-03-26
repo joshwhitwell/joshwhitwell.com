@@ -230,7 +230,7 @@ class WorkoutProgramSeeder extends Seeder
         $programLog = WorkoutProgramLog::create([
             'user_id' => 1,
             'workout_program_id' => $program->id,
-            'status' => WorkoutProgramStatus::NOT_STARTED,
+            'status' => WorkoutProgramStatus::IN_PROGRESS,
             'started_at' => $startedAt,
         ]);
 
@@ -240,7 +240,6 @@ class WorkoutProgramSeeder extends Seeder
                 'workout_program_day_id' => $day->id,
                 'workout_program_log_id' => $programLog->id,
                 'status' => WorkoutProgramStatus::NOT_STARTED,
-                'started_at' => $startedAt,
             ]);
 
             foreach ($day->workoutProgramDayExercises as $exercise) {
@@ -249,16 +248,14 @@ class WorkoutProgramSeeder extends Seeder
                     'workout_program_day_exercise_id' => $exercise->id,
                     'workout_program_day_log_id' => $dayLog->id,
                     'status' => WorkoutProgramStatus::NOT_STARTED,
-                    'started_at' => $startedAt,
                 ]);
 
                 foreach ($exercise->workoutProgramDayExerciseSets as $set) {
-                    $setLog = WorkoutProgramDayExerciseSetLog::create([
+                    WorkoutProgramDayExerciseSetLog::create([
                         'user_id' => 1,
                         'workout_program_day_exercise_set_id' => $set->id,
                         'workout_program_day_exercise_log_id' => $exerciseLog->id,
                         'status' => WorkoutProgramStatus::NOT_STARTED,
-                        'started_at' => $startedAt,
                     ]);
                 }
             }
