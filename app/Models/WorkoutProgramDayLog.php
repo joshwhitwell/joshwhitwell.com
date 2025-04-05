@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
 use App\Models\WorkoutProgramDay;
 use App\Models\WorkoutProgramLog;
 use App\Enums\WorkoutProgramStatus;
@@ -11,12 +12,12 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class WorkoutProgramDayLog extends Model
 {
-    protected function casts()
-    {
-        return [
-            'completed_at' => 'datetime'
-        ];
-    }
+    // protected function casts()
+    // {
+    //     return [
+    //         'completed_at' => 'datetime'
+    //     ];
+    // }
     
     public function workoutProgramDay()
     {
@@ -31,6 +32,13 @@ class WorkoutProgramDayLog extends Model
     public function workoutProgramDayExerciseLogs()
     {
         return $this->hasMany(WorkoutProgramDayExerciseLog::class);
+    }
+
+    protected function completedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($v) => $v ? Carbon::parse($v) : null,
+        );
     }
 
     protected function status(): Attribute

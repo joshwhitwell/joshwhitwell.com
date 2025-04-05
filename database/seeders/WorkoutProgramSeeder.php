@@ -209,7 +209,7 @@ class WorkoutProgramSeeder extends Seeder
                 }
 
                 $exerciseOrder++;
-                $setOrder = 1;
+            $setOrder = 1;
             }
         }
 
