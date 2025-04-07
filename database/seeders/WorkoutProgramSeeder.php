@@ -2,20 +2,20 @@
 
 namespace Database\Seeders;
 
-use App\Models\Exercise;
+use App\Enums\Lift\LiftStatus;
+use App\Models\Lift\Set;
+use App\Models\Lift\Week;
+use App\Models\Lift\Phase;
+use App\Models\Lift\SetLog;
 use Illuminate\Support\Str;
-use App\Models\WorkoutProgram;
+use App\Models\Lift\Program;
+use App\Models\Lift\Workout;
+use App\Models\Lift\Exercise;
+use App\Models\Lift\ProgramLog;
+use App\Models\Lift\WorkoutLog;
 use Illuminate\Database\Seeder;
-use App\Models\WorkoutProgramDay;
-use App\Models\WorkoutProgramLog;
-use App\Models\WorkoutProgramWeek;
-use App\Enums\WorkoutProgramStatus;
-use App\Models\WorkoutProgramPhase;
-use App\Models\WorkoutProgramDayLog;
-use App\Models\WorkoutProgramDayExercise;
-use App\Models\WorkoutProgramDayExerciseLog;
-use App\Models\WorkoutProgramDayExerciseSet;
-use App\Models\WorkoutProgramDayExerciseSetLog;
+use App\Models\Lift\WorkoutExercise;
+use App\Models\Lift\WorkoutExerciseLog;
 
 class WorkoutProgramSeeder extends Seeder
 {
@@ -63,14 +63,14 @@ class WorkoutProgramSeeder extends Seeder
 
             // Program
             if ($index === 0) {
-                $program = WorkoutProgram::create(['name' => $row[0]]);
+                $program = Program::create(['name' => $row[0]]);
                 continue;
             }
 
             // Phases
             if (strpos($row[0], 'PHASE') !== false) {
-                $phase = WorkoutProgramPhase::create([
-                    'workout_program_id' => $program->id,
+                $phase = Phase::create([
+                    'lift_program_id' => $program->id,
                     'name' => $row[0],
                     'order' => $phaseOrder,
                 ]);
@@ -79,14 +79,15 @@ class WorkoutProgramSeeder extends Seeder
             }
 
             // Weeks
-            if (strpos($row[0], 'Week') !== false
+            if (
+                strpos($row[0], 'Week') !== false
                 && (empty($week->name)
                     || (!empty($week->name) && $week->name !== $row[0])
                 )
             ) {
-                $week = WorkoutProgramWeek::create([
-                    'workout_program_id' => $program->id,
-                    'workout_program_phase_id' => $phase->id,
+                $week = Week::create([
+                    'lift_program_id' => $program->id,
+                    'lift_phase_id' => $phase->id,
                     'name' => $row[0],
                     'order' => $weekOrder,
                 ]);
@@ -94,14 +95,15 @@ class WorkoutProgramSeeder extends Seeder
             }
 
             // Days
-            if (!empty($row[0])
+            if (
+                !empty($row[0])
                 && (strpos($row[0], '#') !== false
                     || strpos($row[0], 'Rest') !== false
                 )
             ) {
-                $day = WorkoutProgramDay::create([
-                    'workout_program_id' => $program->id,
-                    'workout_program_week_id' => $week->id,
+                $day = Workout::create([
+                    'lift_program_id' => $program->id,
+                    'lift_week_id' => $week->id,
                     'name' => $row[0],
                     'order' => $dayOrder,
                 ]);
@@ -146,9 +148,9 @@ class WorkoutProgramSeeder extends Seeder
                     $exercises->push($sub2);
                 }
 
-                $workoutProgramDayExercise = WorkoutProgramDayExercise::create([
-                    'workout_program_day_id' => $day->id,
-                    'exercise_id' => $exercise->id,
+                $workoutProgramDayExercise = WorkoutExercise::create([
+                    'lift_workout_id' => $day->id,
+                    'lift_exercise_id' => $exercise->id,
                     'order' => $exerciseOrder,
                     'min_rest' => preg_match('/\d+/', $row['rest'], $matches) ? (int)$matches[0] * 60 : null,
                     'max_rest' => preg_match_all('/\d+/', $row['rest'], $matches)
@@ -166,8 +168,8 @@ class WorkoutProgramSeeder extends Seeder
 
                 if ($maxWarmUps) {
                     while ($setOrder <= $maxWarmUps) {
-                        WorkoutProgramDayExerciseSet::create([
-                            'workout_program_day_exercise_id' => $workoutProgramDayExercise->id,
+                        Set::create([
+                            'lift_workout_exercise_id' => $workoutProgramDayExercise->id,
                             'order' => $setOrder,
                             'is_warm_up' => true,
                             'is_optional' => empty($minWarmUps) || $setOrder > $minWarmUps
@@ -184,8 +186,8 @@ class WorkoutProgramSeeder extends Seeder
 
                 if ($maxSets) {
                     while ($setOrder <= $maxSets) {
-                        WorkoutProgramDayExerciseSet::create([
-                            'workout_program_day_exercise_id' => $workoutProgramDayExercise->id,
+                        Set::create([
+                            'lift_workout_exercise_id' => $workoutProgramDayExercise->id,
                             'order' => $setOrder,
                             'is_warm_up' => false,
                             'is_optional' => empty($minSets) || $setOrder > $minSets,
@@ -200,8 +202,8 @@ class WorkoutProgramSeeder extends Seeder
                             'intensity_technique' => !empty($row['last_set_intensity_technique'])
                                 && $row['last_set_intensity_technique'] !== 'N/A'
                                 && $setOrder === $maxSets
-                                    ? $row['last_set_intensity_technique']
-                                    : null,
+                                ? $row['last_set_intensity_technique']
+                                : null,
                         ]);
                         $setOrder++;
                     }
@@ -209,7 +211,7 @@ class WorkoutProgramSeeder extends Seeder
                 }
 
                 $exerciseOrder++;
-            $setOrder = 1;
+                $setOrder = 1;
             }
         }
 
@@ -221,41 +223,41 @@ class WorkoutProgramSeeder extends Seeder
     public function initProgramLog()
     {
         $startedAt = now();
-        $program = WorkoutProgram::with([
-            'workoutProgramDays',
-            'workoutProgramDays.workoutProgramDayExercises',
-            'workoutProgramDays.workoutProgramDayExercises.workoutProgramDayExerciseSets'
+        $program = Program::with([
+            'workouts',
+            'workouts.exercises',
+            'workouts.exercises.sets'
         ])->first();
 
-        $programLog = WorkoutProgramLog::create([
+        $programLog = ProgramLog::create([
             'user_id' => 1,
-            'workout_program_id' => $program->id,
-            'status' => WorkoutProgramStatus::IN_PROGRESS,
+            'lift_program_id' => $program->id,
+            'status' => LiftStatus::IN_PROGRESS,
             'started_at' => $startedAt,
         ]);
 
-        foreach ($program->workoutProgramDays as $day) {
-            $dayLog = WorkoutProgramDayLog::create([
+        foreach ($program->workouts as $day) {
+            $dayLog = WorkoutLog::create([
                 'user_id' => 1,
-                'workout_program_day_id' => $day->id,
-                'workout_program_log_id' => $programLog->id,
-                'status' => WorkoutProgramStatus::NOT_STARTED,
+                'lift_workout_id' => $day->id,
+                'lift_program_log_id' => $programLog->id,
+                'status' => LiftStatus::NOT_STARTED,
             ]);
 
-            foreach ($day->workoutProgramDayExercises as $exercise) {
-                $exerciseLog = WorkoutProgramDayExerciseLog::create([
+            foreach ($day->exercises as $exercise) {
+                $exerciseLog = WorkoutExerciseLog::create([
                     'user_id' => 1,
-                    'workout_program_day_exercise_id' => $exercise->id,
-                    'workout_program_day_log_id' => $dayLog->id,
-                    'status' => WorkoutProgramStatus::NOT_STARTED,
+                    'lift_workout_exercise_id' => $exercise->id,
+                    'lift_workout_log_id' => $dayLog->id,
+                    'status' => LiftStatus::NOT_STARTED,
                 ]);
 
-                foreach ($exercise->workoutProgramDayExerciseSets as $set) {
-                    WorkoutProgramDayExerciseSetLog::create([
+                foreach ($exercise->sets as $set) {
+                    SetLog::create([
                         'user_id' => 1,
-                        'workout_program_day_exercise_set_id' => $set->id,
-                        'workout_program_day_exercise_log_id' => $exerciseLog->id,
-                        'status' => WorkoutProgramStatus::NOT_STARTED,
+                        'lift_set_id' => $set->id,
+                        'lift_workout_exercise_log_id' => $exerciseLog->id,
+                        'status' => LiftStatus::NOT_STARTED,
                     ]);
                 }
             }
