@@ -1,9 +1,0 @@
-:root {
-  --app-theme-color-background: #fefbff;
-
-  --app-theme-color-surface-0: #fff;
-  --app-theme-color-surface-2: #f2ecee;
-
-  --app-theme-color-on-surface-variant: #4d4256;
-  --app-theme-color-on-surface-variant-2: linear-gradient(0deg, rgb(77 66 86 / 8%), rgb(77 66 86 / 8%));
-}
