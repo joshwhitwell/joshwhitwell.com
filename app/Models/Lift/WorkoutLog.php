@@ -15,37 +15,37 @@ class WorkoutLog extends Model
 
     public function workout()
     {
-        return $this->belongsTo(Workout::class, 'lift_workout_id');
+        return $this->belongsTo(Workout::class);
     }
 
-    public function programLog()
-    {
-        return $this->belongsTo(ProgramLog::class, 'lift_program_log_id');
-    }
+    // public function programLog()
+    // {
+    //     return $this->belongsTo(ProgramLog::class, 'lift_program_log_id');
+    // }
 
     public function workoutExerciseLogs()
     {
-        return $this->hasMany(WorkoutExerciseLog::class, 'lift_workout_log_id');
+        return $this->hasMany(WorkoutExerciseLog::class);
     }
 
-    protected function completedAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn($v) => $v ? Carbon::parse($v) : null,
-        );
-    }
+    // protected function completedAt(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn($v) => $v ? Carbon::parse($v) : null,
+    //     );
+    // }
 
-    protected function status(): Attribute
-    {
-        return Attribute::make(
-            set: function ($value) {
-                return [
-                    'status' => $value,
-                    'completed_at' => $value === LiftStatus::COMPLETED->value
-                        ? now()
-                        : null
-                ];
-            }
-        );
-    }
+    // protected function status(): Attribute
+    // {
+    //     return Attribute::make(
+    //         set: function ($value) {
+    //             return [
+    //                 'status' => $value,
+    //                 'completed_at' => $value === LiftStatus::COMPLETED->value
+    //                     ? now()
+    //                     : null
+    //             ];
+    //         }
+    //     );
+    // }
 }

@@ -12,11 +12,11 @@ class WorkoutExerciseLog extends Model
 
     public function workoutExercise()
     {
-        return $this->belongsTo(WorkoutExercise::class, 'lift_workout_exercise_id');
+        return $this->belongsTo(WorkoutExercise::class);
     }
 
     public function setLogs()
     {
-        return $this->hasMany(SetLog::class, 'lift_workout_exercise_log_id');
+        return $this->hasMany(SetLog::class);
     }
 }

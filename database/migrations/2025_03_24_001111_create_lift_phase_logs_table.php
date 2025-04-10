@@ -12,11 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lift_workout_exercise_logs', function (Blueprint $table) {
+        Schema::create('lift_phase_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('workout_log_id')->constrained('lift_workout_logs')->cascadeOnDelete();
-            $table->foreignId('workout_exercise_id')->constrained('lift_workout_exercises')->cascadeOnDelete();
+            $table->foreignId('program_log_id')->constrained('lift_program_logs')->cascadeOnDelete();
+            $table->foreignId('phase_id')->constrained('lift_phases')->cascadeOnDelete();
             $table->string('status')->default(LiftStatus::NOT_STARTED);
             $table->datetime('started_at')->nullable();
             $table->datetime('completed_at')->nullable();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lift_exercise_logs');
+        Schema::dropIfExists('lift_phase_logs');
     }
 };

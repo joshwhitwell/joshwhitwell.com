@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('lift_workout_exercises', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lift_workout_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('lift_exercise_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('workout_id')->constrained('lift_workouts')->cascadeOnDelete();
+            $table->foreignId('exercise_id')->constrained('lift_exercises')->cascadeOnDelete();
             $table->unsignedTinyInteger('order');
             $table->unsignedSmallInteger('min_rest')->nullable();
             $table->unsignedSmallInteger('max_rest')->nullable();

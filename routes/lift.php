@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Lift\MyProgramsController;
+use App\Http\Controllers\Lift\MyWorkoutsController;
 
 Route::group([
     'as' => 'lift.',
@@ -19,6 +20,16 @@ Route::group([
             ['index', 'show']
         )->parameters([
             'programs' => 'programLog'
+        ]);
+
+        Route::resource(
+            'programs.workouts',
+            MyWorkoutsController::class
+        )->only(
+            ['edit']
+        )->parameters([
+            'programs' => 'programLog',
+            'workouts' => 'workoutLog'
         ]);
     });
 });

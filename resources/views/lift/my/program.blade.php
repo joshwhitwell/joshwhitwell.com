@@ -1,15 +1,15 @@
 <x-layouts.lift>
   <h1>{{ $programLog->program->name }}</h1>
 
-  @foreach ($programLog->program->phases as $phase)
-  <h2>{{ $phase->name }}</h2>
+  @foreach ($programLog->phaseLogs as $phaseLog)
+  <h2>{{ $phaseLog->phase->name }}</h2>
 
-  @foreach ($phase->weeks as $week)
-  <h3>{{ $week->name }}</h3>
+  @foreach ($phaseLog->weekLogs as $weekLog)
+  <h3>{{ $weekLog->week->name }}</h3>
 
-  @foreach ($week->workouts as $day)
-  <a href="{{ '/my/programs/' . $programLog->id . '/days/' . $day->workout_log_id }}">
-    <h4>{{ $day->name }}</h4>
+  @foreach ($weekLog->workoutLogs as $workoutLog)
+  <a href="{{ route('lift.my.programs.workouts.edit', ['programLog' => $programLog, 'workoutLog' => $workoutLog]) }}">
+    <h4>{{ $workoutLog->workout->name }}</h4>
   </a>
   @endforeach
   @endforeach

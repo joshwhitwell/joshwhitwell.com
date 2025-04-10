@@ -6,23 +6,26 @@ use App\Models\Lift\ProgramLog;
 use App\Models\Lift\WorkoutLog;
 use Illuminate\Support\Facades\Route;
 
+require __DIR__ . '/auth.php';
+require __DIR__ . '/lift.php';
+
 Route::get('/', function () {
-    return redirect()->intended('lift.my.programs');
+    return redirect()->route('lift.my.programs.index');
 });
 
-Route::get('/my/programs/{programLog}/days/{programDayLog}', function (ProgramLog $programLog, WorkoutLog $programDayLog) {
-    $programDayLog->load([
-        'workoutExerciseLogs',
-        'workoutExerciseLogs.workoutExercise',
-        'workoutExerciseLogs.workoutExercise.exercise',
-        'workoutExerciseLogs.setLogs',
-        'workoutExerciseLogs.setLogs.set'
-    ]);
+// Route::get('/my/programs/{programLog}/days/{programDayLog}', function (ProgramLog $programLog, WorkoutLog $programDayLog) {
+//     $programDayLog->load([
+//         'workoutExerciseLogs',
+//         'workoutExerciseLogs.workoutExercise',
+//         'workoutExerciseLogs.workoutExercise.exercise',
+//         'workoutExerciseLogs.setLogs',
+//         'workoutExerciseLogs.setLogs.set'
+//     ]);
 
-    return view('program-day', [
-        'programDayLog' => $programDayLog
-    ]);
-});
+//     return view('program-day', [
+//         'programDayLog' => $programDayLog
+//     ]);
+// });
 
 Route::put('/workout-program-day-logs/{log}', function (WorkoutLog $log, Request $request) {
     $log->fill($request->only('status'));
@@ -38,6 +41,3 @@ Route::put('workout-program-day-exercise-set-logs/{log}', function (SetLog $log,
 
     return redirect()->back();
 })->name('set-logs.update');
-
-require __DIR__ . '/auth.php';
-require __DIR__ . '/lift.php';

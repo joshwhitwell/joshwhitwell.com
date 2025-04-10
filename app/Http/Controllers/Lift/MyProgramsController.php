@@ -21,11 +21,9 @@ class MyProgramsController extends Controller
     public function show(ProgramLog $programLog)
     {
         $programLog->load([
-            'program' => fn($q) => $q->select(['id', 'name']),
-            'program.phases' => fn($q) => $q->select(['id', 'lift_program_id', 'name']),
-            'program.phases.weeks' => fn($q) => $q->select(['id', 'lift_phase_id', 'name']),
-            'program.phases.weeks.workouts' => fn($q) => $q->select(['id', 'lift_week_id', 'name'])
-                ->withWorkoutLogId($programLog->id)
+            'phaseLogs.phase',
+            'phaseLogs.weekLogs.week',
+            'phaseLogs.weekLogs.workoutLogs.workout',
         ]);
 
         return view('lift.my.program', [

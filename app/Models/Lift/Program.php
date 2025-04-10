@@ -12,11 +12,11 @@ class Program extends Model
 
     public function phases()
     {
-        return $this->hasMany(Phase::class, 'lift_program_id')->orderBy('order');
+        return $this->hasMany(Phase::class)->orderBy('order');
     }
 
     public function workouts()
     {
-        return $this->hasMany(Workout::class, 'lift_program_id')->orderBy('order');
+        return $this->hasMany(Workout::class)->orderBy('order');
     }
 }
