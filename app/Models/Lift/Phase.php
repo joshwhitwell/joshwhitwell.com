@@ -11,6 +11,6 @@ class Phase extends Model
 
     public function weeks()
     {
-        return $this->hasMany(Week::class, 'lift_phase_id')->orderBy('order');
+        return $this->hasMany(Week::class)->orderBy('order');
     }
 }

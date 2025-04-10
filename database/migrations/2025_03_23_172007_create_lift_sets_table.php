@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('lift_sets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lift_workout_exercise_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('workout_exercise_id')->constrained('lift_workout_exercises')->cascadeOnDelete();
             $table->unsignedTinyInteger('order');
             $table->boolean('is_warm_up')->default(false);
             $table->boolean('is_optional')->default(false);

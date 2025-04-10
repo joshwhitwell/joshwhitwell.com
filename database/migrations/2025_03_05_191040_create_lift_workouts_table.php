@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('lift_workouts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lift_program_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('lift_week_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('program_id')->nullable()->constrained('lift_programs')->cascadeOnDelete();
+            $table->foreignId('phase_id')->nullable()->constrained('lift_phases')->cascadeOnDelete();
+            $table->foreignId('week_id')->nullable()->constrained('lift_weeks')->cascadeOnDelete();
             $table->string('name');
             $table->unsignedTinyInteger('order')->nullable();
             $table->timestamps();

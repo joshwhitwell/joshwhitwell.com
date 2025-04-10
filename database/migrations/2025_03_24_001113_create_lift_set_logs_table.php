@@ -15,12 +15,12 @@ return new class extends Migration
         Schema::create('lift_set_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('lift_set_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('lift_workout_exercise_log_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('workout_exercise_log_id')->constrained('lift_workout_exercise_logs')->cascadeOnDelete();
+            $table->foreignId('set_id')->constrained('lift_sets')->cascadeOnDelete();
             $table->unsignedSmallInteger('reps')->nullable();
             $table->float('weight')->nullable();
             $table->unsignedSmallInteger('duration')->nullable();
-            $table->string('status')->default(LiftStatus::NOT_STARTED);
+            $table->string('status')->default(LiftStatus::NotStarted);
             $table->datetime('started_at')->nullable();
             $table->datetime('completed_at')->nullable();
             $table->timestamps();

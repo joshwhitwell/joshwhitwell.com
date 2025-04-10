@@ -11,6 +11,6 @@ class Week extends Model
 
     public function workouts()
     {
-        return $this->hasMany(Workout::class, 'lift_week_id')->orderBy('order');
+        return $this->hasMany(Workout::class)->orderBy('order');
     }
 }

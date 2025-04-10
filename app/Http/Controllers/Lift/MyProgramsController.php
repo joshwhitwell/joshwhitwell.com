@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Lift;
 
-use Illuminate\Http\Request;
 use App\Models\Lift\ProgramLog;
-use App\Models\Lift\WorkoutLog;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class MyProgramsController extends Controller
 {
@@ -20,12 +19,12 @@ class MyProgramsController extends Controller
 
     public function show(ProgramLog $programLog)
     {
+        Gate::authorize('belongs-to-user', $programLog);
+
         $programLog->load([
-            'program' => fn($q) => $q->select(['id', 'name']),
-            'program.phases' => fn($q) => $q->select(['id', 'lift_program_id', 'name']),
-            'program.phases.weeks' => fn($q) => $q->select(['id', 'lift_phase_id', 'name']),
-            'program.phases.weeks.workouts' => fn($q) => $q->select(['id', 'lift_week_id', 'name'])
-                ->withWorkoutLogId($programLog->id)
+            'phaseLogs.phase',
+            'phaseLogs.weekLogs.week',
+            'phaseLogs.weekLogs.workoutLogs.workout',
         ]);
 
         return view('lift.my.program', [

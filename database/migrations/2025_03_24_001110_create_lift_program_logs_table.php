@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('lift_program_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('lift_program_id')->constrained()->cascadeOnDelete();
-            $table->string('status')->default(LiftStatus::NOT_STARTED);
+            $table->foreignId('program_id')->constrained('lift_programs')->cascadeOnDelete();
+            $table->string('status')->default(LiftStatus::NotStarted);
             $table->datetime('started_at')->nullable();
             $table->datetime('completed_at')->nullable();
             $table->timestamps();

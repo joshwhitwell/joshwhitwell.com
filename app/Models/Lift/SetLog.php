@@ -11,6 +11,6 @@ class SetLog extends Model
 
     public function set()
     {
-        return $this->belongsTo(Set::class, 'lift_set_id');
+        return $this->belongsTo(Set::class);
     }
 }
