@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('reps')->nullable();
             $table->float('weight')->nullable();
             $table->unsignedSmallInteger('duration')->nullable();
-            $table->string('status')->default(LiftStatus::NOT_STARTED);
+            $table->string('status')->default(LiftStatus::NotStarted);
             $table->datetime('started_at')->nullable();
             $table->datetime('completed_at')->nullable();
             $table->timestamps();

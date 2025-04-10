@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('workout_log_id')->constrained('lift_workout_logs')->cascadeOnDelete();
             $table->foreignId('workout_exercise_id')->constrained('lift_workout_exercises')->cascadeOnDelete();
-            $table->string('status')->default(LiftStatus::NOT_STARTED);
+            $table->string('status')->default(LiftStatus::NotStarted);
             $table->datetime('started_at')->nullable();
             $table->datetime('completed_at')->nullable();
             $table->timestamps();

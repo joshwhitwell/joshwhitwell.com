@@ -235,7 +235,7 @@ class WorkoutProgramSeeder extends Seeder
         $programLog = ProgramLog::create([
             'user_id' => 1,
             'program_id' => $program->id,
-            'status' => LiftStatus::IN_PROGRESS,
+            'status' => LiftStatus::InProgress,
             'started_at' => $startedAt,
         ]);
 
@@ -244,7 +244,7 @@ class WorkoutProgramSeeder extends Seeder
                 'user_id' => 1,
                 'program_log_id' => $programLog->id,
                 'phase_id' => $phase->id,
-                'status' => LiftStatus::NOT_STARTED,
+                'status' => LiftStatus::NotStarted,
             ]);
 
             foreach ($phase->weeks as $week) {
@@ -253,7 +253,7 @@ class WorkoutProgramSeeder extends Seeder
                     'program_log_id' => $programLog->id,
                     'phase_log_id' => $phaseLog->id,
                     'week_id' => $week->id,
-                    'status' => LiftStatus::NOT_STARTED,
+                    'status' => LiftStatus::NotStarted,
                 ]);
 
                 foreach ($week->workouts as $workout) {
@@ -263,7 +263,7 @@ class WorkoutProgramSeeder extends Seeder
                         'phase_log_id' => $phaseLog->id,
                         'week_log_id' => $weekLog->id,
                         'workout_id' => $workout->id,
-                        'status' => LiftStatus::NOT_STARTED,
+                        'status' => LiftStatus::NotStarted,
                     ]);
 
                     foreach ($workout->workoutExercises as $workoutExercise) {
@@ -271,7 +271,7 @@ class WorkoutProgramSeeder extends Seeder
                             'user_id' => 1,
                             'workout_log_id' => $workoutLog->id,
                             'workout_exercise_id' => $workoutExercise->id,
-                            'status' => LiftStatus::NOT_STARTED,
+                            'status' => LiftStatus::NotStarted,
                         ]);
 
                         foreach ($workoutExercise->sets as $set) {
@@ -279,7 +279,7 @@ class WorkoutProgramSeeder extends Seeder
                                 'user_id' => 1,
                                 'workout_exercise_log_id' => $workoutExerciseLog->id,
                                 'set_id' => $set->id,
-                                'status' => LiftStatus::NOT_STARTED,
+                                'status' => LiftStatus::NotStarted,
                             ]);
                         }
                     }
