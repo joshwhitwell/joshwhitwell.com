@@ -12,7 +12,7 @@ class MyProgramsController extends Controller
     {
         $programLogs = ProgramLog::myPrograms()->paginate(10);
 
-        return view('lift.my.programs', [
+        return inertia('Lift/MyPrograms', [
             'programLogs' => $programLogs,
         ]);
     }
