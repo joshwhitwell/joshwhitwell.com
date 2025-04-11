@@ -284,7 +284,8 @@ class WorkoutProgramSeeder extends Seeder
                                 'workout_exercise_log_id' => $workoutExerciseLog->id,
                                 'set_id' => $set->id,
                                 'status' => LiftStatus::NotStarted,
-                                'order' => $set->order
+                                'order' => $set->order,
+                                'is_warm_up' => $set->is_warm_up,
                             ]);
                         }
                     }

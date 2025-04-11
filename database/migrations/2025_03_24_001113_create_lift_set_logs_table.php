@@ -24,6 +24,7 @@ return new class extends Migration
             $table->datetime('started_at')->nullable();
             $table->datetime('completed_at')->nullable();
             $table->unsignedTinyInteger('order');
+            $table->boolean('is_warm_up')->default(false);
             $table->timestamps();
         });
     }

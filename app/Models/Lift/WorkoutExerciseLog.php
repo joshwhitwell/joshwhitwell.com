@@ -23,6 +23,6 @@ class WorkoutExerciseLog extends Model
 
     public function setLogs()
     {
-        return $this->hasMany(SetLog::class)->orderBy('order');
+        return $this->hasMany(SetLog::class)->orderByDesc('is_warm_up')->orderBy('order');
     }
 }

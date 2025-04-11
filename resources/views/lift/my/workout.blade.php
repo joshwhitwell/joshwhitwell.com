@@ -28,7 +28,7 @@
 
     @endphp
 
-    @if (!empty($workoutExerciseLog->pastLogs))
+    @if ($workoutExerciseLog->pastLogs->isNotEmpty())
       <details>
         <summary>History</summary>
 
@@ -44,6 +44,7 @@
           <tbody>
             @foreach ($workoutExerciseLog->pastLogs as $pastLog)
               @if ($loop->index > 0)
+                <tr><td colspan="3"></td></tr>
                 <tr><td colspan="3"></td></tr>
               @endif
 
