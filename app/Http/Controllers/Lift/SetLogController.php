@@ -16,10 +16,10 @@ class SetLogController extends Controller
         Gate::authorize('belongs-to-user', $setLog);
 
         $validated = $request->validate([
-            'reps_' . $setLog->id => ['nullable', 'integer', 'min:0'],
-            'weight_' . $setLog->id => ['nullable', 'numeric', 'min:0'],
-            'duration_' . $setLog->id => ['nullable', 'integer', 'min:0'],
-            'status_' . $setLog->id => [Rule::enum(LiftStatus::class)]
+            'reps' => ['nullable', 'integer', 'min:0'],
+            'weight' => ['nullable', 'numeric', 'min:0'],
+            'duration' => ['nullable', 'integer', 'min:0'],
+            'status' => [Rule::enum(LiftStatus::class)]
         ]);
 
         $setLog->update($validated);
