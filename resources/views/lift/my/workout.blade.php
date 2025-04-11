@@ -36,8 +36,8 @@
           <thead>
             <tr>
             <th>Set</th>
-            <th>Reps</th>
-            <th>Weight</th>
+            <th style="text-align: right;">Reps</th>
+            <th style="text-align: right;">Weight</th>
             </tr>
           </thead>
 
@@ -50,8 +50,8 @@
               @foreach ($pastLog->setLogs as $setLog)
                 <tr>
                   <td>{{ $setLog->set->is_warm_up ? 'Warm Up' : 'Set' }} {{ $setLog->set->order }}</td>
-                  <td>{{ $setLog->reps ?? '-' }}</td>
-                  <td>{{ $setLog->weight ?? '-' }}</td>
+                  <td style="text-align: right;">{{ $setLog->reps ?? '-' }}</td>
+                  <td style="text-align: right;">{{ $setLog->weight ?? '-' }}</td>
                 </tr>
               @endforeach
             @endforeach

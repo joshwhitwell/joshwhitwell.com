@@ -17,6 +17,6 @@ class PhaseLog extends Model
 
     public function weekLogs()
     {
-        return $this->hasMany(WeekLog::class);
+        return $this->hasMany(WeekLog::class)->orderBy('order');
     }
 }

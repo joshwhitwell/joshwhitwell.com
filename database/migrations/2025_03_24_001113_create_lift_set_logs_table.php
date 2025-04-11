@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('status')->default(LiftStatus::NotStarted);
             $table->datetime('started_at')->nullable();
             $table->datetime('completed_at')->nullable();
+            $table->unsignedTinyInteger('order');
             $table->timestamps();
         });
     }

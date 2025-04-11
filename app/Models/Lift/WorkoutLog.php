@@ -24,7 +24,7 @@ class WorkoutLog extends Model
 
     public function workoutExerciseLogs()
     {
-        return $this->hasMany(WorkoutExerciseLog::class);
+        return $this->hasMany(WorkoutExerciseLog::class)->orderBy('order');
     }
 
     protected function status(): Attribute

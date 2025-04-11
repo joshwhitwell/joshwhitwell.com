@@ -3,6 +3,7 @@
 namespace App\Models\Lift;
 
 use App\Models\Lift\Program;
+use App\Models\Lift\PhaseLog;
 use App\Enums\Lift\LiftStatus;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +18,7 @@ class ProgramLog extends Model
 
     public function phaseLogs()
     {
-        return $this->hasMany(PhaseLog::class);
+        return $this->hasMany(PhaseLog::class)->orderBy('order');;
     }
 
     public function scopeMyPrograms($query)

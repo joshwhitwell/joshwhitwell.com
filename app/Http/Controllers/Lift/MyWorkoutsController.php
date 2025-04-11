@@ -32,7 +32,12 @@ class MyWorkoutsController extends Controller
                 'workoutExercise',
                 fn ($q) => $q->whereIn('exercise_id', $exerciseIds)
             )
-            ->with(['workoutLog.workout', 'workoutExercise', 'setLogs.set'])
+            ->with([
+                'workoutLog.workout',
+                'workoutExercise',
+                'setLogs.set',
+            ])
+            ->orderBy('order')
             ->get()
             ->groupBy(function ($workoutExerciseLog) {
                 return $workoutExerciseLog->workoutExercise->exercise_id;
@@ -42,7 +47,7 @@ class MyWorkoutsController extends Controller
             $workoutExerciseLog->setRelation('workoutLog', $workoutLog);
             $workoutExerciseLog->pastLogs = $relatedWorkoutExerciseLogs[$workoutExerciseLog->workoutExercise->exercise_id]
                 ->filter(function ($relatedExerciseLog) use ($workoutExerciseLog) {
-                    return $relatedExerciseLog->workoutLog->workout->order < $workoutExerciseLog->workoutLog->workout->order;
+                    return $relatedExerciseLog->workoutLog->order < $workoutExerciseLog->workoutLog->order;
                 });
         }
 

@@ -245,6 +245,7 @@ class WorkoutProgramSeeder extends Seeder
                 'program_log_id' => $programLog->id,
                 'phase_id' => $phase->id,
                 'status' => LiftStatus::NotStarted,
+                'order' => $phase->order
             ]);
 
             foreach ($phase->weeks as $week) {
@@ -254,6 +255,7 @@ class WorkoutProgramSeeder extends Seeder
                     'phase_log_id' => $phaseLog->id,
                     'week_id' => $week->id,
                     'status' => LiftStatus::NotStarted,
+                    'order' => $week->order
                 ]);
 
                 foreach ($week->workouts as $workout) {
@@ -264,6 +266,7 @@ class WorkoutProgramSeeder extends Seeder
                         'week_log_id' => $weekLog->id,
                         'workout_id' => $workout->id,
                         'status' => LiftStatus::NotStarted,
+                        'order' => $workout->order
                     ]);
 
                     foreach ($workout->workoutExercises as $workoutExercise) {
@@ -272,6 +275,7 @@ class WorkoutProgramSeeder extends Seeder
                             'workout_log_id' => $workoutLog->id,
                             'workout_exercise_id' => $workoutExercise->id,
                             'status' => LiftStatus::NotStarted,
+                            'order' => $workoutExercise->order
                         ]);
 
                         foreach ($workoutExercise->sets as $set) {
@@ -280,6 +284,7 @@ class WorkoutProgramSeeder extends Seeder
                                 'workout_exercise_log_id' => $workoutExerciseLog->id,
                                 'set_id' => $set->id,
                                 'status' => LiftStatus::NotStarted,
+                                'order' => $set->order
                             ]);
                         }
                     }
