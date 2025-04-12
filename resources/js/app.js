@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createApp, h } from 'vue';
+import { ZiggyVue } from 'ziggy-js';
 import { createInertiaApp } from '@inertiajs/vue3';
 
 window.axios = axios;
@@ -13,6 +14,7 @@ createInertiaApp({
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
       .use(plugin)
+      .use(ZiggyVue)
       .mount(el);
   },
 });

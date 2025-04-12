@@ -9,17 +9,24 @@ defineProps({ programLog: Object });
 
 <template>
   <div>
-    <h1>{{ programLog.program.name }}</h1>
+    <h1>{{ programLog.name }}</h1>
 
-    <div v-for="phaseLog in programLog.phase_logs" :key="phaseLog.id">
-      <h2>{{ phaseLog.phase.name }}</h2>
+    <div v-for="phaseLog in programLog.phaseLogs" :key="phaseLog.id">
+      <h2>{{ phaseLog.name }}</h2>
 
-      <div v-for="weekLog in phaseLog.week_logs" :key="weekLog.id">
-        <h3>{{ weekLog.week.name }}</h3>
+      <div v-for="weekLog in phaseLog.weekLogs" :key="weekLog.id">
+        <h3>{{ weekLog.name }}</h3>
 
-        <div v-for="workoutLog in weekLog.workout_logs" :key="workoutLog.id">
-          <Link :href="workoutLog.editRoute">
-            <h4>{{ workoutLog.workout.name }}</h4>
+        <div v-for="workoutLog in weekLog.workoutLogs" :key="workoutLog.id">
+          <Link
+            :href="
+              route('lift.my.programs.workouts.edit', [
+                programLog.id,
+                workoutLog.id,
+              ])
+            "
+          >
+            <h4>{{ workoutLog.name }}</h4>
           </Link>
         </div>
       </div>

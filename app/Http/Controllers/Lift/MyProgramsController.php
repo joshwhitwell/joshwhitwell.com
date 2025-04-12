@@ -13,9 +13,7 @@ class MyProgramsController extends Controller
         $programLogs = ProgramLog::myPrograms()
             ->paginate(10)
             ->through(function ($programLog) {
-                return $programLog->toArray() + [
-                    'myProgramRoute' => route('lift.my.programs.show', $programLog)
-                ];
+                return $programLog->myProgramsResource;
             });
 
         return inertia('Lift/MyPrograms', [
@@ -28,23 +26,13 @@ class MyProgramsController extends Controller
         Gate::authorize('belongs-to-user', $programLog);
 
         $programLog->load([
-            'program',
-            'phaseLogs',
             'phaseLogs.phase',
             'phaseLogs.weekLogs.week',
             'phaseLogs.weekLogs.workoutLogs.workout',
         ]);
 
-        $programLog->phaseLogs->each(fn ($phaseLog) =>
-            $phaseLog->weekLogs->each(fn ($weekLog) =>
-                $weekLog->workoutLogs->each(fn ($workoutLog) =>
-                    $workoutLog->editRoute = route('lift.my.programs.workouts.edit', [$programLog, $workoutLog])
-                )
-            )
-        );
-
         return inertia('Lift/MyProgram', [
-            'programLog' => $programLog,
+            'programLog' => $programLog->myProgramResource,
         ]);
     }
 }
