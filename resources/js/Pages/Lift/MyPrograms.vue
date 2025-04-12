@@ -12,7 +12,7 @@ defineProps({ programLogs: Object });
     <Link
       v-for="programLog in programLogs.data"
       :key="programLog.id"
-      :href="'/'"
+      :href="programLog.myProgramRoute"
       >{{ programLog.program.name }}</Link
     >
   </div>
