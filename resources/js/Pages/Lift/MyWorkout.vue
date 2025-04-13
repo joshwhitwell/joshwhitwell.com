@@ -1,10 +1,33 @@
 <script setup>
 import Layout from '../../Layouts/Lift/LiftLayout.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 
 defineOptions({ layout: Layout });
 
-defineProps({ programLog: Object, workoutLog: Object, liftStatus: Object });
+const props = defineProps({
+  programLog: Object,
+  workoutLog: Object,
+  liftStatus: Object,
+});
+
+function submitCompletedAtForm() {
+  router.post(
+    route('lift.my.programs.workouts.update', [
+      props.programLog.id,
+      props.workoutLog.id,
+    ]),
+    {
+      _method: 'put',
+      status: props.workoutLog.completedAt
+        ? props.liftStatus.NotStarted
+        : props.liftStatus.Completed,
+    },
+    {
+      only: ['workoutLog'],
+      preserveScroll: true,
+    }
+  );
+}
 </script>
 
 <template>
@@ -15,45 +38,14 @@ defineProps({ programLog: Object, workoutLog: Object, liftStatus: Object });
 
     <h1>{{ workoutLog.name }}</h1>
 
-    <form
-      v-if="workoutLog.completedAt"
-      :action="
-        route('lift.my.programs.workouts.update', [
-          programLog.id,
-          workoutLog.id,
-        ])
-      "
-      method="PUT"
-    >
-      <input
-        type="hidden"
-        id="status"
-        name="status"
-        :value="liftStatus.NotStarted"
-      />
+    <form @submit.prevent="submitCompletedAtForm">
+      <p v-if="workoutLog.completedAt">
+        <em>Completed on </em> {{ workoutLog.completedAt }}
+      </p>
 
-      <em>Completed on </em> {{ workoutLog.completedAt }}
-
-      <button type="submit">Undo</button>
-    </form>
-    <form
-      v-else
-      :action="
-        route('lift.my.programs.workouts.update', [
-          programLog.id,
-          workoutLog.id,
-        ])
-      "
-      method="PUT"
-    >
-      <input
-        type="hidden"
-        id="status"
-        name="status"
-        :value="liftStatus.Completed"
-      />
-
-      <button type="submit">Mark Complete</button>
+      <button type="submit">
+        {{ workoutLog.completedAt ? 'Undo' : 'Mark Complete' }}
+      </button>
     </form>
 
     <div
