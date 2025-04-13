@@ -1,6 +1,7 @@
 <script setup>
+import { ref } from 'vue';
 import Layout from '../../Layouts/Lift/LiftLayout.vue';
-import { Link, router } from '@inertiajs/vue3';
+import { Link, router, useForm } from '@inertiajs/vue3';
 
 defineOptions({ layout: Layout });
 
@@ -28,6 +29,18 @@ function submitCompletedAtForm() {
     }
   );
 }
+
+const setLogForms = ref(
+  props?.workoutLog?.workoutExerciseLogs?.reduce?.(
+    (setLogForms, workoutExerciseLog) => {
+      workoutExerciseLog?.setLogs?.forEach((setLog) => {
+        setLogForms[setLog.id] = useForm(setLog);
+      });
+      return setLogForms;
+    },
+    {}
+  ) || {}
+);
 </script>
 
 <template>
@@ -103,22 +116,60 @@ function submitCompletedAtForm() {
           <small v-if="setLog.isOptional">(Optional)</small>
         </h3>
 
-        <form :action="route('lift.set-logs.update', setLog)" method="PUT">
+        <form>
+          <label :for="'reps_' + setLog.id">Reps</label>
           <input
             :id="'reps_' + setLog.id"
             name="reps"
-            label="Reps"
-            :value="setLog.reps"
+            v-model="setLogForms[setLog.id].reps"
           />
 
+          <label :for="'weight_' + setLog.id">Weight</label>
           <input
             :id="'weight_' + setLog.id"
             name="weight"
-            label="Weight"
-            :value="setLog.weight"
+            v-model="setLogForms[setLog.id].weight"
           />
 
-          <button type="submit">Save</button>
+          <button
+            v-if="
+              setLogForms[setLog.id].isDirty &&
+              !setLogForms[setLog.id].processing
+            "
+            type="button"
+            @click="
+              setLogForms[setLog.id]
+                .transform((data) => ({
+                  ...data,
+                  _method: 'put',
+                }))
+                .post(route('lift.set-logs.update', setLog.id), {
+                  only: [],
+                  preserveScroll: true,
+                })
+            "
+          >
+            Save
+          </button>
+          <button
+            v-if="
+              setLogForms[setLog.id].isDirty &&
+              !setLogForms[setLog.id].processing
+            "
+            type="button"
+            @click="setLogForms[setLog.id]?.reset()"
+          >
+            Cancel
+          </button>
+
+          <ul v-if="setLogForms[setLog.id].errors">
+            <li
+              v-for="(error, index) in setLogForms[setLog.id].errors"
+              :key="`error-${setLog.id}-${index}`"
+            >
+              {{ error }}
+            </li>
+          </ul>
         </form>
       </div>
     </div>

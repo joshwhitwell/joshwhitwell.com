@@ -3,8 +3,10 @@
 namespace App\Models\Lift;
 
 use App\Models\Lift\Phase;
+use Illuminate\Support\Str;
 use App\Models\Lift\Workout;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Program extends Model
 {
@@ -18,5 +20,12 @@ class Program extends Model
     public function workouts()
     {
         return $this->hasMany(Workout::class)->orderBy('order');
+    }
+
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Str::title($value),
+        );
     }
 }
