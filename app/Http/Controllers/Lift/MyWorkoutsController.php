@@ -9,7 +9,6 @@ use App\Models\Lift\WorkoutLog;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Lift\WorkoutExerciseLog;
 
 class MyWorkoutsController extends Controller
 {
@@ -22,43 +21,10 @@ class MyWorkoutsController extends Controller
             'workoutExerciseLogs.setLogs.set'
         ]);
 
-        $exerciseIds = $workoutLog->workoutExerciseLogs
-            ->pluck('workoutExercise.exercise_id')
-            ->unique()
-            ->values();
-
-        $relatedWorkoutExerciseLogs = WorkoutExerciseLog::where('workout_log_id', '!=', $workoutLog->id)
-            ->whereHas(
-                'workoutExercise',
-                fn ($q) => $q->whereIn('exercise_id', $exerciseIds)
-            )
-            ->with([
-                'workoutLog.workout',
-                'workoutExercise',
-                'setLogs.set',
-            ])
-            ->orderBy('order')
-            ->get()
-            ->groupBy(function ($workoutExerciseLog) {
-                return $workoutExerciseLog->workoutExercise->exercise_id;
-            });
-
-        foreach ($workoutLog->workoutExerciseLogs as $workoutExerciseLog) {
-            $workoutExerciseLog->setRelation('workoutLog', $workoutLog);
-            $workoutExerciseLog->pastLogs = $relatedWorkoutExerciseLogs[$workoutExerciseLog->workoutExercise->exercise_id]
-                ->filter(function ($relatedExerciseLog) use ($workoutExerciseLog) {
-                    return $relatedExerciseLog->workoutLog->order < $workoutExerciseLog->workoutLog->order;
-                });
-        }
-
-        return view('lift.my.workout', [
-            'programLog' => $programLog,
-            'workoutLog' => $workoutLog,
-            'updateWorkoutRoute' => route(
-                'lift.my.programs.workouts.update',
-                ['programLog' => $programLog, 'workoutLog' => $workoutLog]
-            ),
-            'liftStatus' => LiftStatus::class,
+        return inertia('Lift/MyWorkout', [
+            'programLog' => $programLog->myProgramsResource,
+            'workoutLog' => $workoutLog->myWorkoutResource,
+            'liftStatus' => LiftStatus::options(),
         ]);
     }
 

@@ -27,6 +27,15 @@ class WorkoutLog extends Model
         return $this->hasMany(WorkoutExerciseLog::class)->orderBy('order');
     }
 
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->workout->name;
+            }
+        );
+    }
+
     protected function status(): Attribute
     {
         return Attribute::make(
@@ -36,6 +45,35 @@ class WorkoutLog extends Model
                     'completed_at' => $value === LiftStatus::Completed->value
                         ? now()
                         : null
+                ];
+            }
+        );
+    }
+
+    protected function myWorkoutResource(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->only([
+                    'id',
+                    'name',
+                ]) + [
+                    'completedAt' => $this->completed_at?->format('M d, Y \a\t g:i A'),
+                    'workoutExerciseLogs' => $this->workoutExerciseLogs->map(function ($workoutExerciseLog) {
+                        $workoutExerciseLog->setRelation('workoutLog', $this);
+
+                        return $workoutExerciseLog->only([
+                            'id',
+                            'name'
+                        ]) + [
+                            'pastLogs' => $workoutExerciseLog->getPastLogs()->map(function ($workoutExerciseLog) {
+                                return $workoutExerciseLog->only(['id']) + [
+                                    'setLogs' => $workoutExerciseLog->setLogs->pluck('myWorkoutResource')
+                                ];
+                            }),
+                            'setLogs' => $workoutExerciseLog->setLogs->pluck('myWorkoutResource')
+                        ];
+                    })
                 ];
             }
         );

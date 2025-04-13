@@ -19,6 +19,17 @@ enum LiftStatus: string
         };
     }
 
+    public static function options(): array
+    {
+        $options = [];
+
+        foreach (self::cases() as $case) {
+            $options[$case->name] = $case->value;
+        }
+
+        return $options;
+    }
+
     public static function orderBy(): string
     {
         $order = implode(

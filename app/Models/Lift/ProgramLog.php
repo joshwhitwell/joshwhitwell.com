@@ -22,7 +22,16 @@ class ProgramLog extends Model
         return $this->hasMany(PhaseLog::class)->orderBy('order');;
     }
 
-    public function myProgramsResource(): Attribute
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->program->name;
+            }
+        );
+    }
+
+    protected function myProgramsResource(): Attribute
     {
         return Attribute::make(
             get: function () {
@@ -35,7 +44,7 @@ class ProgramLog extends Model
         );
     }
 
-    public function myProgramResource(): Attribute
+    protected function myProgramResource(): Attribute
     {
         return Attribute::make(
             get: function () {
