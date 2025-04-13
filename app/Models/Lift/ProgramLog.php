@@ -66,7 +66,8 @@ class ProgramLog extends Model
                                         return $workoutLog->only([
                                             'id'
                                         ]) + [
-                                            'name' => $workoutLog->workout->name
+                                            'name' => $workoutLog->workout->name,
+                                            'completedAt' => $workoutLog->completed_at
                                         ];
                                     })
                                 ];
