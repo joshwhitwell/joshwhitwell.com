@@ -51,7 +51,7 @@ const setLogForms = ref(
 
     <h1 class="page-title">{{ workoutLog.name }}</h1>
 
-    <form @submit.prevent="submitCompletedAtForm">
+    <form @submit.prevent="submitCompletedAtForm" class="mark-complete-form">
       <p v-if="workoutLog.completedAt">
         <em>Completed on </em> {{ workoutLog.completedAt }}
       </p>
@@ -66,7 +66,7 @@ const setLogForms = ref(
       :key="workoutExerciseLog.id"
       class="workout-exercise-log"
     >
-      <h2>{{ workoutExerciseLog.name }}</h2>
+      <h2 class="exercise-name">{{ workoutExerciseLog.name }}</h2>
 
       <template v-if="workoutExerciseLog.pastLogs.length">
         <details>
@@ -118,57 +118,59 @@ const setLogForms = ref(
         </h3>
 
         <div class="input-row">
-          <label :for="'reps_' + setLog.id">Reps</label>
+          <label :for="'reps_' + setLog.id">
+            Reps
+            <input
+              :id="'reps_' + setLog.id"
+              name="reps"
+              v-model="setLogForms[setLog.id].reps"
+              class="row-2"
+            />
+          </label>
 
-          <label :for="'weight_' + setLog.id">Weight</label>
+          <label :for="'weight_' + setLog.id">
+            Weight
+            <input
+              :id="'weight_' + setLog.id"
+              name="weight"
+              v-model="setLogForms[setLog.id].weight"
+              class="row-2"
+            />
+          </label>
 
-          <button
-            v-if="
-              setLogForms[setLog.id].isDirty &&
-              !setLogForms[setLog.id].processing
-            "
-            type="button"
-            @click="
-              setLogForms[setLog.id]
-                .transform((data) => ({
-                  ...data,
-                  _method: 'put',
-                }))
-                .post(route('lift.set-logs.update', setLog.id), {
-                  only: [],
-                  preserveScroll: true,
-                })
-            "
-            class="row-2 col-3"
-          >
-            S
-          </button>
+          <div class="button-group">
+            <button
+              v-if="
+                setLogForms[setLog.id].isDirty &&
+                !setLogForms[setLog.id].processing
+              "
+              type="button"
+              @click="
+                setLogForms[setLog.id]
+                  .transform((data) => ({
+                    ...data,
+                    _method: 'put',
+                  }))
+                  .post(route('lift.set-logs.update', setLog.id), {
+                    only: [],
+                    preserveScroll: true,
+                  })
+              "
+            >
+              Save
+            </button>
 
-          <button
-            v-if="
-              setLogForms[setLog.id].isDirty &&
-              !setLogForms[setLog.id].processing
-            "
-            type="button"
-            @click="setLogForms[setLog.id]?.reset()"
-            class="row-2 col-4"
-          >
-            C
-          </button>
-
-          <input
-            :id="'reps_' + setLog.id"
-            name="reps"
-            v-model="setLogForms[setLog.id].reps"
-            class="row-2"
-          />
-
-          <input
-            :id="'weight_' + setLog.id"
-            name="weight"
-            v-model="setLogForms[setLog.id].weight"
-            class="row-2"
-          />
+            <button
+              v-if="
+                setLogForms[setLog.id].isDirty &&
+                !setLogForms[setLog.id].processing
+              "
+              type="button"
+              @click="setLogForms[setLog.id]?.reset()"
+            >
+              Cancel
+            </button>
+          </div>
 
           <ul v-if="setLogForms[setLog.id].errors">
             <li
@@ -186,23 +188,34 @@ const setLogForms = ref(
 
 <style>
 .page-title {
+  font-size: var(--font-size-h1);
+  margin: var(--font-size-h1) 0 4px;
+}
+
+.mark-complete-form {
+  margin: 0 0 var(--font-size-h1);
 }
 
 .workout-exercise-log {
   background-color: var(--color-neutral-100);
   border-radius: 16px;
   padding: 16px;
+  margin-bottom: var(--font-size-h1);
+}
+
+.exercise-name {
+  font-size: var(--font-size-h6);
+  margin: 0 0 4px;
 }
 
 .input-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 40px 40px;
-  grid-template-rows: repeat(2, auto);
+  display: flex;
+  align-items: flex-end;
 }
 
 label {
   font-size: var(--font-size-small-small);
-  margin-right: 8px;
+  align-self: end;
 }
 
 input {
@@ -210,25 +223,19 @@ input {
   border-radius: 16px;
   display: block;
   font-family: monospace;
-  margin-right: 8px;
+  margin-right: 4px;
   padding: 8px 16px;
+}
+
+.button-group {
+  margin-left: 8px;
 }
 
 button {
   background-color: var(--color-neutral-200);
   border: none;
   border-radius: 16px;
-}
-
-.row-2 {
-  grid-row: 2;
-}
-
-.col-3 {
-  grid-column: 3;
-}
-
-.col-4 {
-  grid-column: 4;
+  padding: 8px 16px;
+  margin-right: 2px;
 }
 </style>
