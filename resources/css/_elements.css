@@ -1,0 +1,21 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  max-width: 65ch;
+  padding: 0;
+  width: 100%;
+}
+
+a, button, input, label {
+  width: auto;
+}
+
+body {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  padding: 0 8px;
+}
+
+a {
+  color: var(--color-blue-500);
+}

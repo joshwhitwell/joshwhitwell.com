@@ -49,7 +49,7 @@ const setLogForms = ref(
       {{ programLog.name }}
     </Link>
 
-    <h1>{{ workoutLog.name }}</h1>
+    <h1 class="page-title">{{ workoutLog.name }}</h1>
 
     <form @submit.prevent="submitCompletedAtForm">
       <p v-if="workoutLog.completedAt">
@@ -64,6 +64,7 @@ const setLogForms = ref(
     <div
       v-for="workoutExerciseLog in workoutLog.workoutExerciseLogs"
       :key="workoutExerciseLog.id"
+      class="workout-exercise-log"
     >
       <h2>{{ workoutExerciseLog.name }}</h2>
 
@@ -116,20 +117,10 @@ const setLogForms = ref(
           <small v-if="setLog.isOptional">(Optional)</small>
         </h3>
 
-        <form>
+        <div class="input-row">
           <label :for="'reps_' + setLog.id">Reps</label>
-          <input
-            :id="'reps_' + setLog.id"
-            name="reps"
-            v-model="setLogForms[setLog.id].reps"
-          />
 
           <label :for="'weight_' + setLog.id">Weight</label>
-          <input
-            :id="'weight_' + setLog.id"
-            name="weight"
-            v-model="setLogForms[setLog.id].weight"
-          />
 
           <button
             v-if="
@@ -148,9 +139,11 @@ const setLogForms = ref(
                   preserveScroll: true,
                 })
             "
+            class="row-2 col-3"
           >
-            Save
+            S
           </button>
+
           <button
             v-if="
               setLogForms[setLog.id].isDirty &&
@@ -158,9 +151,24 @@ const setLogForms = ref(
             "
             type="button"
             @click="setLogForms[setLog.id]?.reset()"
+            class="row-2 col-4"
           >
-            Cancel
+            C
           </button>
+
+          <input
+            :id="'reps_' + setLog.id"
+            name="reps"
+            v-model="setLogForms[setLog.id].reps"
+            class="row-2"
+          />
+
+          <input
+            :id="'weight_' + setLog.id"
+            name="weight"
+            v-model="setLogForms[setLog.id].weight"
+            class="row-2"
+          />
 
           <ul v-if="setLogForms[setLog.id].errors">
             <li
@@ -170,8 +178,57 @@ const setLogForms = ref(
               {{ error }}
             </li>
           </ul>
-        </form>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<style>
+.page-title {
+}
+
+.workout-exercise-log {
+  background-color: var(--color-neutral-100);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 40px 40px;
+  grid-template-rows: repeat(2, auto);
+}
+
+label {
+  font-size: var(--font-size-small-small);
+  margin-right: 8px;
+}
+
+input {
+  border: none;
+  border-radius: 16px;
+  display: block;
+  font-family: monospace;
+  margin-right: 8px;
+  padding: 8px 16px;
+}
+
+button {
+  background-color: var(--color-neutral-200);
+  border: none;
+  border-radius: 16px;
+}
+
+.row-2 {
+  grid-row: 2;
+}
+
+.col-3 {
+  grid-column: 3;
+}
+
+.col-4 {
+  grid-column: 4;
+}
+</style>

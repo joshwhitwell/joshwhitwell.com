@@ -9,12 +9,7 @@ defineProps({ programLog: Object });
 
 <template>
   <div>
-    <Link
-      :href="route('lift.my.programs.index')"
-      style="color: blue; text-decoration: none"
-    >
-      Back to My Programs
-    </Link>
+    <Link :href="route('lift.my.programs.index')"> Back to My Programs </Link>
 
     <h1>{{ programLog.name }}</h1>
 
@@ -41,18 +36,15 @@ defineProps({ programLog: Object });
               workoutLog.id,
             ])
           "
-          style="color: blue; text-decoration: none"
         >
           <h4>
             {{ workoutLog.name }}
-            <small
-              v-if="workoutLog.completedAt"
-              style="border: 1px solid green; color: green"
-              >Completed</small
-            >
+            <small v-if="workoutLog.completedAt">Completed</small>
           </h4>
         </Link>
       </details>
     </div>
   </div>
 </template>
+
+<style></style>

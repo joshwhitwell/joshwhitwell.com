@@ -1,40 +1,53 @@
-* {
-  font-family: var(--font-family-sans);
-  max-width: 65ch;
+:root {
+  --font-family-sans: 'Montserrat', sans-serif;
+  --font-size-h1: 2.027rem;
+  --font-size-h2: 1.802rem;
+  --font-size-h3: 1.602rem;
+  --font-size-h4: 1.424rem;
+  --font-size-h5: 1.266rem;
+  --font-size-h6: 1.125rem;
+  --font-size-p: 1rem;
+  --font-size-small: 0.889rem;
+  --font-size-small-small: 0.79rem;
 }
 
-h1, .h1 {
-  font-size: 2.027rem;
+* {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-p);
+}
+
+/* h1, .h1 {
+  font-size: var(--font-size-h1);
 }
 
 h2, .h2 {
-  font-size: 1.802rem;
+  font-size: var(--font-size-h2);
 }
 
 h3, .h3 {
-  font-size: 1.602rem;
+  font-size: var(--font-size-h3);
 }
 
 h4, .h4 {
-  font-size: 1.424rem;
+  font-size: var(--font-size-h4);
 }
 
 h5, .h5 {
-  font-size: 1.266rem;
+  font-size: var(--font-size-h5);
 }
 
 h6, .h6 {
-  font-size: 1.125rem;
+  font-size: var(--font-size-h6);
 }
 
 p, .p {
-  font-size: 1rem;
+  font-size: var(--font-size-p);
 }
 
 small, .small {
-  font-size: 0.889rem;
+  font-size: var(--font-size-small);
 }
 
 small small, .small .small {
-  font-size: 0.79rem;
-}
+  font-size: var(--font-size-small-small);
+} */
