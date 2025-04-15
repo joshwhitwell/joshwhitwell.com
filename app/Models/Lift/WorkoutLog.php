@@ -66,6 +66,7 @@ class WorkoutLog extends Model
                             'id',
                             'name'
                         ]) + [
+                            'notes' => $workoutExerciseLog->workoutExercise->notes,
                             'pastLogs' => $workoutExerciseLog->getPastLogs()->map(function ($workoutExerciseLog) {
                                 return $workoutExerciseLog->only(['id']) + [
                                     'setLogs' => $workoutExerciseLog->setLogs->pluck('myWorkoutResource')

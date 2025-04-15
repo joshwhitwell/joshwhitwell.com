@@ -44,7 +44,7 @@ const setLogForms = ref(
 </script>
 
 <template>
-  <div>
+  <div class="page">
     <Link :href="route('lift.my.programs.show', programLog.id)">
       {{ programLog.name }}
     </Link>
@@ -68,58 +68,68 @@ const setLogForms = ref(
     >
       <h2 class="exercise-name">{{ workoutExerciseLog.name }}</h2>
 
-      <template v-if="workoutExerciseLog.pastLogs.length">
-        <details>
-          <summary>History</summary>
+      <p v-if="workoutExerciseLog.notes" class="exercise-notes">
+        {{ workoutExerciseLog.notes }}
+      </p>
 
-          <table style="text-align: left">
-            <thead>
-              <tr>
-                <th>Set</th>
-                <th style="text-align: right">Reps</th>
-                <th style="text-align: right">Weight</th>
-              </tr>
-            </thead>
+      <details v-if="workoutExerciseLog.pastLogs.length">
+        <summary>History</summary>
 
-            <tbody>
-              <template
-                v-for="(pastExerciseLog, index) in workoutExerciseLog.pastLogs"
-                :key="pastExerciseLog.id"
-              >
-                <template v-if="index > 0">
-                  <tr>
-                    <td colspan="3"></td>
-                  </tr>
-                  <tr>
-                    <td colspan="3"></td>
-                  </tr>
-                </template>
+        <table style="text-align: left">
+          <thead>
+            <tr>
+              <th>Set</th>
+              <th style="text-align: right">Reps</th>
+              <th style="text-align: right">Weight</th>
+            </tr>
+          </thead>
 
-                <tr v-for="setLog in pastExerciseLog.setLogs" :key="setLog.id">
-                  <td>
-                    {{ setLog.isWarmUp ? 'Warm Up' : 'Set' }}
-                    {{ setLog.order }}
-                  </td>
-                  <td style="text-align: right">{{ setLog.reps ?? '-' }}</td>
-                  <td style="text-align: right">{{ setLog.weight ?? '-' }}</td>
+          <tbody>
+            <template
+              v-for="(pastExerciseLog, index) in workoutExerciseLog.pastLogs"
+              :key="pastExerciseLog.id"
+            >
+              <template v-if="index > 0">
+                <tr>
+                  <td colspan="3"></td>
+                </tr>
+                <tr>
+                  <td colspan="3"></td>
                 </tr>
               </template>
-            </tbody>
-          </table>
-        </details>
-      </template>
 
-      <div v-for="setLog in workoutExerciseLog.setLogs" :key="setLog.id">
-        <h3>
+              <tr v-for="setLog in pastExerciseLog.setLogs" :key="setLog.id">
+                <td>
+                  {{ setLog.isWarmUp ? 'Warm Up' : 'Set' }}
+                  {{ setLog.order }}
+                </td>
+                <td style="text-align: right">{{ setLog.reps ?? '-' }}</td>
+                <td style="text-align: right">{{ setLog.weight ?? '-' }}</td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </details>
+
+      <div
+        v-for="setLog in workoutExerciseLog.setLogs"
+        :key="setLog.id"
+        class="set-log"
+      >
+        <h3 class="set-name">
           {{ setLog.isWarmUp ? 'Warm Up' : 'Set' }}
           {{ setLog.order }}
 
           <small v-if="setLog.isOptional">(Optional)</small>
         </h3>
 
+        <p v-if="setLog.repsRpeIntensity" class="rep-string">
+          {{ setLog.repsRpeIntensity }}
+        </p>
+
         <div class="input-row">
           <label :for="'reps_' + setLog.id">
-            Reps
+            <span>Reps</span>
             <input
               :id="'reps_' + setLog.id"
               name="reps"
@@ -129,7 +139,7 @@ const setLogForms = ref(
           </label>
 
           <label :for="'weight_' + setLog.id">
-            Weight
+            <span>Weight</span>
             <input
               :id="'weight_' + setLog.id"
               name="weight"
@@ -138,12 +148,14 @@ const setLogForms = ref(
             />
           </label>
 
-          <div class="button-group">
+          <div
+            class="button-group"
+            v-if="
+              setLogForms[setLog.id].isDirty &&
+              !setLogForms[setLog.id].processing
+            "
+          >
             <button
-              v-if="
-                setLogForms[setLog.id].isDirty &&
-                !setLogForms[setLog.id].processing
-              "
               type="button"
               @click="
                 setLogForms[setLog.id]
@@ -157,18 +169,11 @@ const setLogForms = ref(
                   })
               "
             >
-              Save
+              <span class="material-symbols-outlined"> check </span>
             </button>
 
-            <button
-              v-if="
-                setLogForms[setLog.id].isDirty &&
-                !setLogForms[setLog.id].processing
-              "
-              type="button"
-              @click="setLogForms[setLog.id]?.reset()"
-            >
-              Cancel
+            <button type="button" @click="setLogForms[setLog.id]?.reset()">
+              <span class="material-symbols-outlined"> close </span>
             </button>
           </div>
 
@@ -186,7 +191,11 @@ const setLogForms = ref(
   </div>
 </template>
 
-<style>
+<style scoped>
+.page {
+  padding: 0 8px;
+}
+
 .page-title {
   font-size: var(--font-size-h1);
   margin: var(--font-size-h1) 0 4px;
@@ -196,6 +205,19 @@ const setLogForms = ref(
   margin: 0 0 var(--font-size-h1);
 }
 
+.exercise-name {
+  font-size: var(--font-size-h6);
+  margin: 0 0 4px;
+}
+
+.exercise-notes {
+  font-size: var(--font-size-small);
+}
+
+details {
+  margin: 16px 0;
+}
+
 .workout-exercise-log {
   background-color: var(--color-neutral-100);
   border-radius: 16px;
@@ -203,9 +225,28 @@ const setLogForms = ref(
   margin-bottom: var(--font-size-h1);
 }
 
-.exercise-name {
-  font-size: var(--font-size-h6);
-  margin: 0 0 4px;
+.set-log {
+  margin-bottom: 16px;
+}
+
+.set-log:last-of-type {
+  margin-bottom: 0;
+}
+
+.set-name {
+  font-size: var(--font-size-small);
+  margin-bottom: 4px;
+}
+
+.set-name small {
+  font-size: var(--font-size-small-small);
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+.rep-string {
+  font-size: var(--font-size-small-small);
+  margin-bottom: 8px;
 }
 
 .input-row {
@@ -213,21 +254,30 @@ const setLogForms = ref(
   align-items: flex-end;
 }
 
-label {
+label span {
   font-size: var(--font-size-small-small);
-  align-self: end;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 4px;
+}
+
+label:first-of-type {
+  margin-right: 4px;
 }
 
 input {
   border: none;
   border-radius: 16px;
+  box-sizing: border-box;
   display: block;
   font-family: monospace;
-  margin-right: 4px;
-  padding: 8px 16px;
+  padding: 0px 16px;
+  height: 40px;
+  width: 100%;
 }
 
 .button-group {
+  display: flex;
   margin-left: 8px;
 }
 
@@ -235,7 +285,27 @@ button {
   background-color: var(--color-neutral-200);
   border: none;
   border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 8px 16px;
+}
+
+.button-group button {
+  height: 40px;
+  width: 40px;
+}
+
+.button-group button:first-child {
   margin-right: 2px;
+}
+
+.material-symbols-outlined {
+  font-size: var(--font-size-h5);
+}
+
+ul {
+  padding: 0;
+  margin: 0;
 }
 </style>

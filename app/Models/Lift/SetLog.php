@@ -23,10 +23,11 @@ class SetLog extends Model
                     'id',
                     'order',
                     'reps',
-                    'weight'
+                    'weight',
                 ]) + [
                     'isWarmUp' => $this->is_warm_up,
-                    'isOptional' => $this->set->is_optional
+                    'isOptional' => $this->set->is_optional,
+                    'repsRpeIntensity' => $this->set->reps_rpe_intensity,
                 ];
             }
         );
