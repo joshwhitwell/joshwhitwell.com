@@ -45,8 +45,12 @@ const setLogForms = ref(
 
 <template>
   <div class="page">
-    <Link :href="route('lift.my.programs.show', programLog.id)">
-      {{ programLog.name }}
+    <Link
+      :href="route('lift.my.programs.show', programLog.id)"
+      class="back-link"
+    >
+      <span class="material-symbols-outlined"> arrow_back_ios </span>
+      Back to program
     </Link>
 
     <h1 class="page-title">{{ workoutLog.name }}</h1>
@@ -57,7 +61,7 @@ const setLogForms = ref(
       </p>
 
       <button type="submit">
-        {{ workoutLog.completedAt ? 'Undo' : 'Mark Complete' }}
+        {{ workoutLog.completedAt ? 'Undo' : 'Complete' }}
       </button>
     </form>
 
@@ -66,13 +70,22 @@ const setLogForms = ref(
       :key="workoutExerciseLog.id"
       class="workout-exercise-log"
     >
-      <h2 class="exercise-name">{{ workoutExerciseLog.name }}</h2>
+      <div class="exercise-details">
+        <h2 class="exercise-name">{{ workoutExerciseLog.name }}</h2>
 
-      <p v-if="workoutExerciseLog.notes" class="exercise-notes">
-        {{ workoutExerciseLog.notes }}
-      </p>
+        <p v-if="workoutExerciseLog.notes" class="exercise-notes">
+          {{ workoutExerciseLog.notes }}
+        </p>
 
-      <details v-if="workoutExerciseLog.pastLogs.length">
+        <p v-if="workoutExerciseLog.restString" class="rest-string">
+          <strong>Rest: </strong> {{ workoutExerciseLog.restString }}
+        </p>
+      </div>
+
+      <details
+        v-if="workoutExerciseLog.pastLogs.length"
+        class="exercise-history"
+      >
         <summary>History</summary>
 
         <table style="text-align: left">
@@ -86,25 +99,25 @@ const setLogForms = ref(
 
           <tbody>
             <template
-              v-for="(pastExerciseLog, index) in workoutExerciseLog.pastLogs"
+              v-for="(
+                pastExerciseLog, pastExerciseLogIndex
+              ) in workoutExerciseLog.pastLogs"
               :key="pastExerciseLog.id"
             >
-              <template v-if="index > 0">
-                <tr>
-                  <td colspan="3"></td>
-                </tr>
-                <tr>
-                  <td colspan="3"></td>
-                </tr>
-              </template>
-
+              <tr v-if="pastExerciseLogIndex > 0">
+                <td colspan="3" class="table-spacer"></td>
+              </tr>
               <tr v-for="setLog in pastExerciseLog.setLogs" :key="setLog.id">
                 <td>
                   {{ setLog.isWarmUp ? 'Warm Up' : 'Set' }}
                   {{ setLog.order }}
                 </td>
-                <td style="text-align: right">{{ setLog.reps ?? '-' }}</td>
-                <td style="text-align: right">{{ setLog.weight ?? '-' }}</td>
+                <td style="text-align: right" class="font-monospace">
+                  {{ setLog.reps ?? '-' }}
+                </td>
+                <td style="text-align: right" class="font-monospace">
+                  {{ setLog.weight ?? '-' }}
+                </td>
               </tr>
             </template>
           </tbody>
@@ -172,7 +185,11 @@ const setLogForms = ref(
               <span class="material-symbols-outlined"> check </span>
             </button>
 
-            <button type="button" @click="setLogForms[setLog.id]?.reset()">
+            <button
+              type="button"
+              @click="setLogForms[setLog.id]?.reset()"
+              class="button-outline"
+            >
               <span class="material-symbols-outlined"> close </span>
             </button>
           </div>
@@ -192,8 +209,28 @@ const setLogForms = ref(
 </template>
 
 <style scoped>
+.font-monospace {
+  font-family: monospace;
+}
+
 .page {
   padding: 0 8px;
+}
+
+.page * {
+  max-width: 65ch;
+}
+
+.back-link {
+  align-items: center;
+  display: flex;
+  color: var(--color-lime-500);
+  margin: var(--font-size-p) 0 0;
+  text-decoration: none;
+}
+
+.back-link .material-symbols-outlined {
+  font-size: var(--font-size-p);
 }
 
 .page-title {
@@ -205,6 +242,10 @@ const setLogForms = ref(
   margin: 0 0 var(--font-size-h1);
 }
 
+.exercise-details {
+  margin-bottom: 16px;
+}
+
 .exercise-name {
   font-size: var(--font-size-h6);
   margin: 0 0 4px;
@@ -212,14 +253,51 @@ const setLogForms = ref(
 
 .exercise-notes {
   font-size: var(--font-size-small);
+  margin-bottom: 4px;
 }
 
-details {
+.rest-string {
+  font-size: var(--font-size-small);
+}
+
+.exercise-history {
+  font-size: var(--font-size-small);
   margin: 16px 0;
 }
 
+.exercise-history summary {
+  font-size: var(--font-size-p);
+}
+
+.exercise-history table {
+  margin-top: 4px;
+  /* width: 100%; */
+}
+
+.past-exercise {
+  margin-top: 8px;
+}
+
+td:not(:last-child),
+th:not(:last-child) {
+  padding-right: 16px;
+}
+
+.exercise-history td:first-child {
+  /* width: 100%; */
+}
+
+.exercise-history td:not(:first-child) {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.table-spacer {
+  height: 8px;
+}
+
 .workout-exercise-log {
-  background-color: var(--color-neutral-100);
+  background-color: var(--color-lime-50);
   border-radius: 16px;
   padding: 16px;
   margin-bottom: var(--font-size-h1);
@@ -276,19 +354,32 @@ input {
   width: 100%;
 }
 
+input:focus,
+button:focus {
+  outline: 2px solid var(--color-lime-500);
+  outline-offset: -1px;
+}
+
 .button-group {
   display: flex;
   margin-left: 8px;
 }
 
 button {
-  background-color: var(--color-neutral-200);
+  background-color: var(--color-lime-500);
   border: none;
   border-radius: 16px;
+  color: var(--color-white);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px 16px;
+}
+
+.button-outline {
+  background-color: transparent;
+  border: 2px solid var(--color-lime-400);
+  color: var(--color-lime-400);
 }
 
 .button-group button {

@@ -11,9 +11,15 @@
   --font-size-small-small: 0.694rem;
 }
 
-* {
+body,
+html {
   font-family: var(--font-family-sans);
   font-size: var(--font-size-p);
+}
+
+* {
+  font-family: inherit;
+  font-size: inherit;
 }
 
 /* h1, .h1 {
