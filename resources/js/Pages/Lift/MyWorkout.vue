@@ -56,11 +56,11 @@ const setLogForms = ref(
     <h1 class="page-title">{{ workoutLog.name }}</h1>
 
     <form @submit.prevent="submitCompletedAtForm" class="mark-complete-form">
-      <p v-if="workoutLog.completedAt">
+      <p v-if="workoutLog.completedAt" class="completed-at">
         <em>Completed on </em> {{ workoutLog.completedAt }}
       </p>
 
-      <button type="submit">
+      <button type="submit" class="button-outline">
         {{ workoutLog.completedAt ? 'Undo' : 'Complete' }}
       </button>
     </form>
@@ -238,6 +238,10 @@ const setLogForms = ref(
   margin: var(--font-size-h1) 0 4px;
 }
 
+.completed-at {
+  margin-bottom: 8px;
+}
+
 .mark-complete-form {
   margin: 0 0 var(--font-size-h1);
 }
@@ -380,6 +384,7 @@ button {
   background-color: transparent;
   border: 2px solid var(--color-lime-400);
   color: var(--color-lime-400);
+  font-weight: 500;
 }
 
 .button-group button {
