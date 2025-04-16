@@ -1,0 +1,30 @@
+:root {
+  /* Font Family */
+  --font-family-sans: 'Montserrat', sans-serif;
+  --font-family-mono: 'Roboto Mono', monospace;
+
+  /* Size */
+  --size-10xs: 0.135rem; /* 2.16px */
+  --size-9xs: 0.162rem; /* 2.592px */
+  --size-8xs: 0.194rem; /* 3.104px */
+  --size-7xs: 0.233rem; /* 3.728px */
+  --size-6xs: 0.279rem; /* 4.464px */
+  --size-5xs: 0.335rem; /* 5.36px */
+  --size-4xs: 0.402rem; /* 6.432px */
+  --size-3xs: 0.482rem; /* 7.712px */
+  --size-2xs: 0.579rem; /* 9.264px */
+  --size-xs: 0.694rem; /* 11.104px */
+  --size-sm: 0.833rem; /* 13.328px */
+  --size-base: 1rem; /* 16px */
+  --size-lg: 1.2rem; /* 19.2px */
+  --size-xl: 1.44rem; /* 23.04px */
+  --size-2xl: 1.728rem; /* 27.648px */
+  --size-3xl: 2.074rem; /* 33.184px */
+  --size-4xl: 2.488rem; /* 39.808px */
+  --size-5xl: 2.986rem; /* 47.776px */
+  --size-6xl: 3.583rem; /* 57.328px */
+  --size-7xl: 4.3rem; /* 68.8px */
+  --size-8xl: 5.16rem; /* 82.56px */
+  --size-9xl: 6.192rem; /* 99.072px */
+  --size-10xl: 7.43rem; /* 118.88px */
+}

@@ -53,17 +53,19 @@ const setLogForms = ref(
       Back to program
     </Link>
 
-    <h1 class="page-title">{{ workoutLog.name }}</h1>
+    <header class="page-header">
+      <h1 class="page-title">{{ workoutLog.name }}</h1>
 
-    <form @submit.prevent="submitCompletedAtForm" class="mark-complete-form">
-      <p v-if="workoutLog.completedAt" class="completed-at">
-        <em>Completed on </em> {{ workoutLog.completedAt }}
-      </p>
+      <form @submit.prevent="submitCompletedAtForm">
+        <p v-if="workoutLog.completedAt" class="completed-at">
+          <em>Completed on </em> {{ workoutLog.completedAt }}
+        </p>
 
-      <button type="submit" class="button-outline">
-        {{ workoutLog.completedAt ? 'Undo' : 'Complete' }}
-      </button>
-    </form>
+        <button type="submit" class="button-outline">
+          {{ workoutLog.completedAt ? 'Undo' : 'Complete' }}
+        </button>
+      </form>
+    </header>
 
     <div
       v-for="workoutExerciseLog in workoutLog.workoutExerciseLogs"
@@ -209,12 +211,8 @@ const setLogForms = ref(
 </template>
 
 <style scoped>
-.font-monospace {
-  font-family: monospace;
-}
-
 .page {
-  padding: 0 8px;
+  padding: 0 var(--size-3xs);
 }
 
 .page * {
@@ -225,70 +223,63 @@ const setLogForms = ref(
   align-items: center;
   display: flex;
   color: var(--color-lime-500);
-  margin: var(--font-size-p) 0 0;
+  margin-block-start: var(--size-base);
   text-decoration: none;
 }
 
-.back-link .material-symbols-outlined {
-  font-size: var(--font-size-p);
-}
-
 .page-title {
-  font-size: var(--font-size-h1);
-  margin: var(--font-size-h1) 0 4px;
+  font-size: var(--size-5xl);
+  margin-block-end: var(--size-7xs);
+  margin-block-start: var(--size-5xl);
 }
 
 .completed-at {
-  margin-bottom: 8px;
+  margin-block-end: var(--size-3xs);
 }
 
-.mark-complete-form {
-  margin: 0 0 var(--font-size-h1);
+.page-header {
+  margin-block-end: var(--size-5xl);
 }
 
 .exercise-details {
-  margin-bottom: 16px;
+  margin-block-end: var(--size-base);
 }
 
 .exercise-name {
-  font-size: var(--font-size-h6);
-  margin: 0 0 4px;
+  font-size: var(--size-lg);
+  margin-block-end: var(--size-7xs);
 }
 
 .exercise-notes {
-  font-size: var(--font-size-small);
-  margin-bottom: 4px;
+  font-size: var(--size-sm);
+  margin-block-end: var(--size-3xs);
 }
 
 .rest-string {
-  font-size: var(--font-size-small);
+  font-size: var(--size-sm);
 }
 
 .exercise-history {
-  font-size: var(--font-size-small);
-  margin: 16px 0;
+  font-size: var(--size-sm);
+  margin-block-end: var(--size-base);
+  margin-block-start: var(--size-base);
 }
 
 .exercise-history summary {
-  font-size: var(--font-size-p);
+  font-size: var(--size-base);
 }
 
 .exercise-history table {
-  margin-top: 4px;
-  /* width: 100%; */
+  margin-block-start: var(--size-3xs);
 }
 
 .past-exercise {
-  margin-top: 8px;
+  margin-block-start: var(--size-3xs);
 }
 
 td:not(:last-child),
 th:not(:last-child) {
-  padding-right: 16px;
-}
-
-.exercise-history td:first-child {
-  /* width: 100%; */
+  padding-right: var(--size-base);
 }
 
 .exercise-history td:not(:first-child) {
@@ -297,38 +288,38 @@ th:not(:last-child) {
 }
 
 .table-spacer {
-  height: 8px;
+  height: var(--size-3xs);
 }
 
 .workout-exercise-log {
   background-color: var(--color-lime-50);
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: var(--font-size-h1);
+  border-radius: var(--size-base);
+  padding: var(--size-base);
+  margin-block-end: var(--size-5xl);
 }
 
 .set-log {
-  margin-bottom: 16px;
+  margin-block-end: var(--size-base);
 }
 
 .set-log:last-of-type {
-  margin-bottom: 0;
+  margin-block-end: 0;
 }
 
 .set-name {
-  font-size: var(--font-size-small);
-  margin-bottom: 4px;
+  font-size: var(--size-sm);
+  margin-block-end: var(--size-3xs);
 }
 
 .set-name small {
-  font-size: var(--font-size-small-small);
+  font-size: var(--size-xs);
   font-weight: 400;
-  margin-left: 4px;
+  margin-inline-start: var(--size-3xs);
 }
 
 .rep-string {
-  font-size: var(--font-size-small-small);
-  margin-bottom: 8px;
+  font-size: var(--size-xs);
+  margin-block-end: var(--size-3xs);
 }
 
 .input-row {
@@ -337,67 +328,66 @@ th:not(:last-child) {
 }
 
 label span {
-  font-size: var(--font-size-small-small);
+  font-size: var(--size-xs);
   font-weight: 500;
   display: block;
-  margin-bottom: 4px;
+  margin-block-end: var(--size-3xs);
 }
 
 label:first-of-type {
-  margin-right: 4px;
+  margin-inline-end: var(--size-3xs);
 }
 
 input {
   border: none;
-  border-radius: 16px;
+  border-radius: var(--size-base);
   box-sizing: border-box;
   display: block;
   font-family: monospace;
-  padding: 0px 16px;
-  height: 40px;
+  padding: 0px var(--size-base);
+  height: var(--size-4xl);
   width: 100%;
 }
 
 input:focus,
 button:focus {
-  outline: 2px solid var(--color-lime-500);
-  outline-offset: -1px;
+  outline: var(--size-10xs) solid var(--color-lime-500);
 }
 
 .button-group {
   display: flex;
-  margin-left: 8px;
+  margin-left: var(--size-3xs);
 }
 
 button {
   background-color: var(--color-lime-500);
   border: none;
-  border-radius: 16px;
+  border-radius: var(--size-base);
   color: var(--color-white);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
+  padding: var(--size-3xs) var(--size-base);
 }
 
 .button-outline {
   background-color: transparent;
-  border: 2px solid var(--color-lime-400);
+  border: var(--size-10xs) solid var(--color-lime-400);
   color: var(--color-lime-400);
   font-weight: 500;
 }
 
 .button-group button {
-  height: 40px;
-  width: 40px;
+  height: var(--size-4xl);
+  width: var(--size-4xl);
 }
 
 .button-group button:first-child {
-  margin-right: 2px;
+  margin-inline-end: var(--size-10xs);
 }
 
-.material-symbols-outlined {
-  font-size: var(--font-size-h5);
+button .material-symbols-outlined {
+  font-size: var(--size-lg);
 }
 
 ul {
