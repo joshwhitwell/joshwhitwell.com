@@ -3,8 +3,6 @@ import { ref } from 'vue';
 import Layout from '../../Layouts/Lift/LiftLayout.vue';
 import { Link, router, useForm } from '@inertiajs/vue3';
 
-defineOptions({ layout: Layout });
-
 const props = defineProps({
   programLog: Object,
   workoutLog: Object,
@@ -44,14 +42,16 @@ const setLogForms = ref(
 </script>
 
 <template>
-  <div class="page">
-    <Link
-      :href="route('lift.my.programs.show', programLog.id)"
-      class="back-link"
-    >
-      <span class="material-symbols-outlined"> arrow_back_ios </span>
-      Back to program
-    </Link>
+  <Layout>
+    <template #navigation>
+      <Link
+        :href="route('lift.my.programs.show', programLog.id)"
+        class="back-link"
+      >
+        <span class="material-symbols-outlined"> arrow_back_ios </span>
+        Back to program
+      </Link>
+    </template>
 
     <header class="page-header">
       <h1 class="page-title">{{ workoutLog.name }}</h1>
@@ -207,30 +207,12 @@ const setLogForms = ref(
         </div>
       </div>
     </div>
-  </div>
+  </Layout>
 </template>
 
 <style scoped>
-.page {
-  padding: 0 var(--size-3xs);
-}
-
-.page * {
-  max-width: 65ch;
-}
-
-.back-link {
-  align-items: center;
-  display: flex;
-  color: var(--color-lime-500);
-  margin-block-start: var(--size-base);
-  text-decoration: none;
-}
-
 .page-title {
-  font-size: var(--size-5xl);
   margin-block-end: var(--size-7xs);
-  margin-block-start: var(--size-5xl);
 }
 
 .completed-at {
@@ -386,8 +368,8 @@ button {
   margin-inline-end: var(--size-10xs);
 }
 
-button .material-symbols-outlined {
-  font-size: var(--size-lg);
+button span.material-symbols-outlined {
+  font-size: var(--size-xl);
 }
 
 ul {

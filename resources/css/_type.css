@@ -1,11 +1,18 @@
 body,
 html {
+  color: var(--color-neutral-950);
   font-family: var(--font-family-sans);
   font-size: var(--size-base);
   font-weight: 400;
 }
 
 * {
+  color: inherit;
   font-family: inherit;
+  font-size: inherit;
+}
+
+.material-symbols-outlined {
+  color: inherit;
   font-size: inherit;
 }
