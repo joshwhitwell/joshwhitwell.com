@@ -5,6 +5,7 @@ namespace App\Models\Lift;
 use App\Models\Lift\Program;
 use App\Models\Lift\PhaseLog;
 use App\Enums\Lift\LiftStatus;
+use App\Models\Lift\WorkoutLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
@@ -20,6 +21,11 @@ class ProgramLog extends Model
     public function phaseLogs()
     {
         return $this->hasMany(PhaseLog::class)->orderBy('order');;
+    }
+
+    public function workoutLogs()
+    {
+        return $this->hasMany(WorkoutLog::class)->orderBy('order');;
     }
 
     protected function name(): Attribute
@@ -38,7 +44,9 @@ class ProgramLog extends Model
                 return $this->only([
                     'id',
                 ]) + [
-                    'name' => $this->program->name
+                    'name' => $this->program->name,
+                    'completedWorkoutCount' => $this->workoutLogs()->where('status', LiftStatus::Completed)->count(),
+                    'totalWorkoutCount' => $this->workoutLogs()->count()
                 ];
             }
         );
