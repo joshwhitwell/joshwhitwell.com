@@ -3,26 +3,21 @@
 namespace App\Http\Controllers\Lift;
 
 use App\Models\Lift\SetLog;
-use Illuminate\Http\Request;
-use App\Enums\Lift\LiftStatus;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
+use App\Actions\Lift\UpdateSetLogAction;
+use App\Http\Requests\Lift\SetLogRequest;
 
 class SetLogController extends Controller
 {
-    public function update(Request $request, SetLog $setLog)
-    {
+    public function update(
+        SetLogRequest $request,
+        UpdateSetLogAction $updateSetLogAction,
+        SetLog $setLog,
+    ) {
         Gate::authorize('belongs-to-user', $setLog);
 
-        $validated = $request->validate([
-            'reps' => ['nullable', 'integer', 'min:0'],
-            'weight' => ['nullable', 'numeric', 'min:0'],
-            'duration' => ['nullable', 'integer', 'min:0'],
-            'status' => [Rule::enum(LiftStatus::class)]
-        ]);
-
-        $setLog->update($validated);
+        $updateSetLogAction($setLog, $request);
 
         return redirect()->back();
     }
