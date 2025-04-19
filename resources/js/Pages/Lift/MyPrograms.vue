@@ -23,14 +23,17 @@ defineProps({ programLogs: Object });
         :href="route('lift.my.programs.show', programLog.id)"
         class="program-log"
       >
+        <div :class="`program-status program-status--${programLog.status}`">
+          {{ programLog.statusLabel }}
+        </div>
+
         <h2 class="program-name">{{ programLog.name }}</h2>
 
         <div class="workout-counts">
-          <span class="counts"
-            >{{ programLog.completedWorkoutCount }}/{{
-              programLog.totalWorkoutCount
-            }}</span
-          >
+          <span class="counts">
+            <strong>{{ programLog.completedWorkoutCount }}</strong>
+            <span class="slash">/</span>{{ programLog.totalWorkoutCount }}
+          </span>
           days completed
         </div>
       </Link>
@@ -41,29 +44,64 @@ defineProps({ programLogs: Object });
 <style scoped>
 .program-logs {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--size-base);
+  grid-template-columns: repeat(auto-fill, 1fr);
 }
 
 .program-log {
   aspect-ratio: 1;
-  background-color: var(--color-lime-50);
-  border: 2px solid var(--color-lime-50);
+  background: linear-gradient(
+    to bottom left,
+    var(--color-lime-400) 0%,
+    var(--color-neutral-50) 100%
+  );
   border-radius: var(--size-base);
+  box-sizing: border-box;
+  color: inherit;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  justify-content: center;
-  text-decoration: none;
-  color: inherit;
+  justify-content: space-between;
   padding: var(--size-base);
+  text-decoration: none;
+}
+
+.program-status {
+  background-color: var(--color-neutral-50);
+  color: var(--color-neutral-800);
+  border-radius: var(--size-base);
+  font-weight: 500;
+  letter-spacing: -0.02rem;
+  padding: var(--size-5xs) var(--size-sm);
+  width: fit-content;
+}
+
+.program-status--in_progress {
+  background-color: var(--color-yellow-200);
+  color: var(--color-yellow-800);
+}
+
+.program-status--completed {
+  background-color: var(--color-lime-400);
+  color: var(--color-lime-800);
 }
 
 .program-name {
   font-size: var(--size-3xl);
 }
 
-.workout-counts span {
+.workout-counts {
+  color: var(--color-neutral-600);
+}
+
+.counts {
   font-family: var(--font-family-mono);
+}
+
+.workout-counts strong {
+  color: var(--color-neutral-950);
+}
+
+.slash {
+  margin-inline: var(--size-10xs);
 }
 </style>

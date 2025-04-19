@@ -13,6 +13,11 @@ class ProgramLog extends Model
 {
     protected $table = 'lift_program_logs';
 
+
+    protected $casts = [
+        'status' => LiftStatus::class,
+    ];
+
     public function program()
     {
         return $this->belongsTo(Program::class);
@@ -45,6 +50,8 @@ class ProgramLog extends Model
                     'id',
                 ]) + [
                     'name' => $this->program->name,
+                    'status' => $this->status,
+                    'statusLabel' => $this->status->label(),
                     'completedWorkoutCount' => $this->workoutLogs()->where('status', LiftStatus::Completed)->count(),
                     'totalWorkoutCount' => $this->workoutLogs()->count()
                 ];
@@ -89,7 +96,7 @@ class ProgramLog extends Model
 
     public function scopeMyPrograms($query)
     {
-        return $query->select(['id', 'program_id'])
+        return $query->select(['id', 'program_id', 'status'])
             ->with([
                 'program' => fn ($q) => $q->select(['id', 'name'])
             ])
