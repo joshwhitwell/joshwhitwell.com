@@ -3,6 +3,7 @@
 namespace App\Models\Lift;
 
 use App\Models\Lift\Program;
+use App\Models\Lift\WeekLog;
 use App\Models\Lift\PhaseLog;
 use App\Enums\Lift\LiftStatus;
 use App\Models\Lift\WorkoutLog;
@@ -25,12 +26,17 @@ class ProgramLog extends Model
 
     public function phaseLogs()
     {
-        return $this->hasMany(PhaseLog::class)->orderBy('order');;
+        return $this->hasMany(PhaseLog::class)->orderBy('order');
+    }
+
+    public function weekLogs()
+    {
+        return $this->hasMany(WeekLog::class)->orderBy('order');
     }
 
     public function workoutLogs()
     {
-        return $this->hasMany(WorkoutLog::class)->orderBy('order');;
+        return $this->hasMany(WorkoutLog::class)->orderBy('order');
     }
 
     protected function name(): Attribute
@@ -67,28 +73,8 @@ class ProgramLog extends Model
                     'id',
                 ]) + [
                     'name' => $this->program->name,
-                    'phaseLogs' => $this->phaseLogs->map(function ($phaseLog) {
-                        return $phaseLog->only([
-                            'id'
-                        ]) + [
-                            'name' => $phaseLog->phase->name,
-                            'weekLogs' => $phaseLog->weekLogs->map(function ($weekLog) {
-                                return $weekLog->only([
-                                    'id'
-                                ]) + [
-                                    'name' => $weekLog->week->name,
-                                    'workoutLogs' => $weekLog->workoutLogs->map(function ($workoutLog) {
-                                        return $workoutLog->only([
-                                            'id'
-                                        ]) + [
-                                            'name' => $workoutLog->workout->name,
-                                            'completedAt' => $workoutLog->completed_at
-                                        ];
-                                    })
-                                ];
-                            })
-                        ];
-                    })
+                    'phaseLogs' => $this->phaseLogs->pluck('myProgramResource'),
+                    'weekLogs' => $this->weekLogs->pluck('myProgramResource'),
                 ];
             }
         );

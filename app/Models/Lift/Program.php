@@ -2,6 +2,7 @@
 
 namespace App\Models\Lift;
 
+use App\Models\Lift\Week;
 use App\Models\Lift\Phase;
 use Illuminate\Support\Str;
 use App\Models\Lift\Workout;
@@ -15,6 +16,11 @@ class Program extends Model
     public function phases()
     {
         return $this->hasMany(Phase::class)->orderBy('order');
+    }
+
+    public function weeks()
+    {
+        return $this->hasMany(Week::class)->orderBy('order');
     }
 
     public function workouts()

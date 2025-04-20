@@ -50,6 +50,20 @@ class WorkoutLog extends Model
         );
     }
 
+    protected function myProgramResource(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->only([
+                    'id'
+                ]) + [
+                    'name' => $this->workout->name,
+                    'completedAt' => $this->completed_at
+                ];
+            }
+        );
+    }
+
     protected function myWorkoutResource(): Attribute
     {
         return Attribute::make(

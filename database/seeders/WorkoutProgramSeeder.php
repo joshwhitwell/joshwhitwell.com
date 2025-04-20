@@ -26,7 +26,7 @@ class WorkoutProgramSeeder extends Seeder
      */
     public function run(): void
     {
-        $path = storage_path('app/public/ppl.csv');
+        $path = storage_path('app/public/workout-programs/ppl.csv');
         $handle = fopen($path, 'r');
         $index = null;
         $headers = null;

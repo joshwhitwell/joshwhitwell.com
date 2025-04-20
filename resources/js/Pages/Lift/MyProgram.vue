@@ -1,4 +1,6 @@
 <script setup>
+import MyProgramPhase from '../../Components/Lift/MyProgramPhase.vue';
+import MyProgramWeek from '../../Components/Lift/MyProgramWeek.vue';
 import Layout from '../../Layouts/Lift/LiftLayout.vue';
 import { Link } from '@inertiajs/vue3';
 
@@ -16,55 +18,22 @@ defineProps({ programLog: Object });
 
     <h1 class="page-title">{{ programLog.name }}</h1>
 
-    <div v-for="phaseLog in programLog.phaseLogs" :key="phaseLog.id">
-      <h2 class="phase-name">{{ phaseLog.name }}</h2>
+    <div v-if="programLog?.phaseLogs?.length">
+      <MyProgramPhase
+        v-for="phaseLog in programLog.phaseLogs"
+        :key="`phase-log--${phaseLog.id}`"
+        :program-log="programLog"
+        :phase-log="phaseLog"
+      />
+    </div>
 
-      <details
-        v-for="weekLog in phaseLog.weekLogs"
-        :key="weekLog.id"
-        :open="
-          weekLog.workoutLogs.some((workoutLog) => !workoutLog.completedAt)
-        "
-        class="week-details"
-      >
-        <summary>
-          <h3 class="week-name">
-            {{ weekLog.name }}
-            <small
-              v-if="
-                weekLog.completedAt ||
-                weekLog.workoutLogs.every(
-                  (workoutLog) => workoutLog.completedAt
-                )
-              "
-              class="completed-tag"
-            >
-              <span class="material-symbols-outlined"> check </span>
-            </small>
-          </h3>
-        </summary>
-
-        <div class="workout-logs">
-          <Link
-            v-for="workoutLog in weekLog.workoutLogs"
-            :key="workoutLog.id"
-            :href="
-              route('lift.my.programs.workouts.edit', [
-                programLog.id,
-                workoutLog.id,
-              ])
-            "
-            class="workout-log"
-          >
-            <h4 class="workout-name">
-              {{ workoutLog.name }}
-            </h4>
-            <small v-if="workoutLog.completedAt" class="completed-tag">
-              <span class="material-symbols-outlined"> check </span>
-            </small>
-          </Link>
-        </div>
-      </details>
+    <div v-else-if="programLog?.weekLogs?.length">
+      <MyProgramWeek
+        v-for="weekLog in programLog.weekLogs"
+        :key="`week-log--${weekLog.id}`"
+        :program-log="programLog"
+        :week-log="weekLog"
+      />
     </div>
   </Layout>
 </template>

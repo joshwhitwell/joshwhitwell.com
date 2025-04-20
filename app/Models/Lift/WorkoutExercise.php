@@ -3,13 +3,20 @@
 namespace App\Models\Lift;
 
 use App\Models\Lift\Set;
+use App\Models\Lift\Workout;
 use App\Models\Lift\Exercise;
+use App\Models\Lift\WorkoutExerciseLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class WorkoutExercise extends Model
 {
     protected $table = 'lift_workout_exercises';
+
+    public function workout()
+    {
+        return $this->belongsTo(Workout::class);
+    }
 
     public function exercise()
     {
@@ -19,6 +26,11 @@ class WorkoutExercise extends Model
     public function sets()
     {
         return $this->hasMany(Set::class)->orderByDesc('is_warm_up')->orderBy('order');
+    }
+
+    public function workoutExerciseLogs()
+    {
+        return $this->hasMany(WorkoutExerciseLog::class)->orderBy('order');
     }
 
     protected function restString(): Attribute

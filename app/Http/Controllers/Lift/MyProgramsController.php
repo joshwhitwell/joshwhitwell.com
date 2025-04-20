@@ -31,6 +31,13 @@ class MyProgramsController extends Controller
             'phaseLogs.weekLogs.workoutLogs.workout',
         ]);
 
+        if ($programLog->phaseLogs->isEmpty()) {
+            $programLog->load([
+                'weekLogs.week',
+                'weekLogs.workoutLogs.workout'
+            ]);
+        }
+
         return inertia('Lift/MyProgram', [
             'programLog' => $programLog->myProgramResource,
         ]);

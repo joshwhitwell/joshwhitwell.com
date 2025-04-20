@@ -2,12 +2,23 @@
 
 namespace App\Models\Lift;
 
+use App\Models\Lift\SetLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Set extends Model
 {
     protected $table = 'lift_sets';
+
+    public function workoutExercise()
+    {
+        return $this->belongsTo(WorkoutExercise::class);
+    }
+
+    public function setLogs()
+    {
+        return $this->hasMany(SetLog::class)->orderBy('order');
+    }
 
     protected function repString(): Attribute
     {
@@ -43,7 +54,7 @@ class Set extends Model
                 $parts = [
                     $this->repString,
                     $this->rpeString,
-                    $this->intensity_technique
+                    !empty($this->intensity_technique) ? ucfirst($this->intensity_technique) : ''
                 ];
                 $parts = array_filter($parts);
                 return implode(' • ', $parts);

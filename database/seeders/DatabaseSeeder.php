@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Database\Seeders\WorkoutProgramSeeder;
 
@@ -22,8 +21,12 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        $this->call([
-            WorkoutProgramSeeder::class,
+        // $this->call([
+        //     WorkoutProgramSeeder::class,
+        // ]);
+
+        $this->command->call('app:import-workout-program', [
+            'filename' => 'the-essentials-program-5x.csv',
         ]);
     }
 }
