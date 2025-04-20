@@ -21,7 +21,7 @@ defineProps({ programLogs: Object });
         v-for="programLog in programLogs.data"
         :key="programLog.id"
         :href="route('lift.my.programs.show', programLog.id)"
-        class="program-log"
+        class="program-log lift-background-gradient"
       >
         <div :class="`program-status program-status--${programLog.status}`">
           {{ programLog.statusLabel }}
@@ -50,11 +50,6 @@ defineProps({ programLogs: Object });
 
 .program-log {
   aspect-ratio: 1;
-  background: linear-gradient(
-    to bottom left,
-    var(--color-lime-400) 0%,
-    var(--color-neutral-50) 100%
-  );
   border-radius: var(--size-base);
   box-sizing: border-box;
   color: inherit;

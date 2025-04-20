@@ -9,6 +9,22 @@ const props = defineProps({
   liftStatus: Object,
 });
 
+function initSetLogForms() {
+  return (
+    props?.workoutLog?.workoutExerciseLogs?.reduce?.(
+      (setLogForms, workoutExerciseLog) => {
+        workoutExerciseLog?.setLogs?.forEach((setLog) => {
+          setLogForms[setLog.id] = useForm(setLog);
+        });
+        return setLogForms;
+      },
+      {}
+    ) || {}
+  );
+}
+
+const setLogForms = ref(initSetLogForms());
+
 function submitCompletedAtForm() {
   router.post(
     route('lift.my.programs.workouts.update', [
@@ -22,23 +38,10 @@ function submitCompletedAtForm() {
         : props.liftStatus.Completed,
     },
     {
-      only: ['workoutLog'],
-      preserveScroll: true,
+      preserveState: false,
     }
   );
 }
-
-const setLogForms = ref(
-  props?.workoutLog?.workoutExerciseLogs?.reduce?.(
-    (setLogForms, workoutExerciseLog) => {
-      workoutExerciseLog?.setLogs?.forEach((setLog) => {
-        setLogForms[setLog.id] = useForm(setLog);
-      });
-      return setLogForms;
-    },
-    {}
-  ) || {}
-);
 </script>
 
 <template>
@@ -55,22 +58,15 @@ const setLogForms = ref(
 
     <header class="page-header">
       <h1 class="page-title">{{ workoutLog.name }}</h1>
-
-      <form @submit.prevent="submitCompletedAtForm">
-        <p v-if="workoutLog.completedAt" class="completed-at">
-          <em>Completed on </em> {{ workoutLog.completedAt }}
-        </p>
-
-        <button type="submit" class="button-outline">
-          {{ workoutLog.completedAt ? 'Undo' : 'Complete' }}
-        </button>
-      </form>
+      <p v-if="workoutLog.completedAt" class="completed-at">
+        <em>Completed on </em> {{ workoutLog.completedAt }}
+      </p>
     </header>
 
     <div
       v-for="workoutExerciseLog in workoutLog.workoutExerciseLogs"
       :key="workoutExerciseLog.id"
-      class="workout-exercise-log"
+      class="workout-exercise-log lift-background-gradient"
     >
       <div class="exercise-details">
         <h2 class="exercise-name">{{ workoutExerciseLog.name }}</h2>
@@ -143,23 +139,37 @@ const setLogForms = ref(
         </p>
 
         <div class="input-row">
-          <label :for="'reps_' + setLog.id">
-            <span>Reps</span>
+          <label
+            :for="'reps_' + setLog.id"
+            :class="[
+              'label',
+              { 'label--has-error': setLogForms[setLog.id].errors?.reps },
+            ]"
+          >
+            <span class="label-text">Reps</span>
             <input
               :id="'reps_' + setLog.id"
               name="reps"
               v-model="setLogForms[setLog.id].reps"
-              class="row-2"
+              @input="setLogForms[setLog.id].clearErrors('reps')"
+              class="input"
             />
           </label>
 
-          <label :for="'weight_' + setLog.id">
-            <span>Weight</span>
+          <label
+            :for="'weight_' + setLog.id"
+            :class="[
+              'label',
+              { 'label--has-error': setLogForms[setLog.id].errors?.weight },
+            ]"
+          >
+            <span class="label-text">Weight</span>
             <input
               :id="'weight_' + setLog.id"
               name="weight"
               v-model="setLogForms[setLog.id].weight"
-              class="row-2"
+              @input="setLogForms[setLog.id].clearErrors('weight')"
+              class="input"
             />
           </label>
 
@@ -172,6 +182,7 @@ const setLogForms = ref(
           >
             <button
               type="button"
+              class="button"
               @click="
                 setLogForms[setLog.id]
                   .transform((data) => ({
@@ -189,30 +200,40 @@ const setLogForms = ref(
 
             <button
               type="button"
+              class="button button-neutral"
               @click="setLogForms[setLog.id]?.reset()"
-              class="button-outline"
             >
               <span class="material-symbols-outlined"> close </span>
             </button>
           </div>
-
-          <ul v-if="setLogForms[setLog.id].errors">
-            <li
-              v-for="(error, index) in setLogForms[setLog.id].errors"
-              :key="`error-${setLog.id}-${index}`"
-            >
-              {{ error }}
-            </li>
-          </ul>
         </div>
+
+        <ul v-if="setLogForms[setLog.id].errors" class="errors">
+          <li
+            v-for="(error, index) in setLogForms[setLog.id].errors"
+            :key="`error-${setLog.id}-${index}`"
+          >
+            {{ error }}
+          </li>
+        </ul>
       </div>
     </div>
+
+    <form @submit.prevent="submitCompletedAtForm" class="complete-workout-form">
+      <button
+        type="submit"
+        class="button"
+        :class="{ 'button-outline button-red': workoutLog?.completedAt }"
+      >
+        {{ workoutLog.completedAt ? 'Mark Workout Incomplete' : 'Complete' }}
+      </button>
+    </form>
   </Layout>
 </template>
 
 <style scoped>
 .page-title {
-  margin-block-end: var(--size-7xs);
+  margin-block-end: var(--size-6xs);
 }
 
 .completed-at {
@@ -259,8 +280,8 @@ const setLogForms = ref(
   margin-block-start: var(--size-3xs);
 }
 
-td:not(:last-child),
-th:not(:last-child) {
+.exercise-history td:not(:last-child),
+.exercise-history th:not(:last-child) {
   padding-right: var(--size-base);
 }
 
@@ -269,12 +290,11 @@ th:not(:last-child) {
   text-align: right;
 }
 
-.table-spacer {
+.exercise-history .table-spacer {
   height: var(--size-3xs);
 }
 
 .workout-exercise-log {
-  background-color: var(--color-lime-50);
   border-radius: var(--size-base);
   padding: var(--size-base);
   margin-block-end: var(--size-5xl);
@@ -309,71 +329,38 @@ th:not(:last-child) {
   align-items: flex-end;
 }
 
-label span {
-  font-size: var(--size-xs);
-  font-weight: 500;
-  display: block;
-  margin-block-end: var(--size-3xs);
-}
-
 label:first-of-type {
-  margin-inline-end: var(--size-3xs);
-}
-
-input {
-  border: none;
-  border-radius: var(--size-base);
-  box-sizing: border-box;
-  display: block;
-  font-family: monospace;
-  padding: 0px var(--size-base);
-  height: var(--size-4xl);
-  width: 100%;
-}
-
-input:focus,
-button:focus {
-  outline: var(--size-10xs) solid var(--color-lime-500);
+  margin-inline-end: var(--size-8xs);
 }
 
 .button-group {
   display: flex;
-  margin-left: var(--size-3xs);
+  margin-left: var(--size-4xs);
+  column-gap: var(--size-8xs);
 }
 
-button {
-  background-color: var(--color-lime-500);
-  border: none;
-  border-radius: var(--size-base);
-  color: var(--color-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--size-3xs) var(--size-base);
-}
-
-.button-outline {
-  background-color: transparent;
-  border: var(--size-10xs) solid var(--color-lime-400);
-  color: var(--color-lime-400);
-  font-weight: 500;
-}
-
-.button-group button {
+.button-group .button {
   height: var(--size-4xl);
   width: var(--size-4xl);
 }
 
-.button-group button:first-child {
-  margin-inline-end: var(--size-10xs);
-}
-
-button span.material-symbols-outlined {
+.button .material-symbols-outlined {
   font-size: var(--size-xl);
 }
 
-ul {
+.errors {
+  color: var(--color-red-600);
+  font-size: var(--size-sm);
+  list-style: none;
+  margin: var(--size-5xs) 0 0;
   padding: 0;
-  margin: 0;
+}
+
+.complete-workout-form {
+  margin-block-end: var(--size-5xl);
+}
+
+.complete-workout-form .button {
+  width: 100%;
 }
 </style>

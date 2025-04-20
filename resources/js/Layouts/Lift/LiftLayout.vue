@@ -34,4 +34,12 @@
   font-size: var(--size-5xl);
   margin-block: var(--size-5xl);
 }
+
+:deep(.lift-background-gradient) {
+  background: linear-gradient(
+    to top left,
+    var(--color-lime-400) 0%,
+    var(--color-neutral-50) 100%
+  );
+}
 </style>

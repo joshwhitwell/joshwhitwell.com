@@ -22,7 +22,7 @@ defineProps({ workoutLog: Object, programLog: Object });
 
 <style scoped>
 .workout-log {
-  border: 2px solid var(--color-neutral-200);
+  background-color: var(--color-neutral-50);
   border-radius: var(--size-base);
   display: flex;
   margin-block-end: var(--size-base);
@@ -34,7 +34,6 @@ defineProps({ workoutLog: Object, programLog: Object });
   align-items: center;
   display: flex;
   justify-content: space-between;
-  text-decoration: underline;
   width: 100%;
 }
 
