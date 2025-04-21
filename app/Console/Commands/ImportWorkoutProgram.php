@@ -2,12 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\Lift\Program;
 use App\Models\Lift\Exercise;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use App\Models\Lift\WorkoutExercise;
+use App\Actions\Lift\InitializeProgramLogAction;
 
 class ImportWorkoutProgram extends Command
 {
@@ -138,6 +140,11 @@ class ImportWorkoutProgram extends Command
         }
 
         fclose($handle);
+
+        // Create and invoke InitializeProgramLogAction
+        (app(InitializeProgramLogAction::class))($program, User::find(1));
+
+        return Command::SUCCESS;
     }
 
     public function getExercise(string $exerciseName, string $exerciseUrl): ?Exercise

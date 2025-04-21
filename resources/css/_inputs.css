@@ -14,14 +14,14 @@
   border-radius: var(--size-base);
   box-sizing: border-box;
   display: block;
-  font-family: monospace;
   padding: 0px var(--size-base);
   height: var(--size-4xl);
   width: 100%;
 }
 
 .input:focus {
-  outline: var(--size-10xs) solid var(--color-orange-400);
+  outline: none;
+  border: 2px solid var(--color-orange-400);
 }
 
 .button {
@@ -37,7 +37,9 @@
 }
 
 .button:focus {
-  outline: var(--size-10xs) solid var(--color-orange-400);
+  outline: none;
+  border: 2px solid var(--color-orange-400);
+  color: var(--color-orange-400);
 }
 
 .button-neutral {

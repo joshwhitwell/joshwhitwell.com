@@ -42,4 +42,8 @@
     var(--color-neutral-50) 100%
   );
 }
+
+:deep(.input) {
+  font-family: var(--font-family-mono);
+}
 </style>
