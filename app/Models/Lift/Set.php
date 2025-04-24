@@ -42,7 +42,7 @@ class Set extends Model
     {
         return Attribute::make(
             get: function () {
-                return !empty($this->rpe) ? 'RPE: ' . str_replace('~', '', $this->rpe) : '';
+                return !empty($this->rpe) ? 'RPE: ' . str_replace(['~', '-'], ['', '–'], $this->rpe) : '';
             }
         );
     }
@@ -54,6 +54,7 @@ class Set extends Model
                 $parts = [
                     $this->repString,
                     $this->rpeString,
+                    $this->workoutExercise->restString,
                     !empty($this->intensity_technique) ? ucfirst($this->intensity_technique) : ''
                 ];
                 $parts = array_filter($parts);

@@ -94,7 +94,6 @@ class ImportWorkoutProgram extends Command
             if (str_starts_with($row[0], 'Week')) {
                 $week = $program->weeks()->create(['name' => $row[0], 'order' => $weekOrder]);
 
-                $workoutOrder = 1;
                 $weekOrder++;
 
                 continue;

@@ -57,7 +57,12 @@ function submitCompletedAtForm() {
     </template>
 
     <header class="page-header">
-      <h1 class="page-title">{{ workoutLog.name }}</h1>
+      <h1 class="page-title">
+        <span v-if="workoutLog.order" class="day-number"
+          >Day {{ workoutLog.order }}</span
+        >
+        {{ workoutLog.name }}
+      </h1>
       <p v-if="workoutLog.completedAt" class="completed-at">
         <em>Completed on </em> {{ workoutLog.completedAt }}
       </p>
@@ -69,15 +74,59 @@ function submitCompletedAtForm() {
       class="workout-exercise-log lift-background-gradient"
     >
       <div class="exercise-details">
-        <h2 class="exercise-name">{{ workoutExerciseLog.name }}</h2>
+        <h2 class="exercise-name">
+          {{ workoutExerciseLog.name }}
+        </h2>
 
         <p v-if="workoutExerciseLog.notes" class="exercise-notes">
           {{ workoutExerciseLog.notes }}
         </p>
 
-        <p v-if="workoutExerciseLog.restString" class="rest-string">
-          <strong>Rest: </strong> {{ workoutExerciseLog.restString }}
-        </p>
+        <a
+          v-if="workoutExerciseLog.videoUrl"
+          :href="workoutExerciseLog.videoUrl"
+          class="video-url"
+          target="_blank"
+        >
+          <span class="material-symbols-outlined"> play_arrow </span>
+          Watch
+        </a>
+
+        <ul
+          v-if="
+            workoutExerciseLog?.substitutionOne ||
+            workoutExerciseLog?.substitutionTwo
+          "
+          class="substitutions"
+        >
+          Substitutions:
+          <li v-if="workoutExerciseLog.substitutionOne">
+            <a
+              v-if="workoutExerciseLog.substitutionOne.videoUrl"
+              :href="workoutExerciseLog.substitutionOne.videoUrl"
+              class="substitution-url"
+              target="_blank"
+            >
+              {{ workoutExerciseLog.substitutionOne.name }}
+            </a>
+            <span v-else>
+              {{ workoutExerciseLog.substitutionOne.name }}
+            </span>
+          </li>
+          <li v-if="workoutExerciseLog.substitutionTwo">
+            <a
+              v-if="workoutExerciseLog.substitutionTwo.videoUrl"
+              :href="workoutExerciseLog.substitutionTwo.videoUrl"
+              class="substitution-url"
+              target="_blank"
+            >
+              {{ workoutExerciseLog.substitutionTwo.name }}
+            </a>
+            <span v-else>
+              {{ workoutExerciseLog.substitutionTwo.name }}
+            </span>
+          </li>
+        </ul>
       </div>
 
       <details
@@ -134,7 +183,10 @@ function submitCompletedAtForm() {
           <small v-if="setLog.isOptional">(Optional)</small>
         </h3>
 
-        <p v-if="setLog.repsRpeIntensity" class="rep-string">
+        <p
+          v-if="!setLog.isWarmUp && setLog.repsRpeIntensity"
+          class="rep-string"
+        >
           {{ setLog.repsRpeIntensity }}
         </p>
 
@@ -233,7 +285,15 @@ function submitCompletedAtForm() {
 
 <style scoped>
 .page-title {
+  display: flex;
+  flex-direction: column;
   margin-block-end: var(--size-6xs);
+}
+
+.day-number {
+  color: var(--color-neutral-500);
+  font-size: var(--size-base);
+  font-weight: 500;
 }
 
 .completed-at {
@@ -249,7 +309,10 @@ function submitCompletedAtForm() {
 }
 
 .exercise-name {
+  align-items: center;
+  display: flex;
   font-size: var(--size-lg);
+  column-gap: var(--size-xs);
   margin-block-end: var(--size-7xs);
 }
 
@@ -260,6 +323,36 @@ function submitCompletedAtForm() {
 
 .rest-string {
   font-size: var(--size-sm);
+  margin-block-end: var(--size-3xs);
+}
+
+.video-url {
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid var(--color-neutral-950);
+  border-radius: var(--size-base);
+  font-size: var(--size-sm);
+  font-weight: 500;
+  display: flex;
+  margin-block-end: var(--size-3xs);
+  padding: var(--size-8xs) var(--size-xs);
+  text-decoration: none;
+  width: fit-content;
+}
+
+.substitutions {
+  font-size: var(--size-sm);
+  font-weight: 500;
+  list-style-position: inside;
+}
+
+.substitutions li {
+  font-weight: 400;
+}
+
+.video_url .material-symbols-outlined {
+  font-size: var(--size-base);
+  margin-inline-end: var(--size-8xs);
 }
 
 .exercise-history {
@@ -309,6 +402,8 @@ function submitCompletedAtForm() {
 }
 
 .set-name {
+  align-items: center;
+  display: flex;
   font-size: var(--size-sm);
   margin-block-end: var(--size-3xs);
 }
@@ -316,7 +411,7 @@ function submitCompletedAtForm() {
 .set-name small {
   font-size: var(--size-xs);
   font-weight: 400;
-  margin-inline-start: var(--size-3xs);
+  margin-inline-start: var(--size-6xs);
 }
 
 .rep-string {

@@ -71,6 +71,7 @@ class WorkoutLog extends Model
                 return $this->only([
                     'id',
                     'name',
+                    'order'
                 ]) + [
                     'completedAt' => $this->completed_at?->format('M d, Y \a\t g:i A'),
                     'workoutExerciseLogs' => $this->workoutExerciseLogs->map(function ($workoutExerciseLog) {
@@ -82,6 +83,19 @@ class WorkoutLog extends Model
                         ]) + [
                             'notes' => $workoutExerciseLog->workoutExercise->notes,
                             'restString' => $workoutExerciseLog->workoutExercise->restString,
+                            'videoUrl' => $workoutExerciseLog->workoutExercise->exercise->video_url,
+                            'substitutionOne' => $workoutExerciseLog->workoutExercise->substitutionOne
+                                ? [
+                                    'name' => $workoutExerciseLog->workoutExercise->substitutionOne->name,
+                                    'videoUrl' => $workoutExerciseLog->workoutExercise->substitutionOne->video_url,
+                                ]
+                                : null,
+                            'substitutionTwo' => $workoutExerciseLog->workoutExercise->substitutionTwo
+                                ? [
+                                    'name' => $workoutExerciseLog->workoutExercise->substitutionTwo->name,
+                                    'videoUrl' => $workoutExerciseLog->workoutExercise->substitutionTwo->video_url,
+                                ]
+                                : null,
                             'pastLogs' => $workoutExerciseLog->getPastLogs()->map(function ($workoutExerciseLog) {
                                 return $workoutExerciseLog->only(['id']) + [
                                     'setLogs' => $workoutExerciseLog->setLogs->pluck('myWorkoutResource')

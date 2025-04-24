@@ -23,6 +23,16 @@ class WorkoutExercise extends Model
         return $this->belongsTo(Exercise::class);
     }
 
+    public function substitutionOne()
+    {
+        return $this->belongsTo(Exercise::class, 'substitution_1_id');
+    }
+
+    public function substitutionTwo()
+    {
+        return $this->belongsTo(Exercise::class, 'substitution_2_id');
+    }
+
     public function sets()
     {
         return $this->hasMany(Set::class)->orderByDesc('is_warm_up')->orderBy('order');
@@ -51,7 +61,7 @@ class WorkoutExercise extends Model
 
                 $restTime = (string) (count($parts) === 1 ? $parts[0] : implode('–', $parts));
 
-                return $restTime . ($restTime === '1' ? ' min' : ' mins');
+                return 'Rest: ' . $restTime . ($restTime === '1' ? ' min.' : ' mins.');
             }
         );
     }

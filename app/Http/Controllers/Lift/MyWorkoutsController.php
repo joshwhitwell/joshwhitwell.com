@@ -18,7 +18,9 @@ class MyWorkoutsController extends Controller
 
         $workoutLog->load([
             'workoutExerciseLogs.workoutExercise.exercise',
-            'workoutExerciseLogs.setLogs.set'
+            'workoutExerciseLogs.workoutExercise.substitutionOne',
+            'workoutExerciseLogs.workoutExercise.substitutionTwo',
+            'workoutExerciseLogs.setLogs.set.workoutExercise'
         ]);
 
         return inertia('Lift/MyWorkout', [
