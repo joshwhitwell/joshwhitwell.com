@@ -45,6 +45,11 @@ defineProps({ weekLog: Object, programLog: Object });
 .week-details summary {
   display: flex;
   list-style: none;
+  -webkit-list-style: none;
+}
+
+.week-details summary::-webkit-details-marker {
+  display: none;
 }
 
 .week-name {
