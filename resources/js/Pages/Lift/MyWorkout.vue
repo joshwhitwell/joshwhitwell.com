@@ -293,7 +293,7 @@ function submitCompletedAtForm() {
 .day-number {
   color: var(--color-neutral-500);
   font-size: var(--size-base);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .completed-at {
@@ -405,7 +405,7 @@ function submitCompletedAtForm() {
   align-items: center;
   display: flex;
   font-size: var(--size-sm);
-  margin-block-end: var(--size-3xs);
+  margin-block-end: var(--size-6xs);
 }
 
 .set-name small {

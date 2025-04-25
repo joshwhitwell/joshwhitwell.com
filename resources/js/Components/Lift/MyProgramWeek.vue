@@ -7,7 +7,7 @@ defineProps({ weekLog: Object, programLog: Object });
 <template>
   <details
     :open="weekLog.workoutLogs.some((workoutLog) => !workoutLog.completedAt)"
-    class="week-details lift-background-gradient"
+    class="week-details"
   >
     <summary>
       <h3 class="week-name">
@@ -37,7 +37,7 @@ defineProps({ weekLog: Object, programLog: Object });
 
 <style scoped>
 .week-details {
-  border: none;
+  border: 2px solid var(--color-neutral-200);
   border-radius: var(--size-base);
   margin-block-end: var(--size-xl);
 }
@@ -61,18 +61,5 @@ defineProps({ weekLog: Object, programLog: Object });
   display: flex;
   flex-direction: column;
   padding-inline: var(--size-3xs);
-}
-
-.completed-tag {
-  align-items: flex-start;
-  border: 2px solid var(--color-lime-500);
-  border-radius: var(--size-base);
-  color: var(--color-lime-500);
-  display: flex;
-  font-size: var(--size-base);
-  font-weight: 100;
-  justify-content: center;
-  padding: var(--size-9xs);
-  text-decoration: none;
 }
 </style>

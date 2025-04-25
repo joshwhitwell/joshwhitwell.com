@@ -30,7 +30,6 @@ class ParseHtml extends Command
         $json = [];
 
         while (($row = fgetcsv($handle, 0, ',')) !== false) {
-            dd($row);
             if (strpos($row[0], 'Week') !== false) {
                 if (!isset($headers)) {
                     $headers = $row;

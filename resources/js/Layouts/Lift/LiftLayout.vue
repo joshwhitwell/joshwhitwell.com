@@ -46,4 +46,17 @@
 :deep(.input) {
   font-family: var(--font-family-mono);
 }
+
+:deep(.completed-tag) {
+  align-items: flex-start;
+  border: 2px solid var(--color-lime-600);
+  border-radius: var(--size-base);
+  color: var(--color-lime-600);
+  display: flex;
+  font-size: var(--size-base);
+  font-weight: 100;
+  justify-content: center;
+  padding: var(--size-9xs);
+  text-decoration: none;
+}
 </style>

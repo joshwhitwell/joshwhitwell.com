@@ -46,6 +46,7 @@ defineProps({ programLogs: Object });
   display: grid;
   gap: var(--size-base);
   grid-template-columns: repeat(auto-fill, 1fr);
+  margin-block-end: var(--size-5xl);
 }
 
 .program-log {

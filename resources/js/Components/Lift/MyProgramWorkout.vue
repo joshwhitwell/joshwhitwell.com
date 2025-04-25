@@ -9,7 +9,7 @@ defineProps({ workoutLog: Object, programLog: Object });
     :href="
       route('lift.my.programs.workouts.edit', [programLog.id, workoutLog.id])
     "
-    class="workout-log"
+    class="workout-log lift-background-gradient"
   >
     <h4 class="workout-name">
       {{ workoutLog.name }}
@@ -35,18 +35,5 @@ defineProps({ workoutLog: Object, programLog: Object });
   display: flex;
   justify-content: space-between;
   width: 100%;
-}
-
-.completed-tag {
-  align-items: flex-start;
-  border: 2px solid var(--color-lime-500);
-  border-radius: var(--size-base);
-  color: var(--color-lime-500);
-  display: flex;
-  font-size: var(--size-base);
-  font-weight: 100;
-  justify-content: center;
-  padding: var(--size-9xs);
-  text-decoration: none;
 }
 </style>
