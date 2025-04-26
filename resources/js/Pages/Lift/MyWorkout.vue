@@ -220,6 +220,7 @@ const getWarmUpPercentage = (workoutExerciseLog, setLog) => {
             <input
               :id="'reps_' + setLog.id"
               name="reps"
+              type="number"
               v-model="setLogForms[setLog.id].reps"
               @input="setLogForms[setLog.id].clearErrors('reps')"
               class="input"
@@ -237,6 +238,7 @@ const getWarmUpPercentage = (workoutExerciseLog, setLog) => {
             <input
               :id="'weight_' + setLog.id"
               name="weight"
+              type="number"
               v-model="setLogForms[setLog.id].weight"
               @input="setLogForms[setLog.id].clearErrors('weight')"
               class="input"
