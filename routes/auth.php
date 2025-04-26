@@ -18,7 +18,7 @@ Route::middleware('guest')->group(function () {
         if (Auth::attempt($credentials, remember: true)) {
             $request->session()->regenerate();
 
-            return redirect('/');
+            return redirect('/lift/my/programs');
         }
 
         return back()->withErrors([
@@ -30,7 +30,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('logout', function (Request $request) {
         Auth::logout();
-        
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
