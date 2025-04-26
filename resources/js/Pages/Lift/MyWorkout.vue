@@ -42,6 +42,21 @@ function submitCompletedAtForm() {
     }
   );
 }
+
+const warmUpPyramid = {
+  1: ['60%'],
+  2: ['50%', '70%'],
+  3: ['45%', '65%', '85%'],
+};
+
+const getWarmUpPercentage = (workoutExerciseLog, setLog) => {
+  const totalWarmUps =
+    workoutExerciseLog?.setLogs?.filter((setLog) => setLog?.isWarmUp)?.length ||
+    0;
+  const warmUpNumber = (setLog?.order || 0) - 1;
+
+  return warmUpPyramid?.[totalWarmUps]?.[warmUpNumber] || '';
+};
 </script>
 
 <template>
@@ -188,6 +203,9 @@ function submitCompletedAtForm() {
           class="rep-string"
         >
           {{ setLog.repsRpeIntensity }}
+        </p>
+        <p v-else-if="setLog.isWarmUp" class="rep-string">
+          {{ getWarmUpPercentage(workoutExerciseLog, setLog) }}
         </p>
 
         <div class="input-row">
