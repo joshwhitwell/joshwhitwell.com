@@ -122,8 +122,14 @@ class WorkoutLog extends Model
                                 ]
                                 : null,
                             'pastLogs' => $workoutExerciseLog->getPastLogs()->map(function ($workoutExerciseLog) {
+                                $setLogs = $workoutExerciseLog->setLogs->pluck('myWorkoutResource');
+                                $totalVolume = $setLogs->sum(function ($setLog) {
+                                    return ($setLog['reps'] ?? 0) * ($setLog['weight'] ?? 0);
+                                });
+                                $setLogs = $setLogs->concat([['volume' => $totalVolume]]);
+
                                 return $workoutExerciseLog->only(['id']) + [
-                                    'setLogs' => $workoutExerciseLog->setLogs->pluck('myWorkoutResource')
+                                    'setLogs' => $setLogs
                                 ];
                             }),
                             'setLogs' => $workoutExerciseLog->setLogs->pluck('myWorkoutResource')

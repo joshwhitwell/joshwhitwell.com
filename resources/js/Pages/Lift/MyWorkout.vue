@@ -196,14 +196,23 @@ const getWarmUpPercentage = (workoutExerciseLog, setLog) => {
               </tr>
               <tr v-for="setLog in pastExerciseLog.setLogs" :key="setLog.id">
                 <td>
-                  {{ setLog.isWarmUp ? 'Warm Up' : 'Set' }}
-                  {{ setLog.order }}
+                  {{
+                    typeof setLog.order === 'undefined'
+                      ? ''
+                      : setLog.isWarmUp
+                      ? 'Warm Up'
+                      : 'Set'
+                  }}
+                  {{ typeof setLog.order === 'undefined' ? '' : setLog.order }}
                 </td>
                 <td style="text-align: right" class="font-monospace">
-                  {{ setLog.reps ?? '-' }}
+                  {{ typeof setLog.reps === 'undefined' ? '' : setLog.reps }}
                 </td>
                 <td style="text-align: right" class="font-monospace">
-                  {{ setLog.weight ?? '-' }}
+                  <strong v-if="setLog?.volume || setLog.volume === 0">{{
+                    setLog.volume
+                  }}</strong>
+                  <span v-else>{{ setLog.weight ?? '-' }}</span>
                 </td>
               </tr>
             </template>

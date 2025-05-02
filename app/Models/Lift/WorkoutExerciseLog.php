@@ -38,14 +38,17 @@ class WorkoutExerciseLog extends Model
 
     public function getPastLogs()
     {
-        return self::where('workout_log_id', '!=', $this->workout_log_id)
+        return self::where('user_id', auth()->id())
+            ->whereHas(
+                'workoutLog',
+                fn ($q) => $q->where('program_log_id', $this->workoutLog->program_log_id)
+                    ->where('id', '!=', $this->workout_log_id)
+                    ->where('order', '<', $this->workoutLog->order)
+            )
             ->whereHas(
                 'workoutExercise',
                 fn ($q) => $q->where('exercise_id', $this->workoutExercise->exercise_id)
-            )
-            ->whereHas(
-                'workoutLog',
-                fn ($q) => $q->where('order', '<', $this->workoutLog->order)
+                    ->where('order', $this->workoutExercise->order)
             )
             ->orderBy('order')
             ->with([
