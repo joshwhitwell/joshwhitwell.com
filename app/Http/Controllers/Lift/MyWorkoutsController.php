@@ -20,7 +20,7 @@ class MyWorkoutsController extends Controller
             'workoutExerciseLogs.workoutExercise.exercise',
             'workoutExerciseLogs.workoutExercise.substitutionOne',
             'workoutExerciseLogs.workoutExercise.substitutionTwo',
-            'workoutExerciseLogs.setLogs.set.workoutExercise'
+            'workoutExerciseLogs.setLogs.set.workoutExercise',
         ]);
 
         return inertia('Lift/MyWorkout', [

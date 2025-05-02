@@ -32,9 +32,9 @@ const liftStatus = page.props.liftStatus;
                 workoutLog.status === liftStatus.Skipped
             )
           "
-          class="completed-tag"
+          :class="['status-pill', `status-pill--completed`]"
         >
-          <span class="material-symbols-outlined"> check </span>
+          completed
         </small>
       </h3>
     </summary>

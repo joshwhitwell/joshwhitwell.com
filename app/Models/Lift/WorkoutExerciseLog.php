@@ -49,7 +49,7 @@ class WorkoutExerciseLog extends Model
             )
             ->orderBy('order')
             ->with([
-                'setLogs.set'
+                'setLogs.set.workoutExercise'
             ])
             ->get();
     }

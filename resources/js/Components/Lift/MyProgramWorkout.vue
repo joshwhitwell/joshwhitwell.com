@@ -47,24 +47,4 @@ const liftStatus = page.props.liftStatus;
   justify-content: space-between;
   width: 100%;
 }
-
-.status-pill {
-  border: 2px solid var(--color-neutral-950);
-  border-radius: var(--size-base);
-  font-size: var(--size-xs);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: -0.25px;
-  padding: var(--size-4xs) var(--size-2xs);
-}
-
-.status-pill--completed {
-  border-color: var(--color-lime-500);
-  color: var(--color-lime-500);
-}
-
-.status-pill--skipped {
-  border-color: var(--color-blue-400);
-  color: var(--color-blue-400);
-}
 </style>

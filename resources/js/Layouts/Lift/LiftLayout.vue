@@ -47,16 +47,23 @@
   font-family: var(--font-family-mono);
 }
 
-:deep(.completed-tag) {
-  align-items: flex-start;
-  border: 2px solid var(--color-lime-600);
+:deep(.status-pill) {
+  border: 2px solid var(--color-neutral-950);
   border-radius: var(--size-base);
-  color: var(--color-lime-600);
-  display: flex;
-  font-size: var(--size-base);
-  font-weight: 100;
-  justify-content: center;
-  padding: var(--size-9xs);
-  text-decoration: none;
+  font-size: var(--size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: -0.25px;
+  padding: var(--size-4xs) var(--size-2xs);
+}
+
+:deep(.status-pill--completed) {
+  border-color: var(--color-lime-500);
+  color: var(--color-lime-500);
+}
+
+:deep(.status-pill--skipped) {
+  border-color: var(--color-blue-400);
+  color: var(--color-blue-400);
 }
 </style>

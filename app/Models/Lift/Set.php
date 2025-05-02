@@ -3,6 +3,7 @@
 namespace App\Models\Lift;
 
 use App\Models\Lift\SetLog;
+use App\Models\Lift\WorkoutExercise;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
