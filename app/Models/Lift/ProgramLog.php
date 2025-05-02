@@ -58,7 +58,7 @@ class ProgramLog extends Model
                     'name' => $this->program->name,
                     'status' => $this->status,
                     'statusLabel' => $this->status->label(),
-                    'completedWorkoutCount' => $this->workoutLogs()->where('status', LiftStatus::Completed)->count(),
+                    'completedWorkoutCount' => $this->workoutLogs()->whereIn('status', [LiftStatus::Completed, LiftStatus::Skipped])->count(),
                     'totalWorkoutCount' => $this->workoutLogs()->count()
                 ];
             }

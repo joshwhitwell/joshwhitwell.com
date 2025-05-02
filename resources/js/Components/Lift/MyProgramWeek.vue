@@ -1,12 +1,23 @@
 <script setup>
 import MyProgramWorkout from './MyProgramWorkout.vue';
+import { usePage } from '@inertiajs/vue3';
 
 defineProps({ weekLog: Object, programLog: Object });
+
+const page = usePage();
+
+const liftStatus = page.props.liftStatus;
 </script>
 
 <template>
   <details
-    :open="weekLog.workoutLogs.some((workoutLog) => !workoutLog.completedAt)"
+    :open="
+      weekLog.workoutLogs.some(
+        (workoutLog) =>
+          workoutLog.status === liftStatus.NotStarted ||
+          workoutLog.status === liftStatus.InProgress
+      )
+    "
     class="week-details"
   >
     <summary>
@@ -14,8 +25,12 @@ defineProps({ weekLog: Object, programLog: Object });
         {{ weekLog.name }}
         <small
           v-if="
-            weekLog.completedAt ||
-            weekLog.workoutLogs.every((workoutLog) => workoutLog.completedAt)
+            weekLog.status === liftStatus.Completed ||
+            weekLog.workoutLogs.every(
+              (workoutLog) =>
+                workoutLog.status === liftStatus.Completed ||
+                workoutLog.status === liftStatus.Skipped
+            )
           "
           class="completed-tag"
         >

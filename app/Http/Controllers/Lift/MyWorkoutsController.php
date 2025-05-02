@@ -26,7 +26,6 @@ class MyWorkoutsController extends Controller
         return inertia('Lift/MyWorkout', [
             'programLog' => $programLog->myProgramsResource,
             'workoutLog' => $workoutLog->myWorkoutResource,
-            'liftStatus' => LiftStatus::options(),
         ]);
     }
 

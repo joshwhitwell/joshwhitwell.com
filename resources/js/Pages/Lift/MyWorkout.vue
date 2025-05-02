@@ -1,13 +1,16 @@
 <script setup>
 import { ref } from 'vue';
 import Layout from '../../Layouts/Lift/LiftLayout.vue';
-import { Link, router, useForm } from '@inertiajs/vue3';
+import { Link, router, useForm, usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
   programLog: Object,
   workoutLog: Object,
-  liftStatus: Object,
 });
+
+const page = usePage();
+
+const liftStatus = page.props.liftStatus;
 
 function initSetLogForms() {
   return (
@@ -25,7 +28,7 @@ function initSetLogForms() {
 
 const setLogForms = ref(initSetLogForms());
 
-function submitCompletedAtForm() {
+function submitStatusForm(status) {
   router.post(
     route('lift.my.programs.workouts.update', [
       props.programLog.id,
@@ -33,9 +36,7 @@ function submitCompletedAtForm() {
     ]),
     {
       _method: 'put',
-      status: props.workoutLog.completedAt
-        ? props.liftStatus.NotStarted
-        : props.liftStatus.Completed,
+      status,
     },
     {
       preserveState: false,
@@ -78,8 +79,32 @@ const getWarmUpPercentage = (workoutExerciseLog, setLog) => {
         >
         {{ workoutLog.name }}
       </h1>
-      <p v-if="workoutLog.completedAt" class="completed-at">
+      <form
+        v-if="workoutLog.status === liftStatus.NotStarted"
+        @submit.prevent="submitStatusForm(liftStatus.InProgress)"
+        class="start-workout-form"
+      >
+        <button type="submit" class="button button--green">
+          Start Workout
+        </button>
+      </form>
+      <p
+        v-else-if="workoutLog.status === liftStatus.InProgress"
+        class="completed-at"
+      >
+        <em>Started on </em> {{ workoutLog.startedAt }}
+      </p>
+      <p
+        v-else-if="workoutLog.status === liftStatus.Completed"
+        class="completed-at"
+      >
         <em>Completed on </em> {{ workoutLog.completedAt }}
+      </p>
+      <p
+        v-else-if="workoutLog.status === liftStatus.Skipped"
+        class="completed-at"
+      >
+        <em>Skipped on </em> {{ workoutLog.completedAt }}
       </p>
     </header>
 
@@ -272,7 +297,7 @@ const getWarmUpPercentage = (workoutExerciseLog, setLog) => {
 
             <button
               type="button"
-              class="button button-neutral"
+              class="button button--neutral"
               @click="setLogForms[setLog.id]?.reset()"
             >
               <span class="material-symbols-outlined"> close </span>
@@ -291,13 +316,42 @@ const getWarmUpPercentage = (workoutExerciseLog, setLog) => {
       </div>
     </div>
 
-    <form @submit.prevent="submitCompletedAtForm" class="complete-workout-form">
+    <form
+      @submit.prevent="
+        submitStatusForm(
+          workoutLog.status === liftStatus.Completed
+            ? liftStatus.NotStarted
+            : liftStatus.Completed
+        )
+      "
+      class="complete-workout-form"
+    >
       <button
-        type="submit"
-        class="button"
-        :class="{ 'button-outline button-red': workoutLog?.completedAt }"
+        :class="[
+          'button',
+          {
+            'button--outline button--red':
+              workoutLog.status === liftStatus.Completed,
+          },
+        ]"
       >
-        {{ workoutLog.completedAt ? 'Mark Workout Incomplete' : 'Complete' }}
+        {{
+          workoutLog.status === liftStatus.Completed
+            ? 'Mark Workout Incomplete'
+            : 'Complete Workout'
+        }}
+      </button>
+    </form>
+    <form
+      v-if="
+        workoutLog.status !== liftStatus.Completed &&
+        workoutLog.status !== liftStatus.Skipped
+      "
+      @submit.prevent="submitStatusForm(liftStatus.Skipped)"
+      class="complete-workout-form"
+    >
+      <button type="submit" class="button button--blue button--outline">
+        Skip Workout
       </button>
     </form>
   </Layout>

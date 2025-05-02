@@ -14,6 +14,7 @@ class WorkoutLog extends Model
 
     protected $casts = [
         'status' => LiftStatus::class,
+        'started_at' => 'datetime',
         'completed_at' => 'datetime',
     ];
 
@@ -40,12 +41,34 @@ class WorkoutLog extends Model
     {
         return Attribute::make(
             set: function ($value) {
-                return [
+                $now = now();
+                $updates = [
                     'status' => $value,
-                    'completed_at' => $value === LiftStatus::Completed->value
-                        ? now()
-                        : null
                 ];
+
+                switch ($value) {
+                    case LiftStatus::NotStarted->value:
+                        $updates['started_at'] = null;
+                        $updates['completed_at'] = null;
+                        break;
+
+                    case LiftStatus::InProgress->value:
+                        $updates['started_at'] = $now;
+                        $updates['completed_at'] = null;
+                        break;
+
+                    case LiftStatus::Completed->value:
+                        $updates['started_at'] = $this->started_at ?? $now;
+                        $updates['completed_at'] = $now;
+                        break;
+
+                    case LiftStatus::Skipped->value:
+                        $updates['started_at'] = $this->started_at;
+                        $updates['completed_at'] = $now;
+                        break;
+                }
+
+                return $updates;
             }
         );
     }
@@ -55,10 +78,10 @@ class WorkoutLog extends Model
         return Attribute::make(
             get: function () {
                 return $this->only([
-                    'id'
+                    'id',
+                    'status'
                 ]) + [
                     'name' => $this->workout->name,
-                    'completedAt' => $this->completed_at
                 ];
             }
         );
@@ -71,8 +94,10 @@ class WorkoutLog extends Model
                 return $this->only([
                     'id',
                     'name',
-                    'order'
+                    'order',
+                    'status'
                 ]) + [
+                    'startedAt' => $this->started_at?->format('M d, Y \a\t g:i A'),
                     'completedAt' => $this->completed_at?->format('M d, Y \a\t g:i A'),
                     'workoutExerciseLogs' => $this->workoutExerciseLogs->map(function ($workoutExerciseLog) {
                         $workoutExerciseLog->setRelation('workoutLog', $this);

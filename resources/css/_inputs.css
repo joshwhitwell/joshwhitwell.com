@@ -25,7 +25,7 @@
 }
 
 .button {
-  background-color: var(--color-neutral-950);
+  background-color: var(--color-neutral-800);
   border: none;
   border-radius: var(--size-base);
   color: var(--color-neutral-50);
@@ -42,18 +42,23 @@
   color: var(--color-orange-400);
 }
 
-.button-neutral {
+.button--neutral {
   background-color: var(--color-neutral-50);
   color: var(--color-neutral-950);
 }
 
-.button-outline {
+.button--outline {
   background-color: transparent;
   border: 2px solid var(--color-neutral-600);
   color: var(--color-neutral-600);
 }
 
-.button-red.button-outline {
+.button--outline.button--red {
   border-color: var(--color-red-600);
   color: var(--color-red-600);
+}
+
+.button--outline.button--blue {
+  border-color: var(--color-blue-600);
+  color: var(--color-blue-600);
 }
