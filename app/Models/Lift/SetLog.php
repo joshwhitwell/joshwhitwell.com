@@ -20,6 +20,17 @@ class SetLog extends Model
         return $this->belongsTo(Set::class);
     }
 
+    public function volume(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return isset($this->weight) && isset($this->reps)
+                    ? round(($this->reps ?? 0) * ($this->weight ?: 1), 1)
+                    : null;
+            }
+        );
+    }
+
     protected function myWorkoutResource(): Attribute
     {
         return Attribute::make(
@@ -29,6 +40,7 @@ class SetLog extends Model
                     'order',
                     'reps',
                     'weight',
+                    'volume',
                 ]) + [
                     'isWarmUp' => $this->is_warm_up,
                     'isOptional' => $this->set->is_optional,

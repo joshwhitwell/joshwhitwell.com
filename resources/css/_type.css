@@ -4,7 +4,7 @@ html {
   color: var(--color-neutral-950);
   font-family: var(--font-family-sans);
   font-size: var(--size-base);
-  font-weight: 400;
+  font-weight: var(--font-weight-400);
 }
 
 * {
@@ -16,4 +16,8 @@ html {
 .material-symbols-outlined {
   color: inherit;
   font-size: inherit;
+}
+
+.font-weight-700 {
+  font-weight: var(--font-weight-700)
 }

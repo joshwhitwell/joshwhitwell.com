@@ -123,12 +123,15 @@ class WorkoutLog extends Model
                                 : null,
                             'pastLogs' => $workoutExerciseLog->getPastLogs()->map(function ($workoutExerciseLog) {
                                 $setLogs = $workoutExerciseLog->setLogs->pluck('myWorkoutResource');
-                                $totalVolume = $setLogs->sum(function ($setLog) {
-                                    return ($setLog['reps'] ?? 0) * ($setLog['weight'] ?? 0);
-                                });
+                                $totalVolume = $setLogs->contains('volume', '!==', null)
+                                    ? round($setLogs->sum('volume'), 1)
+                                    : null;
+                                $isWhole = isset($totalVolume) && fmod($totalVolume, 1) === 0.0;
+                                $totalVolume = isset($totalVolume) ? number_format($totalVolume, $isWhole ? 0 : 1) : '-';
                                 $setLogs = $setLogs->concat([['volume' => $totalVolume]]);
 
                                 return $workoutExerciseLog->only(['id']) + [
+                                    'label' => $workoutExerciseLog->workout_log_id === $this->id ? 'Today' : $workoutExerciseLog?->workoutLog?->completed_at?->format('M j'),
                                     'setLogs' => $setLogs
                                 ];
                             }),

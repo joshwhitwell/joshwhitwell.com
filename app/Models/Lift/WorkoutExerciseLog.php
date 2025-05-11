@@ -42,16 +42,20 @@ class WorkoutExerciseLog extends Model
             ->whereHas(
                 'workoutLog',
                 fn ($q) => $q->where('program_log_id', $this->workoutLog->program_log_id)
-                    ->where('id', '!=', $this->workout_log_id)
-                    ->where('order', '<', $this->workoutLog->order)
+                    ->where('order', '<=', $this->workoutLog->order)
             )
             ->whereHas(
                 'workoutExercise',
                 fn ($q) => $q->where('exercise_id', $this->workoutExercise->exercise_id)
                     ->where('order', $this->workoutExercise->order)
             )
+            ->whereHas(
+                'setLogs',
+                fn ($q) => $q->whereNotNull('reps')->orWhereNotNull('weight')
+            )
             ->orderBy('order')
             ->with([
+                'workoutLog',
                 'setLogs.set.workoutExercise'
             ])
             ->get();
