@@ -10,6 +10,13 @@ class Week extends Model
 {
     protected $table = 'lift_weeks';
 
+    protected $casts = [
+        'id' => 'integer',
+        'program_id' => 'integer',
+        'phase_id' => 'integer',
+        'order' => 'integer',
+    ];
+
     public function workouts()
     {
         return $this->hasMany(Workout::class)->orderBy('order');

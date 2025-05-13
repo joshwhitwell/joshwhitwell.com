@@ -14,9 +14,13 @@ class ProgramLog extends Model
 {
     protected $table = 'lift_program_logs';
 
-
     protected $casts = [
+        'id' => 'integer',
+        'user_id' => 'integer',
+        'program_id' => 'integer',
         'status' => LiftStatus::class,
+        'started_at' => 'datetime',
+        'completed_at' => 'datetime',
     ];
 
     public function program()

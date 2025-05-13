@@ -11,6 +11,14 @@ class Workout extends Model
 {
     protected $table = 'lift_workouts';
 
+    protected $casts = [
+        'id' => 'integer',
+        'program_id' => 'integer',
+        'phase_id' => 'integer',
+        'week_id' => 'integer',
+        'order' => 'integer',
+    ];
+
     public function program()
     {
         return $this->belongsTo(Program::class);

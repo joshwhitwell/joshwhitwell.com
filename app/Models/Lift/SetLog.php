@@ -12,7 +12,17 @@ class SetLog extends Model
     protected $table = 'lift_set_logs';
 
     protected $casts = [
+        'id' => 'integer',
+        'user_id' => 'integer',
+        'workout_exercise_log_id' => 'integer',
+        'set_id' => 'integer',
+        'reps' => 'integer',
+        'weight' => 'float',
         'status' => LiftStatus::class,
+        'started_at' => 'datetime',
+        'completed_at' => 'datetime',
+        'order' => 'integer',
+        'is_warm_up' => 'boolean',
     ];
 
     public function set()

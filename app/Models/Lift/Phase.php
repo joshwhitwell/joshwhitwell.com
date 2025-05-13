@@ -10,6 +10,12 @@ class Phase extends Model
 {
     protected $table = 'lift_phases';
 
+    protected $casts = [
+        'id' => 'integer',
+        'program_id' => 'integer',
+        'order' => 'integer',
+    ];
+
     public function weeks()
     {
         return $this->hasMany(Week::class)->orderBy('order');

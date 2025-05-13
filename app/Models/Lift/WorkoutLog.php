@@ -13,9 +13,16 @@ class WorkoutLog extends Model
     protected $table = 'lift_workout_logs';
 
     protected $casts = [
+        'id' => 'integer',
+        'user_id' => 'integer',
+        'program_log_id' => 'integer',
+        'phase_log_id' => 'integer',
+        'week_log_id' => 'integer',
+        'workout_id' => 'integer',
         'status' => LiftStatus::class,
         'started_at' => 'datetime',
         'completed_at' => 'datetime',
+        'order' => 'integer',
     ];
 
     public function workout()

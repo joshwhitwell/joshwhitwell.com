@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
 
         Gate::define('belongs-to-user', function (User $authUser, $model) {
-            return $authUser->id && (int) $authUser->id === (int) $model->user_id
+            return $authUser->id === $model->user_id
                 ? Response::allow()
                 : Response::denyAsNotFound();
         });

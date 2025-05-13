@@ -11,6 +11,16 @@ class Set extends Model
 {
     protected $table = 'lift_sets';
 
+    protected $casts = [
+        'id' => 'integer',
+        'workout_exercise_id' => 'integer',
+        'order' => 'integer',
+        'is_warm_up' => 'boolean',
+        'is_optional' => 'boolean',
+        'min_reps' => 'integer',
+        'max_reps' => 'integer',
+    ];
+
     public function workoutExercise()
     {
         return $this->belongsTo(WorkoutExercise::class);

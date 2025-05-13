@@ -13,6 +13,17 @@ class WorkoutExercise extends Model
 {
     protected $table = 'lift_workout_exercises';
 
+    protected $casts = [
+        'id' => 'integer',
+        'workout_id' => 'integer',
+        'exercise_id' => 'integer',
+        'order' => 'integer',
+        'min_rest' => 'integer',
+        'max_rest' => 'integer',
+        'substitution_1_id' => 'integer',
+        'substitution_2_id' => 'integer',
+    ];
+
     public function workout()
     {
         return $this->belongsTo(Workout::class);

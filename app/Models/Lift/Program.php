@@ -13,6 +13,10 @@ class Program extends Model
 {
     protected $table = 'lift_programs';
 
+    protected $casts = [
+        'id' => 'integer',
+    ];
+
     public function phases()
     {
         return $this->hasMany(Phase::class)->orderBy('order');

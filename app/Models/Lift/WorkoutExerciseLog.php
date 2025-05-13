@@ -2,6 +2,7 @@
 
 namespace App\Models\Lift;
 
+use App\Enums\Lift\LiftStatus;
 use App\Models\Lift\SetLog;
 use App\Models\Lift\WorkoutLog;
 use App\Models\Lift\WorkoutExercise;
@@ -11,6 +12,17 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class WorkoutExerciseLog extends Model
 {
     protected $table = 'lift_workout_exercise_logs';
+
+    protected $casts = [
+        'id' => 'integer',
+        'user_id' => 'integer',
+        'workout_log_id' => 'integer',
+        'workout_exercise_id' => 'integer',
+        'status' => LiftStatus::class,
+        'started_at' => 'datetime',
+        'completed_at' => 'datetime',
+        'order' => 'integer',
+    ];
 
     public function workoutLog()
     {
