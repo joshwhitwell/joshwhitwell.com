@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Lift\SetLogController;
 use App\Http\Controllers\Lift\MyProgramsController;
 use App\Http\Controllers\Lift\MyWorkoutsController;
+use App\Http\Controllers\Lift\Admin\AdminProgramController;
 
 // Lift
 Route::group([
@@ -11,6 +12,17 @@ Route::group([
     'prefix' => 'lift',
     'middleware' => ['auth']
 ], function () {
+    Route::group([
+        'as' => 'admin.',
+        'prefix' => 'admin'
+    ], function () {
+        // Programs
+        Route::resource(
+            'programs',
+            AdminProgramController::class
+        );
+    });
+
     // My
     Route::group([
         'as' => 'my.',
@@ -25,7 +37,7 @@ Route::group([
         )->parameters([
             'programs' => 'programLog'
         ]);
-        
+
         // Workouts
         Route::resource(
             'programs.workouts',
