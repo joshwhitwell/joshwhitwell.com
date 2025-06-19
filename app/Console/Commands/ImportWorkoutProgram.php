@@ -251,6 +251,10 @@ class ImportWorkoutProgram extends Command
 
     public function getReps(string $reps): array
     {
+        if (str_contains($reps, '/')) {
+            $parts = explode('/', $reps);
+            $reps = (int)$parts[0] + (int)$parts[1];
+        }
         $reps = preg_replace('/[^\d-]/', '', $reps);
         $reps = trim($reps);
 

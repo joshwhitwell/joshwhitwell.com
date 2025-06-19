@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder
         //     WorkoutProgramSeeder::class,
         // ]);
 
-        $this->command->call('app:import-workout-program', [
-            'filename' => 'the-essentials-program-5x.csv',
-        ]);
+        // $this->command->call('app:import-workout-program', [
+        //     'filename' => 'the-essentials-program-5x.csv',
+        // ]);
     }
 }
