@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('program_log_id')->constrained('lift_program_logs')->cascadeOnDelete();
-            $table->foreignId('phase_log_id')->nullable()->constrained('lift_phase_logs')->cascadeOnDelete();
+            $table->foreignId('phase_log_id')->constrained('lift_phase_logs')->cascadeOnDelete();
             $table->foreignId('week_id')->constrained('lift_weeks')->cascadeOnDelete();
             $table->string('status')->default(LiftStatus::NotStarted);
             $table->datetime('started_at')->nullable();

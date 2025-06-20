@@ -111,21 +111,24 @@ class WorkoutLog extends Model
 
                         return $workoutExerciseLog->only([
                             'id',
-                            'name'
+                            'name',
+                            'status'
                         ]) + [
+                            'startedAt' => $workoutExerciseLog->started_at?->format('M d, Y \a\t g:i A'),
+                            'completedAt' => $workoutExerciseLog->completed_at?->format('M d, Y \a\t g:i A'),
                             'notes' => $workoutExerciseLog->workoutExercise->notes,
                             'restString' => $workoutExerciseLog->workoutExercise->restString,
-                            'videoUrl' => $workoutExerciseLog->workoutExercise->exercise->video_url,
+                            'videoUrl' => $workoutExerciseLog->workoutExercise->exercise->exerciseVideos->first()?->url,
                             'substitutionOne' => $workoutExerciseLog->workoutExercise->substitutionOne
                                 ? [
                                     'name' => $workoutExerciseLog->workoutExercise->substitutionOne->name,
-                                    'videoUrl' => $workoutExerciseLog->workoutExercise->substitutionOne->video_url,
+                                    'videoUrl' => $workoutExerciseLog->workoutExercise->substitutionOne->exerciseVideos->first()->url,
                                 ]
                                 : null,
                             'substitutionTwo' => $workoutExerciseLog->workoutExercise->substitutionTwo
                                 ? [
                                     'name' => $workoutExerciseLog->workoutExercise->substitutionTwo->name,
-                                    'videoUrl' => $workoutExerciseLog->workoutExercise->substitutionTwo->video_url,
+                                    'videoUrl' => $workoutExerciseLog->workoutExercise->substitutionTwo->exerciseVideos->first()?->url,
                                 ]
                                 : null,
                             'pastLogs' => $workoutExerciseLog->getPastLogs()->map(function ($workoutExerciseLog) {
@@ -138,7 +141,9 @@ class WorkoutLog extends Model
                                 $setLogs = $setLogs->concat([['volume' => $totalVolume]]);
 
                                 return $workoutExerciseLog->only(['id']) + [
-                                    'label' => $workoutExerciseLog->workout_log_id === $this->id ? 'Today' : $workoutExerciseLog?->workoutLog?->completed_at?->format('M j'),
+                                    'label' => $workoutExerciseLog->workout_log_id === $this->id
+                                        ? 'Today'
+                                        : $workoutExerciseLog?->workoutLog?->completed_at?->format('M j'),
                                     'setLogs' => $setLogs
                                 ];
                             }),

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('max_reps')->nullable();
             $table->string('rpe')->nullable();
             $table->string('intensity_technique')->nullable();
+            $table->string('percent_one_rep_max')->nullable();
             $table->timestamps();
         });
     }

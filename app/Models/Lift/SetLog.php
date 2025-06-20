@@ -4,11 +4,14 @@ namespace App\Models\Lift;
 
 use App\Models\Lift\Set;
 use App\Enums\Lift\LiftStatus;
+use App\Traits\HasLiftStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class SetLog extends Model
 {
+    use HasLiftStatus;
+    
     protected $table = 'lift_set_logs';
 
     protected $casts = [

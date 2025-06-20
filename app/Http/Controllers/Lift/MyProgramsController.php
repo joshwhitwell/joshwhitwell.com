@@ -26,17 +26,9 @@ class MyProgramsController extends Controller
         Gate::authorize('belongs-to-user', $programLog);
 
         $programLog->load([
-            'phaseLogs.phase',
             'phaseLogs.weekLogs.week',
-            'phaseLogs.weekLogs.workoutLogs.workout',
+            'phaseLogs.weekLogs.workoutLogs.workout'
         ]);
-
-        if ($programLog->phaseLogs->isEmpty()) {
-            $programLog->load([
-                'weekLogs.week',
-                'weekLogs.workoutLogs.workout'
-            ]);
-        }
 
         return inertia('Lift/MyProgram', [
             'programLog' => $programLog->myProgramResource,

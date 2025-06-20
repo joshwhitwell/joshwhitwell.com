@@ -62,7 +62,7 @@ class Set extends Model
     {
         return Attribute::make(
             get: function () {
-                return !empty($this->percent_one_rep_max) ? $this->percent_one_rep_max . ' 1RM' : '';
+                return !empty($this->percent_one_rep_max) ? $this->percent_one_rep_max . '% 1RM' : '';
             }
         );
     }

@@ -17,14 +17,14 @@ class MyWorkoutsController extends Controller
         Gate::authorize('belongs-to-user', $workoutLog);
 
         $workoutLog->load([
-            'workoutExerciseLogs.workoutExercise.exercise',
-            'workoutExerciseLogs.workoutExercise.substitutionOne',
-            'workoutExerciseLogs.workoutExercise.substitutionTwo',
+            'workoutExerciseLogs.workoutExercise.exercise.exerciseVideos',
+            'workoutExerciseLogs.workoutExercise.substitutionOne.exerciseVideos',
+            'workoutExerciseLogs.workoutExercise.substitutionTwo.exerciseVideos',
             'workoutExerciseLogs.setLogs.set.workoutExercise',
         ]);
 
         return inertia('Lift/MyWorkout', [
-            'programLog' => $programLog->myProgramsResource,
+            'programLogId' => $programLog->id,
             'workoutLog' => $workoutLog->myWorkoutResource,
         ]);
     }

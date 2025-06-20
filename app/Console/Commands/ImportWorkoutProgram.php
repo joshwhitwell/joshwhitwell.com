@@ -63,10 +63,17 @@ class ImportWorkoutProgram extends Command
 
         // Convert the filename to the program name, then create a new program by that name.
         // Error if there is no name, or there is already a program with the same name.
-        $programName = Str::of($filename)->replace('.csv', '')->replace('-', ' ')->title()->toString();
+        $programName = Str::of($filename)
+            ->beforeLast('.')
+            ->replace(':', '/')
+            ->toString();
+        $programKey = Str::of($programName)
+            ->replaceMatches('/[^a-zA-Z0-9]/', '')
+            ->lower()
+            ->toString();
 
-        if (empty($programName) || Program::where('name', $programName)->exists()) {
-            $this->error("The program name is either empty or already exists.");
+        if (empty($programKey) || Program::where('key', $programKey)->exists()) {
+            $this->error("The provided program key is either invalid or already exists.");
 
             return Command::FAILURE;
         }
@@ -75,24 +82,33 @@ class ImportWorkoutProgram extends Command
         $this->exercises = Exercise::all();
 
         // Initialize import vars.
-        $program = Program::create(['name' => $programName]);
+        $program = Program::create(['key' => $programKey, 'name' => $programName]);
+        $phaseOrder = 1;
+        $phase = $program->phases()->create(['name' => 'Phase 1', 'order' => $phaseOrder]);
         $weekOrder = 1;
         $week = null;
         $workoutOrder = 1;
         $workout = null;
         $workoutExerciseOrder = 1;
         $workoutExercise = null;
+        $headers = fgetcsv($handle);
 
         // Import the file data.
         while (($row = fgetcsv($handle)) !== false) {
+            $row = array_combine($headers, $row);
+
             // Skip empty rows.
-            if (empty($row[0]) && empty($row[1])) {
+            if (empty($row['week_workout']) && empty($row['exercise'])) {
                 continue;
             }
 
             // Handle week.
-            if (str_starts_with($row[0], 'Week')) {
-                $week = $program->weeks()->create(['name' => $row[0], 'order' => $weekOrder]);
+            if (str_starts_with($row['week_workout'], 'Week')) {
+                $week = $phase->weeks()->create([
+                    'program_id' => $program->id,
+                    'name' => $row['week_workout'],
+                    'order' => $weekOrder
+                ]);
 
                 $weekOrder++;
 
@@ -100,10 +116,17 @@ class ImportWorkoutProgram extends Command
             }
 
             // Handle workout.
-            if (!empty($row[0]) && !empty($week)) {
+            if (!empty($row['week_workout']) && !empty($week)) {
+                $workoutName = Str::of($row['week_workout'])
+                    ->title()
+                    ->toString();
+                if (str_contains($workoutName, 'Rest')) {
+                    $workoutName = 'Suggested Rest Day';
+                }
                 $workout = $week->workouts()->create([
-                    'name' => $row[0],
                     'program_id' => $program->id,
+                    'phase_id' => $phase->id,
+                    'name' => $workoutName,
                     'order' => $workoutOrder
                 ]);
 
@@ -112,16 +135,19 @@ class ImportWorkoutProgram extends Command
             }
 
             // Handle exercise.
-            if (!empty($row[1]) && !empty($workout)) {
-                $exercise = $this->getExercise($row[1], $row[2]);
+            if (!empty($row['exercise']) && !empty($workout)) {
+                $exercise = $this->getExercise($row['exercise'], $row['exercise_url']);
 
                 if (empty($exercise)) {
                     continue;
                 }
 
-                $rest = $this->getRest($row[8]);
-                $substitution1 = $this->getExercise($row[9], $row[10]);
-                $substitution2 = $this->getExercise($row[11], $row[12]);
+                $rest = $this->getRest($row['rest']);
+                $substitution1 = $this->getExercise($row['sub_1'], $row['sub_1_url']);
+                $substitution2 = $this->getExercise($row['sub_2'], $row['sub_2_url']);
+                $notes = Str::of($row['notes'])
+                    ->trim()
+                    ->toString();
                 $workoutExercise = $workout->workoutExercises()->create([
                     'exercise_id' => $exercise->id,
                     'order' => $workoutExerciseOrder,
@@ -129,7 +155,7 @@ class ImportWorkoutProgram extends Command
                     'max_rest' => $rest[1] ?? 0,
                     'substitution_1_id' => $substitution1->id ?? null,
                     'substitution_2_id' => $substitution2->id ?? null,
-                    'notes' => !empty(trim($row[13])) ? trim($row[13]) : null,
+                    'notes' => $notes ?: null,
                 ]);
 
                 $workoutExerciseOrder++;
@@ -141,41 +167,66 @@ class ImportWorkoutProgram extends Command
         fclose($handle);
 
         // Create and invoke InitializeProgramLogAction
-        (app(InitializeProgramLogAction::class))($program, User::find(1));
+        $admin = User::find(1);
+        if ($admin) {
+            (new InitializeProgramLogAction)($program, User::find(1));
+        }
 
         return Command::SUCCESS;
     }
 
-    public function getExercise(string $exerciseName, string $exerciseUrl): ?Exercise
+    public function getExercise(string $exercise, string $url): ?Exercise
     {
-        $exerciseName = str_replace(
-            ['(Heavy)', '(Back off)', 'A1:', 'A2:'],
-            '',
-            $exerciseName
-        );
-        $exerciseName = trim($exerciseName);
-        $exerciseUrl = trim($exerciseUrl);
+        $exerciseName = Str::of($exercise)
+            // Removes e.g. 'A1.' or 'A1:'
+            ->replaceMatches('/[A-C][1-4][\.:]?\s*/', '')
+            // Removes parenthetical text
+            ->replaceMatches('/\([^)]+\)/', '')
+            // Removes e.g. '5"'
+            ->replaceMatches('/[2-5]"/', '')
+            // Replace non-alpha-numeric characters with spaces
+            ->replaceMatches('/[^a-zA-Z0-9\s]/', ' ')
+            ->title()
+            ->trim()
+            ->toString();
+        $exerciseKey = Str::of($exerciseName)
+            ->replaceMatches('/[^a-zA-Z0-9]/', '')
+            ->lower()
+            ->trim()
+            ->toString();
 
-        if (empty($exerciseName)) {
+        if (empty($exerciseKey)) {
             return null;
         }
 
-        $exercise = $this->exercises->first(function ($exercise) use ($exerciseName) {
-            return strcasecmp($exercise->name, $exerciseName) === 0;
-        });
+        $exercise = $this->exercises->firstWhere('key', $exerciseKey);
 
-        if ($exercise) {
-            if (empty($exercise->video_url) && !empty($exerciseUrl)) {
-                $exercise->video_url = $exerciseUrl;
-                $exercise->save();
-            }
-
-            return $exercise;
+        if (!$exercise && !$exerciseName) {
+            return null;
         }
 
-        $exercise = Exercise::create(['name' => $exerciseName]);
+        if (!$exercise) {
+            $exercise = Exercise::create([
+                'key' => $exerciseKey,
+                'name' => $exerciseName
+            ]);
+    
+            $this->exercises->push($exercise);
+        }
 
-        $this->exercises->put($exercise->name, $exercise);
+        $exerciseUrl = trim($url);
+
+        if ($exerciseUrl) {
+            if (!str_starts_with($exerciseUrl, 'http://')
+                && !str_starts_with($exerciseUrl, 'https://')
+            ) {
+                $exerciseUrl = 'https://' . $exerciseUrl;
+            }
+
+            if (!$exercise->exerciseVideos()->where('url', $exerciseUrl)->exists()) {
+                $exercise->exerciseVideos()->create(['url' => $exerciseUrl]);
+            }
+        }
 
         return $exercise;
     }
@@ -204,10 +255,10 @@ class ImportWorkoutProgram extends Command
     public function handleSets(WorkoutExercise $workoutExercise, array $row): void
     {
         $setOrder = 1;
-        $minWarmUps = preg_match('/\d/', $row[3], $matches)
+        $minWarmUps = preg_match('/\d/', $row['warm_up_sets'], $matches)
             ? (int) $matches[0]
             : null;
-        $maxWarmUps = preg_match_all('/\d/', $row[3], $matches)
+        $maxWarmUps = preg_match_all('/\d/', $row['warm_up_sets'], $matches)
             ? (int) end($matches[0])
             : null;
 
@@ -225,24 +276,32 @@ class ImportWorkoutProgram extends Command
             $setOrder = 1;
         }
 
-        $minSets = preg_match('/\d/', $row[4], $matches)
+        $minSets = preg_match('/\d/', $row['sets'], $matches)
             ? (int) $matches[0]
             : null;
-        $maxSets = preg_match_all('/\d/', $row[4], $matches)
+        $maxSets = preg_match_all('/\d/', $row['sets'], $matches)
             ? (int) end($matches[0])
             : null;
 
         if ($maxSets) {
             while ($setOrder <= $maxSets) {
-                $reps = $this->getReps($row[5]);
+                $reps = $this->getReps($row['reps']);
+                $rpe = Str::of($row['rpe'])
+                    ->replace('N/A', '')
+                    ->trim()
+                    ->toString();
+                $percent1RM = Str::of($row['percent_one_rep_max'])
+                    ->replace(['N/A', '%'], '')
+                    ->trim()
+                    ->toString();
                 $workoutExercise->sets()->create([
                     'order' => $setOrder,
                     'is_optional' => empty($minSets) || $setOrder > $minSets,
                     'min_reps' => $reps[0],
                     'max_reps' => $reps[1],
-                    'rpe' => !empty($row[7]) && $row[7] !== 'N/A' ? $row[7] : null,
-                    'intensity_technique' => $this->getIntensityTechnique($row[5]),
-                    'percent_one_rep_max' => !empty($row[14]) ? $row[14] : null
+                    'rpe' => $rpe ?: null,
+                    'intensity_technique' => $this->getIntensityTechnique($row['reps']),
+                    'percent_one_rep_max' => $percent1RM ?: null
                 ]);
 
                 $setOrder++;
@@ -273,7 +332,7 @@ class ImportWorkoutProgram extends Command
 
     public function getIntensityTechnique(string $reps): ?string
     {
-        $intensityTechnique = preg_replace('/[\d\-\(\)]/', '', $reps);
+        $intensityTechnique = preg_replace('/[\d\-\(\)\/]/', '', $reps);
         $intensityTechnique = trim($intensityTechnique);
 
         return empty($intensityTechnique) ? null : strtolower($intensityTechnique);

@@ -23,25 +23,16 @@ class UpdateSetLogAction
     {
         if (isset($setLog->reps) && isset($setLog->weight)) {
             $setLog->status = LiftStatus::Completed;
-            
-            if (empty($setLog->completed_at)) {
-                $setLog->completed_at = now();
-            }
-
             return;
         }
 
         if (!isset($setLog->reps) && !isset($setLog->weight)) {
             $setLog->status = LiftStatus::NotStarted;
-            $setLog->completed_at = null;
-
             return;
         }
 
         if (isset($setLog->reps) || isset($setLog->weight)) {
             $setLog->status = LiftStatus::InProgress;
-            $setLog->completed_at = null;
-
             return;
         }
     }

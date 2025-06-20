@@ -6,11 +6,14 @@ use App\Enums\Lift\LiftStatus;
 use App\Models\Lift\SetLog;
 use App\Models\Lift\WorkoutLog;
 use App\Models\Lift\WorkoutExercise;
+use App\Traits\HasLiftStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class WorkoutExerciseLog extends Model
 {
+    use HasLiftStatus;
+    
     protected $table = 'lift_workout_exercise_logs';
 
     protected $casts = [

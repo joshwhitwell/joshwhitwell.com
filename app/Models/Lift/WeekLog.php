@@ -31,7 +31,7 @@ class WeekLog extends Model
 
     public function workoutLogs()
     {
-        return $this->hasMany(WorkoutLog::class)->orderBy('order');;
+        return $this->hasMany(WorkoutLog::class)->orderBy('order');
     }
 
     protected function myProgramResource(): Attribute

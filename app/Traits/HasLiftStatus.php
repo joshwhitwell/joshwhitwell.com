@@ -34,4 +34,23 @@ trait HasLiftStatus
             get: fn () => $this->status === LiftStatus::Skipped
         );
     }
+
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            set: function ($value) {
+                $attributes = ['status' => $value];
+
+                if ($value === LiftStatus::InProgress->value && !$this->started_at) {
+                    $attributes['started_at'] = now();
+                }
+                
+                if (in_array($value, [LiftStatus::Completed->value, LiftStatus::Skipped->value])) {
+                    $attributes['completed_at'] = now();
+                }
+                
+                return $attributes;
+            }
+        );
+    }
 }

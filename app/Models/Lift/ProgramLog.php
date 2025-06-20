@@ -80,7 +80,6 @@ class ProgramLog extends Model
                 ]) + [
                     'name' => $this->program->name,
                     'phaseLogs' => $this->phaseLogs->pluck('myProgramResource'),
-                    'weekLogs' => $this->weekLogs->pluck('myProgramResource'),
                 ];
             }
         );

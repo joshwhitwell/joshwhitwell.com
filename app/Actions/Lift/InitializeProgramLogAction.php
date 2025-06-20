@@ -36,6 +36,7 @@ class InitializeProgramLogAction
                 $weekLog = $week->weekLogs()->create([
                     'user_id' => $user->id,
                     'program_log_id' => $programLog->id,
+                    'phase_log_id' => $phaseLogs[$week->phase_id],
                     'order' => $week->order
                 ]);
 
@@ -51,8 +52,8 @@ class InitializeProgramLogAction
                 $workoutLog = $workout->workoutLogs()->create([
                     'user_id' => $user->id,
                     'program_log_id' => $programLog->id,
-                    'phase_log_id' => $phaseLogs[$workout->phase_id] ?? null,
-                    'week_log_id' => $weekLogs[$workout->week_id] ?? null,
+                    'phase_log_id' => $phaseLogs[$workout->phase_id],
+                    'week_log_id' => $weekLogs[$workout->week_id],
                     'order' => $workout->order
                 ]);
 
@@ -65,7 +66,7 @@ class InitializeProgramLogAction
                             'user_id' => $user->id,
                             'workout_log_id' => $workoutLog->id,
                             'workout_exercise_id' => $workoutExercise->id,
-                            'order' => $workout->order
+                            'order' => $workoutExercise->order
                         ]);
 
                         // Sets

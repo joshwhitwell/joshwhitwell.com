@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('lift_sets', function (Blueprint $table) {
-            $table->string('percent_one_rep_max')->nullable()->after('intensity_technique');
+        Schema::create('lift_exercise_videos', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('exercise_id')->constrained('lift_exercises')->cascadeOnDelete();
+            $table->string('url');
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('lift_sets', function (Blueprint $table) {
-            $table->dropColumn('percent_one_rep_max');
-        });
+        Schema::dropIfExists('lift_exercise_videos');
     }
 };

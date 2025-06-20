@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Lift\SetLogController;
 use App\Http\Controllers\Lift\MyProgramsController;
 use App\Http\Controllers\Lift\MyWorkoutsController;
+use App\Http\Controllers\Lift\MyExercisesController;
 use App\Http\Controllers\Lift\Admin\AdminProgramController;
 
 // Lift
@@ -47,6 +48,18 @@ Route::group([
         )->parameters([
             'programs' => 'programLog',
             'workouts' => 'workoutLog'
+        ]);
+
+        // Exercises
+        Route::resource(
+            'programs.workouts.exercises',
+            MyExercisesController::class
+        )->only(
+            ['update']
+        )->parameters([
+            'programs' => 'programLog',
+            'workouts' => 'workoutLog',
+            'exercises' => 'exerciseLog'
         ]);
     });
 

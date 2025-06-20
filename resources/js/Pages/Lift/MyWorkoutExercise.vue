@@ -1,0 +1,605 @@
+<script setup>
+import { ref } from 'vue';
+import { router, useForm, usePage } from '@inertiajs/vue3';
+
+const props = defineProps({
+  programLogId: Number,
+  workoutLogId: Number,
+  workoutExerciseLog: Object,
+});
+
+const page = usePage();
+
+const liftStatus = page.props.liftStatus;
+
+function initSetLogForms() {
+  return props.workoutExerciseLog?.setLogs?.reduce?.((setLogForms, setLog) => {
+    setLogForms[setLog.id] = useForm(setLog);
+    return setLogForms;
+  }, {});
+}
+
+const setLogForms = ref(initSetLogForms());
+
+function submitExerciseStatusForm(status, exerciseLogId) {
+  router.post(
+    route('lift.my.programs.workouts.exercises.update', [
+      props.programLogId,
+      props.workoutLogId,
+      exerciseLogId,
+    ]),
+    {
+      _method: 'put',
+      status,
+    },
+    {
+      preserveScroll: true,
+    }
+  );
+}
+
+const warmUpPyramid = {
+  1: ['60%'],
+  2: ['50%', '70%'],
+  3: ['45%', '65%', '85%'],
+  4: ['40%', '50%', '60%', '70%'],
+};
+
+const getWarmUpPercentage = (workoutExerciseLog, setLog) => {
+  const totalWarmUps =
+    workoutExerciseLog?.setLogs?.filter((setLog) => setLog?.isWarmUp)?.length ||
+    0;
+  const warmUpNumber = (setLog?.order || 0) - 1;
+
+  return warmUpPyramid?.[totalWarmUps]?.[warmUpNumber] || '';
+};
+</script>
+
+<template>
+  <div class="my-workout-exercise">
+    <!-- Not Started -->
+    <div
+      v-if="workoutExerciseLog.status === liftStatus.NotStarted"
+      class="workout-exercise-container workout-exercise-container--not-started"
+    >
+      <h2 class="exercise-name">
+        {{ workoutExerciseLog.name }}
+      </h2>
+
+      <div class="exercise-forms">
+        <form
+          @submit.prevent="
+            submitExerciseStatusForm(
+              liftStatus.InProgress,
+              workoutExerciseLog.id
+            )
+          "
+        >
+          <button type="submit" class="button button--outline">Start</button>
+        </form>
+        <form
+          @submit.prevent="
+            submitExerciseStatusForm(liftStatus.Skipped, workoutExerciseLog.id)
+          "
+        >
+          <button type="submit" class="button button--outline button--blue">
+            Skip
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Skipped -->
+    <div
+      v-else-if="workoutExerciseLog.status === liftStatus.Skipped"
+      class="workout-exercise-container workout-exercise-container--skipped"
+    >
+      <div class="exercise-name-status">
+        <h2 class="exercise-name">
+          {{ workoutExerciseLog.name }}
+        </h2>
+
+        <em> Skipped </em>
+      </div>
+
+      <div class="exercise-forms">
+        <form
+          @submit.prevent="
+            submitExerciseStatusForm(
+              liftStatus.Completed,
+              workoutExerciseLog.id
+            )
+          "
+        >
+          <button type="submit" class="button button--outline">Complete</button>
+        </form>
+        <form
+          @submit.prevent="
+            submitExerciseStatusForm(
+              liftStatus.NotStarted,
+              workoutExerciseLog.id
+            )
+          "
+        >
+          <button type="submit" class="button button--outline button--red">
+            Mark Incomplete
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- In Progress / Complete -->
+    <div
+      v-else
+      :class="[
+        'workout-exercise-container',
+        {
+          'workout-exercise-container--open':
+            workoutExerciseLog.status === liftStatus.InProgress,
+        },
+      ]"
+    >
+      <details :open="workoutExerciseLog.status === liftStatus.InProgress">
+        <summary class="exercise-name-status">
+          <h2 class="exercise-name">
+            {{ workoutExerciseLog.name }}
+          </h2>
+
+          <em>{{
+            workoutExerciseLog.status === liftStatus.InProgress
+              ? 'In Progress'
+              : 'Completed'
+          }}</em>
+        </summary>
+
+        <div class="exercise-help">
+          <p v-if="workoutExerciseLog.notes" class="exercise-notes">
+            {{ workoutExerciseLog.notes }}
+          </p>
+
+          <a
+            v-if="workoutExerciseLog.videoUrl"
+            :href="workoutExerciseLog.videoUrl"
+            class="video-url"
+            target="_blank"
+          >
+            <span class="material-symbols-outlined"> play_arrow </span>
+            Watch
+          </a>
+
+          <ul
+            v-if="
+              workoutExerciseLog?.substitutionOne ||
+              workoutExerciseLog?.substitutionTwo
+            "
+            class="substitutions"
+          >
+            Substitutions:
+            <li v-if="workoutExerciseLog.substitutionOne">
+              <a
+                v-if="workoutExerciseLog.substitutionOne.videoUrl"
+                :href="workoutExerciseLog.substitutionOne.videoUrl"
+                class="substitution-url"
+                target="_blank"
+              >
+                {{ workoutExerciseLog.substitutionOne.name }}
+              </a>
+              <span v-else>
+                {{ workoutExerciseLog.substitutionOne.name }}
+              </span>
+            </li>
+            <li v-if="workoutExerciseLog.substitutionTwo">
+              <a
+                v-if="workoutExerciseLog.substitutionTwo.videoUrl"
+                :href="workoutExerciseLog.substitutionTwo.videoUrl"
+                class="substitution-url"
+                target="_blank"
+              >
+                {{ workoutExerciseLog.substitutionTwo.name }}
+              </a>
+              <span v-else>
+                {{ workoutExerciseLog.substitutionTwo.name }}
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <details
+          v-if="workoutExerciseLog.pastLogs.length"
+          class="exercise-history"
+        >
+          <summary>History</summary>
+
+          <table style="text-align: left">
+            <thead>
+              <tr>
+                <th>Set</th>
+                <th style="text-align: right">Reps</th>
+                <th style="text-align: right">Weight</th>
+                <th style="text-align: right">Volume</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <template
+                v-for="pastExerciseLog in workoutExerciseLog.pastLogs"
+                :key="pastExerciseLog.id"
+              >
+                <tr>
+                  <td colspan="3">
+                    <strong>{{ pastExerciseLog.label }}</strong>
+                  </td>
+                </tr>
+                <tr
+                  v-for="(setLog, setLogIndex) in pastExerciseLog.setLogs"
+                  :key="setLog.id"
+                >
+                  <td>
+                    {{
+                      typeof setLog.order === 'undefined'
+                        ? ''
+                        : setLog.isWarmUp
+                        ? 'Warm Up'
+                        : 'Set'
+                    }}
+                    {{
+                      typeof setLog.order === 'undefined' ? '' : setLog.order
+                    }}
+                  </td>
+                  <td style="text-align: right" class="font-monospace">
+                    {{
+                      typeof setLog.reps === 'undefined'
+                        ? ''
+                        : setLog.reps === null
+                        ? '-'
+                        : setLog.reps
+                    }}
+                  </td>
+                  <td style="text-align: right" class="font-monospace">
+                    <span>{{
+                      typeof setLog.weight === 'undefined'
+                        ? ''
+                        : setLog.weight === null
+                        ? '-'
+                        : setLog.weight
+                    }}</span>
+                  </td>
+                  <td
+                    :class="[
+                      'font-monospace',
+                      {
+                        'font-weight-700':
+                          setLogIndex === pastExerciseLog.setLogs.length - 1,
+                      },
+                    ]"
+                    style="text-align: right"
+                  >
+                    <span>
+                      {{
+                        typeof setLog.volume === 'undefined'
+                          ? ''
+                          : setLog.volume === null
+                          ? '-'
+                          : setLog.volume
+                      }}
+                    </span>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </details>
+
+        <div
+          v-for="setLog in workoutExerciseLog.setLogs"
+          :key="setLog.id"
+          class="set-log"
+        >
+          <h3 class="set-name">
+            {{ setLog.isWarmUp ? 'Warm Up' : 'Set' }}
+            {{ setLog.order }}
+
+            <small v-if="setLog.isOptional">(Optional)</small>
+          </h3>
+
+          <p
+            v-if="!setLog.isWarmUp && setLog.repsRpeIntensity"
+            class="rep-string"
+          >
+            {{ setLog.repsRpeIntensity }}
+          </p>
+          <p v-else-if="setLog.isWarmUp" class="rep-string">
+            {{ getWarmUpPercentage(workoutExerciseLog, setLog) }}
+          </p>
+
+          <div class="input-row">
+            <label
+              :for="'reps_' + setLog.id"
+              :class="[
+                'label',
+                { 'label--has-error': setLogForms[setLog.id].errors?.reps },
+              ]"
+            >
+              <span class="label-text">Reps</span>
+              <input
+                :id="'reps_' + setLog.id"
+                name="reps"
+                type="number"
+                v-model="setLogForms[setLog.id].reps"
+                @input="setLogForms[setLog.id].clearErrors('reps')"
+                class="input"
+              />
+            </label>
+
+            <label
+              :for="'weight_' + setLog.id"
+              :class="[
+                'label',
+                { 'label--has-error': setLogForms[setLog.id].errors?.weight },
+              ]"
+            >
+              <span class="label-text">Weight</span>
+              <input
+                :id="'weight_' + setLog.id"
+                name="weight"
+                type="number"
+                v-model="setLogForms[setLog.id].weight"
+                @input="setLogForms[setLog.id].clearErrors('weight')"
+                class="input"
+              />
+            </label>
+
+            <div
+              class="button-group"
+              v-if="
+                setLogForms[setLog.id].isDirty &&
+                !setLogForms[setLog.id].processing
+              "
+            >
+              <button
+                type="button"
+                class="button"
+                @click="
+                  setLogForms[setLog.id]
+                    .transform((data) => ({
+                      ...data,
+                      _method: 'put',
+                    }))
+                    .post(route('lift.set-logs.update', setLog.id), {
+                      only: [],
+                      preserveScroll: true,
+                    })
+                "
+              >
+                <span class="material-symbols-outlined"> check </span>
+              </button>
+
+              <button
+                type="button"
+                class="button button--outline"
+                @click="setLogForms[setLog.id]?.reset()"
+              >
+                <span class="material-symbols-outlined"> close </span>
+              </button>
+            </div>
+          </div>
+
+          <ul v-if="setLogForms[setLog.id].errors" class="errors">
+            <li
+              v-for="(error, index) in setLogForms[setLog.id].errors"
+              :key="`error-${setLog.id}-${index}`"
+            >
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+      </details>
+
+      <div class="exercise-forms">
+        <form
+          @submit.prevent="
+            submitExerciseStatusForm(
+              workoutExerciseLog.status === liftStatus.Completed
+                ? liftStatus.NotStarted
+                : liftStatus.Completed,
+              workoutExerciseLog.id
+            )
+          "
+          class="exercise-form"
+        >
+          <button
+            :class="[
+              'button',
+              'button--outline',
+              {
+                'button--red':
+                  workoutExerciseLog.status === liftStatus.Completed,
+              },
+            ]"
+          >
+            {{
+              workoutExerciseLog.status === liftStatus.Completed
+                ? 'Mark Incomplete'
+                : 'Complete'
+            }}
+          </button>
+        </form>
+        <form
+          v-if="
+            workoutExerciseLog.status !== liftStatus.Completed &&
+            workoutExerciseLog.status !== liftStatus.Skipped
+          "
+          @submit.prevent="
+            submitExerciseStatusForm(liftStatus.Skipped, workoutExerciseLog.id)
+          "
+          class="exercise-form"
+        >
+          <button type="submit" class="button button--blue button--outline">
+            Skip
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.my-workout-exercise {
+  background-color: var(--color-lime-100);
+  border-radius: var(--size-base);
+  padding: var(--size-base);
+  margin-block-end: var(--size-5xl);
+}
+
+.exercise-name-status {
+  align-items: center;
+  display: flex;
+  gap: var(--size-3xs);
+}
+
+.exercise-help {
+  margin-block-end: var(--size-3xl);
+}
+
+.exercise-name {
+  align-items: center;
+  display: flex;
+  font-size: var(--size-lg);
+  column-gap: var(--size-xs);
+}
+
+.exercise-notes {
+  font-size: var(--size-sm);
+  margin-block-end: var(--size-3xs);
+}
+
+.rest-string {
+  font-size: var(--size-sm);
+  margin-block-end: var(--size-3xs);
+}
+
+.video-url {
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid var(--color-neutral-950);
+  border-radius: var(--size-base);
+  font-size: var(--size-sm);
+  font-weight: 500;
+  display: flex;
+  margin-block-end: var(--size-3xs);
+  padding: var(--size-8xs) var(--size-xs);
+  text-decoration: none;
+  width: fit-content;
+}
+
+.substitutions {
+  font-size: var(--size-sm);
+  font-weight: 500;
+  list-style-position: inside;
+}
+
+.substitutions li {
+  font-weight: 400;
+}
+
+.video_url .material-symbols-outlined {
+  font-size: var(--size-base);
+  margin-inline-end: var(--size-8xs);
+}
+
+.exercise-history {
+  font-size: var(--size-sm);
+  margin-block-end: var(--size-base);
+  margin-block-start: var(--size-base);
+}
+
+.exercise-history summary {
+  font-size: var(--size-base);
+}
+
+.exercise-history table {
+  margin-block-start: var(--size-3xs);
+}
+
+.past-exercise {
+  margin-block-start: var(--size-3xs);
+}
+
+.exercise-history td:not(:last-child),
+.exercise-history th:not(:last-child) {
+  padding-right: var(--size-base);
+}
+
+.exercise-history td:not(:first-child) {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.set-log {
+  margin-block-end: var(--size-base);
+}
+
+.set-log:last-of-type {
+  margin-block-end: 0;
+}
+
+.set-name {
+  align-items: center;
+  display: flex;
+  font-size: var(--size-sm);
+  margin-block-end: var(--size-6xs);
+}
+
+.set-name small {
+  font-size: var(--size-xs);
+  font-weight: 400;
+  margin-inline-start: var(--size-6xs);
+}
+
+.rep-string {
+  font-size: var(--size-xs);
+  margin-block-end: var(--size-3xs);
+}
+
+.input-row {
+  display: flex;
+  align-items: flex-end;
+}
+
+label:first-of-type {
+  margin-inline-end: var(--size-8xs);
+}
+
+.button-group {
+  display: flex;
+  margin-left: var(--size-4xs);
+  column-gap: var(--size-8xs);
+}
+
+.button-group .button {
+  height: var(--size-4xl);
+  width: var(--size-4xl);
+}
+
+.button .material-symbols-outlined {
+  font-size: var(--size-xl);
+}
+
+.errors {
+  color: var(--color-red-600);
+  font-size: var(--size-sm);
+  list-style: none;
+  margin: var(--size-5xs) 0 0;
+  padding: 0;
+}
+
+.exercise-forms {
+  display: flex;
+  gap: var(--size-5xs);
+  margin-block-start: var(--size-base);
+}
+
+.workout-exercise-container--open .exercise-forms {
+  margin-block-start: var(--size-3xl);
+}
+</style>

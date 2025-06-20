@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('lift_programs', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('key')->unique();
+            $table->string('name');
             $table->timestamps();
         });
     }

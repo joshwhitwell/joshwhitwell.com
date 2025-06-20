@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Database\Seeders\WorkoutProgramSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,12 +20,8 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // $this->call([
-        //     WorkoutProgramSeeder::class,
-        // ]);
-
-        // $this->command->call('app:import-workout-program', [
-        //     'filename' => 'the-essentials-program-5x.csv',
-        // ]);
+        $this->command->call('app:import-workout-program', [
+            'filename' => 'Intermediate-Advanced | 5-6X:Week Powerbuilding System.csv',
+        ]);
     }
 }
