@@ -358,7 +358,7 @@ const getWarmUpPercentage = (workoutExerciseLog, setLog) => {
             >
               <button
                 type="button"
-                class="button"
+                class="button button--outline"
                 @click="
                   setLogForms[setLog.id]
                     .transform((data) => ({
@@ -599,6 +599,7 @@ label:first-of-type {
   margin-block-start: var(--size-base);
 }
 
+details[open] + .exercise-forms,
 .workout-exercise-container--open .exercise-forms {
   margin-block-start: var(--size-3xl);
 }
