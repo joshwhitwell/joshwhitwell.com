@@ -48,6 +48,7 @@ const warmUpPyramid = {
   1: ['60%'],
   2: ['50%', '70%'],
   3: ['45%', '65%', '85%'],
+  4: ['40%', '50%', '60%', '70%'],
 };
 
 const getWarmUpPercentage = (workoutExerciseLog, setLog) => {

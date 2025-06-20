@@ -240,8 +240,9 @@ class ImportWorkoutProgram extends Command
                     'is_optional' => empty($minSets) || $setOrder > $minSets,
                     'min_reps' => $reps[0],
                     'max_reps' => $reps[1],
-                    'rpe' => $row[7],
+                    'rpe' => !empty($row[7]) && $row[7] !== 'N/A' ? $row[7] : null,
                     'intensity_technique' => $this->getIntensityTechnique($row[5]),
+                    'percent_one_rep_max' => !empty($row[14]) ? $row[14] : null
                 ]);
 
                 $setOrder++;

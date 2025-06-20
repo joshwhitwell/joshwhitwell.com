@@ -58,6 +58,15 @@ class Set extends Model
         );
     }
 
+    protected function percentOneRepMaxString(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return !empty($this->percent_one_rep_max) ? $this->percent_one_rep_max . ' 1RM' : '';
+            }
+        );
+    }
+
     protected function repsRpeIntensity(): Attribute
     {
         return Attribute::make(
@@ -65,6 +74,7 @@ class Set extends Model
                 $parts = [
                     $this->repString,
                     $this->rpeString,
+                    $this->percentOneRepMaxString,
                     $this->workoutExercise->restString,
                     !empty($this->intensity_technique) ? ucfirst($this->intensity_technique) : ''
                 ];
