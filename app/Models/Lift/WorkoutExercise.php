@@ -64,15 +64,40 @@ class WorkoutExercise extends Model
 
                 $parts = array_filter([$this->min_rest, $this->max_rest]);
                 $parts = array_unique($parts);
-                $parts = array_map(function ($seconds) {
-                    return $seconds / 60;
-                }, $parts);
 
                 sort($parts);
 
-                $restTime = (string) (count($parts) === 1 ? $parts[0] : implode('–', $parts));
+                // Format each value with appropriate unit
+                $units = [];
+                $formattedParts = [];
 
-                return 'Rest: ' . $restTime . ($restTime === '1' ? ' min.' : ' mins.');
+                foreach ($parts as $seconds) {
+                    if ($seconds < 60) {
+                        $units[] = 'sec';
+                        $formattedParts[] = $seconds;
+                    } else {
+                        $units[] = 'min';
+                        $formattedParts[] = $seconds / 60;
+                    }
+                }
+
+                // If we have exactly two parts with the same unit
+                if (count($units) == 2 && $units[0] === $units[1]) {
+                    $unit = $units[0] === 'sec' ?
+                            ($formattedParts[1] === 1 ? ' sec' : ' secs') :
+                            ($formattedParts[1] === 1 ? ' min' : ' mins');
+                    return 'Rest: ' . $formattedParts[0] . '–' . $formattedParts[1] . $unit;
+                } else {
+                    // Different units or just one value
+                    $result = [];
+                    foreach ($formattedParts as $i => $value) {
+                        $suffix = $units[$i] === 'sec' ?
+                                 ($value === 1 ? ' sec' : ' secs') :
+                                 ($value === 1 ? ' min' : ' mins');
+                        $result[] = $value . $suffix;
+                    }
+                    return 'Rest: ' . implode('–', $result);
+                }
             }
         );
     }

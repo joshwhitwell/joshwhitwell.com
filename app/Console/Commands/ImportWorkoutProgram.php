@@ -210,7 +210,7 @@ class ImportWorkoutProgram extends Command
                 'key' => $exerciseKey,
                 'name' => $exerciseName
             ]);
-    
+
             $this->exercises->push($exercise);
         }
 
@@ -233,22 +233,29 @@ class ImportWorkoutProgram extends Command
 
     public function getRest(string $rest): ?array
     {
-        $rest = str_replace(
-            ['~', 'min'],
-            '',
-            $rest
-        );
+        // Clean up the rest string
+        $rest = str_replace('~', '', $rest);
         $rest = trim($rest);
 
         if (empty($rest)) {
             return null;
         }
 
+        // Determine if rest is in minutes or seconds
+        $multiplier = 1;
+        if (str_contains(strtolower($rest), 'min') || str_contains(strtolower($rest), 'mins')) {
+            $multiplier = 60;
+            $rest = str_replace(['min', 'mins'], '', $rest);
+        } elseif (str_contains(strtolower($rest), 'sec') || str_contains(strtolower($rest), 'secs')) {
+            $rest = str_replace(['sec', 'secs'], '', $rest);
+        }
+
+        $rest = trim($rest);
         $rest = explode('-', $rest);
 
         return [
-            ((float) ($rest[0] ?? 0)) * 60,
-            ((float) ($rest[1] ?? $rest[0] ?? 0)) * 60
+            ((float) ($rest[0] ?? 0)) * $multiplier,
+            ((float) ($rest[1] ?? $rest[0] ?? 0)) * $multiplier
         ];
     }
 
