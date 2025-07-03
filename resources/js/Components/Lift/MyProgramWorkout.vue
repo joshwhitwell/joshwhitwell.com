@@ -19,19 +19,17 @@ const liftStatus = page.props.liftStatus;
       {{ workoutLog.name }}
     </h4>
     <small
-      v-if="
-        workoutLog.status === liftStatus.Completed ||
-        workoutLog.status === liftStatus.Skipped
-      "
+      v-if="workoutLog.status !== liftStatus.NotStarted"
       :class="['status-pill', `status-pill--${workoutLog.status}`]"
     >
-      {{ workoutLog.status }}
+      {{ workoutLog.statusLabel }}
     </small>
   </Link>
 </template>
 
 <style scoped>
 .workout-log {
+  align-items: center;
   background-color: var(--color-neutral-50);
   border: 2px solid var(--color-neutral-300);
   border-radius: var(--size-base);

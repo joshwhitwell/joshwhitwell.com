@@ -52,9 +52,15 @@
   border-radius: var(--size-base);
   font-size: var(--size-xs);
   font-weight: 600;
+  flex-shrink: 0;
   text-transform: uppercase;
   letter-spacing: -0.25px;
   padding: var(--size-4xs) var(--size-2xs);
+}
+
+:deep(.status-pill--in_progress) {
+  border-color: var(--color-yellow-500);
+  color: var(--color-yellow-500);
 }
 
 :deep(.status-pill--completed) {

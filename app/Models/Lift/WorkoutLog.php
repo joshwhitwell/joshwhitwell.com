@@ -89,6 +89,7 @@ class WorkoutLog extends Model
                     'status'
                 ]) + [
                     'name' => $this->workout->name,
+                    'statusLabel' => $this->status->label()
                 ];
             }
         );
