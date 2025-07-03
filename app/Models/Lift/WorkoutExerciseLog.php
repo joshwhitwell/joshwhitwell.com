@@ -68,6 +68,8 @@ class WorkoutExerciseLog extends Model
                 'setLogs',
                 fn ($q) => $q->whereNotNull('reps')->orWhereNotNull('weight')
             )
+            ->orderByRaw('CASE WHEN completed_at IS NULL THEN 0 ELSE 1 END')
+            ->orderBy('completed_at', 'desc')
             ->orderBy('order')
             ->with([
                 'workoutLog',
