@@ -62,7 +62,6 @@ class WorkoutExerciseLog extends Model
             ->whereHas(
                 'workoutExercise',
                 fn ($q) => $q->where('exercise_id', $this->workoutExercise->exercise_id)
-                    ->where('order', $this->workoutExercise->order)
             )
             ->whereHas(
                 'setLogs',
