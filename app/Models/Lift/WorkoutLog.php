@@ -117,6 +117,7 @@ class WorkoutLog extends Model
                         ]) + [
                             'startedAt' => $workoutExerciseLog->started_at?->format('M d, Y \a\t g:i A'),
                             'completedAt' => $workoutExerciseLog->completed_at?->format('M d, Y \a\t g:i A'),
+                            'technique' => $workoutExerciseLog->workoutExercise->exercise->technique,
                             'notes' => $workoutExerciseLog->workoutExercise->notes,
                             'restString' => $workoutExerciseLog->workoutExercise->restString,
                             'videoUrl' => $workoutExerciseLog->workoutExercise->exercise->exerciseVideos->first()?->url,

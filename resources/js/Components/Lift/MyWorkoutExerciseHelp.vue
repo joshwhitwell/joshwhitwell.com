@@ -55,6 +55,11 @@ const props = defineProps({
         </span>
       </li>
     </ul>
+
+    <details v-if="workoutExerciseLog.technique" class="exercise-technique">
+      <summary>Technique</summary>
+      <div v-html="workoutExerciseLog.technique"></div>
+    </details>
   </div>
 </template>
 
@@ -66,6 +71,11 @@ const props = defineProps({
 .exercise-notes {
   font-size: var(--size-sm);
   margin-block-end: var(--size-3xs);
+}
+
+.exercise-technique {
+  font-size: var(--size-sm);
+  margin-block: var(--size-base);
 }
 
 .video-url {

@@ -93,10 +93,6 @@ const props = defineProps({
   margin-block: var(--size-base);
 }
 
-.exercise-history summary {
-  font-size: var(--size-base);
-}
-
 .exercise-history table {
   margin-block-start: var(--size-3xs);
 }
