@@ -17,6 +17,7 @@
                     value="{{ old('name', $exercise->name) }}"
                     required
                     autofocus
+                    data-1p-ignore
                 />
             </label>
         </div>
