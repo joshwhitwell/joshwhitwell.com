@@ -43,10 +43,10 @@
             <div class="inputs">
                 <div>
                     <label for="reps">Reps</label>
-                    <input id="reps" name="reps" type="text">
+                    <input id="reps" name="reps" type="number">
 
                     <label for="weight">Weight</label>
-                    <input id="weight" name="weight" type="text">
+                    <input id="weight" name="weight" type="number">
                 </div>
 
                 <button type="submit">Log</button>
