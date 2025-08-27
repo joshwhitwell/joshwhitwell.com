@@ -11,6 +11,7 @@
         @isset($placeholder) placeholder="{{ $placeholder }}" @endisset
         @if($required ?? false) required @endif
         @if($autofocus ?? false) autofocus @endif
+        @if(($type ?? null) === 'number') step="any" @endif
         @isset($value) value="{{ $value }}" @endisset
     >
 </div>
