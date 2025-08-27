@@ -23,6 +23,16 @@ class Exercise extends Model
         'calves',
     ];
 
+    public static function getMuscleGroupSelectOptions(): array
+    {
+        return array_map(function ($muscleGroup) {
+            return [
+                'value' => $muscleGroup,
+                'label' => ucfirst($muscleGroup)
+            ];
+        }, self::$muscleGroups);
+    }
+
     public function exerciseLogs(): HasMany
     {
         return $this->hasMany(ExerciseLog::class);

@@ -39,17 +39,14 @@
 
     <x-form action="{{ route('exercises.exercise-logs.store', $exercise) }}">
         <fieldset>
-            <legend>New log</legend>
+            <legend>Log a set</legend>
             <div class="inputs">
                 <div>
-                    <label for="reps">Reps</label>
-                    <input id="reps" name="reps" type="number">
-
-                    <label for="weight">Weight</label>
-                    <input id="weight" name="weight" type="number">
+                    <x-input name="reps" label="Reps" type="number" />
+                    <x-input name="weight" label="Weight" type="number" />
                 </div>
 
-                <button type="submit">Log</button>
+                <x-button>Log</x-button>
             </div>
         </fieldset>
     </x-form>
@@ -88,23 +85,14 @@
         }
 
         fieldset {
-            box-sizing: border-box;
-            padding: 12px 10px 15px;
+            border-radius: 8px;
+            border: 1px solid lightgrey;
+            padding-block: 16px;
         }
 
-        fieldset .inputs {
-            display: flex;
-            gap: 5px;
-        }
-
-        .inputs div {
-            align-items: center;
-            display: flex;
-            gap: 5px;
-        }
-
-        .inputs div input {
-            width: 100%;
+        fieldset legend {
+            font-size: 20px;
+            font-weight: 600;
         }
     </style>
 </x-layout>

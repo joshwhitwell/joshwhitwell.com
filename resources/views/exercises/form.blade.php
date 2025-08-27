@@ -7,49 +7,30 @@
         action="{{ $exercise->exists ? route('exercises.update', $exercise) : route('exercises.store') }}"
         method="{{ $exercise->exists ? 'PUT' : 'POST' }}"
     >
-        <div>
-            <label for="name">
-                Name
-                <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    value="{{ old('name', $exercise->name) }}"
-                    required
-                    autofocus
-                    data-1p-ignore
-                />
-            </label>
-        </div>
+        <x-input
+            name="name"
+            label="Exercise Name"
+            required
+            autofocus
+            value="{{ old('name', $exercise->name) }}"
+        />
 
-        <div>
-            <label for="muscle_group">
-                Muscle Group
-                <select
-                    id="muscle_group"
-                    name="muscle_group"
-                    required
-                >
-                    @foreach($exercise::$muscleGroups as $value)
-                        <option
-                            value="{{ $value }}"
-                            {{ old('muscle_group', $exercise->muscle_group) === $value ? 'selected' : '' }}
-                        >
-                            {{ \Str::ucfirst($value) }}
-                        </option>
-                    @endforeach
-                </select>
-            </label>
-        </div>
+        <x-select
+            name="muscle_group"
+            label="Muscle Group"
+            required
+            :options="$exercise::getMuscleGroupSelectOptions()"
+            value="{{ old('muscle_group', $exercise->muscle_group) }}"
+        />
 
-        <button type="submit">
+        <x-button>
             {{ $exercise->exists ? 'Update' : 'Create' }}
-        </button>
+        </x-button>
     </x-form>
 
     @if ($exercise->exists)
-        <x-form action="{{ route('exercises.destroy', $exercise) }}" method="DELETE">
-            <button id="delete-button" type="submit">Delete</button>
+        <x-form id="delete-form" action="{{ route('exercises.destroy', $exercise) }}" method="DELETE">
+            <x-button id="delete-button" type="submit" color="red">Delete</x-button>
             <script>
                 document.getElementById('delete-button').addEventListener('click', function (event) {
                     event.preventDefault();
@@ -60,16 +41,8 @@
                 });
             </script>
             <style>
-                #delete-button {
-                    background-color: rgba(255, 0, 0, 0.10);
-                    border: 1px solid red;
-                    border-radius: 2px;
-                    color: red;
-                    margin-block-start: 30px;
-                }
-
-                #delete-button:hover {
-                    background-color: rgba(255, 0, 0, 0.20);
+                #delete-form {
+                    margin-block-start: 24px;
                 }
             </style>
         </x-form>

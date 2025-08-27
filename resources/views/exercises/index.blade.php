@@ -16,13 +16,12 @@
                 <input type="hidden" name="sort" value="{{ request('sort') }}">
             @endif
 
-            <input
-                id="filter[search]"
+            <x-input
                 name="filter[search]"
                 type="search"
                 placeholder="Search by name"
                 value="{{ request()->input('filter.search') }}"
-            >
+            />
 
             <div>
                 <h3>Muscle</h3>
@@ -41,7 +40,7 @@
                 @endforeach
             </div>
 
-            <button type="submit">Apply</button>
+            <x-button>Apply</x-button>
 
             @if(request()->has('filter'))
                 <a href="{{ route('exercises.index', request()->except('filter')) }}">Clear</a>

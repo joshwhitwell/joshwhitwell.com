@@ -2,7 +2,11 @@
     $method = $method ?? 'POST';
 ?>
 
-<form action="{{ $action }}" method="{{ $method === 'GET' ? 'GET' : 'POST' }}">
+<form
+    @isset($id) id="{{ $id }}" @endisset
+    action="{{ $action }}"
+    method="{{ $method === 'GET' ? 'GET' : 'POST' }}"
+>
     @if($method !== 'GET')
         @csrf
     @endif

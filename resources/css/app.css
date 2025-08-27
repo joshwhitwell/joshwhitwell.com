@@ -2,12 +2,12 @@ body, html {
     font-family: sans-serif;
 }
 
-input, textarea, select, button {
+input, textarea, select {
     font-size: 16px;
 }
 
 a {
-    color: blue;
+    color: dodgerblue;
     text-decoration: none;
 }
 

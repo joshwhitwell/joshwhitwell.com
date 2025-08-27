@@ -36,13 +36,18 @@
         }
 
         a:hover {
-            border-color: blue;
-            color: blue;
+            border-color: dodgerblue;
+            color: dodgerblue;
         }
 
         a[data-x-sort-active] {
-            border-color: darkorange;
-            color: darkorange;
+            border-color: dodgerblue;
+            color: dodgerblue;
+        }
+
+        a[data-x-sort-active]:hover {
+            border-color: black;
+            color: black;
         }
     }
 </style>
