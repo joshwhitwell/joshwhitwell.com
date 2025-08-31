@@ -7,10 +7,24 @@
       "app.css"
     ]
   },
+  "resources/css/joshwhitwell.css": {
+    "file": "assets/joshwhitwell-BLr9ttU3.css",
+    "src": "resources/css/joshwhitwell.css",
+    "isEntry": true,
+    "names": [
+      "joshwhitwell.css"
+    ]
+  },
   "resources/js/app.js": {
     "file": "assets/app-C0G0cght.js",
     "name": "app",
     "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/joshwhitwell.js": {
+    "file": "assets/joshwhitwell-ClkGuJiz.js",
+    "name": "joshwhitwell",
+    "src": "resources/js/joshwhitwell.js",
     "isEntry": true
   }
 }

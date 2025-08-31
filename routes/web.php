@@ -6,9 +6,7 @@ use App\Http\Controllers\ExerciseLogController;
 
 require __DIR__ . '/auth.php';
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'joshwhitwell');
 
 Route::middleware('auth')->group(function () {
     Route::resource('exercises', ExerciseController::class);

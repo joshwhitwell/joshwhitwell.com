@@ -1,0 +1,106 @@
+:root {
+  --font-family-display: "Bricolage Grotesque", sans-serif;
+
+  --background-color: oklch(98.5% 0.001 106.423);
+
+  --palette-1-1: #000000ff;
+  --palette-1-2: var(--background-color);
+  --palette-1-3: #494949ff;
+  --palette-1-4: #7c7a7aff;
+  --palette-1-5: #ff5d73ff;
+
+  --palette-2-1: #885053ff;
+  --palette-2-2: #fe5f55ff;
+  --palette-2-3: #777da7ff;
+  --palette-2-4: #94c9a9ff;
+  --palette-2-5: #c6ecaeff;
+
+  --palette-3-1: #272727ff;
+  --palette-3-2: #2b50aaff;
+  --palette-3-3: #ff9fe5ff;
+  --palette-3-4: #ffd4d4ff;
+  --palette-3-5: #ff858dff;
+
+  --palette-4-1: #de9151ff;
+  --palette-4-2: #f34213ff;
+  --palette-4-3: #2e2e3aff;
+  --palette-4-4: #bc5d2eff;
+  --palette-4-5: #bbb8b2ff;
+
+  --palette-5-1: #eff8e2ff;
+  --palette-5-2: #cecfc7ff;
+  --palette-5-3: #ada8b6ff;
+  --palette-5-4: #23022eff;
+  --palette-5-5: #573280ff;
+}
+
+html,
+body {
+  background-color: var(--background-color);
+}
+
+h1 {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.fullscreen {
+  align-items: center;
+  display: flex;
+  font-family: var(--font-family-display);
+  height: 100vh;
+  justify-content: space-evenly;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+}
+
+@media screen and (max-width: 768px) {
+  .fullscreen--landscape {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .fullscreen--portrait {
+    display: none;
+  }
+}
+
+.fullscreen--landscape .letters {
+  aspect-ratio: 4/3;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: min(calc(100vw * 3 / 4), 100vh);
+  width: min(calc(100vh * 4 / 3), 100vw);
+}
+
+.fullscreen--portrait .letters {
+  aspect-ratio: 3/4;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  height: min(calc(100vw * 4 / 3), 100vh);
+  width: min(calc(100vh * 3 / 4), 100vw);
+}
+
+.letter {
+  align-items: center;
+  aspect-ratio: 1/1;
+  box-sizing: border-box;
+  display: flex;
+  font-size: 16vw;
+  justify-content: center;
+  line-height: 1;
+  text-align: center;
+  transition: all 0.3s ease;
+}
