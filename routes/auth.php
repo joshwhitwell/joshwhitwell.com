@@ -35,5 +35,5 @@ Route::middleware('auth')->group(function () {
         $request->session()->regenerateToken();
 
         return to_route('login');
-    });
+    })->name('logout');
 });
