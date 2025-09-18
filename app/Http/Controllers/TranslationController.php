@@ -21,7 +21,7 @@ class TranslationController extends Controller
      */
     public function create()
     {
-        //
+        return view('app.translations.create');
     }
 
     /**

@@ -1,41 +1,38 @@
-<div class="x-input">
+<?php
+    $id = $id ?? $name;
+    $type = $type ?? 'text';
+    $value = $value ?? null;
+?>
+
+<div class="app-input">
     @isset($label)
-        <label for="{{ $id ?? $name }}">{{ $label }}</label>
+        <label for="{{ $name }}">{{ $label }}</label>
     @endisset
 
-    <input
-        id="{{ $id ?? $name }}"
-        name="{{ $name }}"
-        type="{{ $type ?? 'text' }}"
-        data-1p-ignore
-        @isset($placeholder) placeholder="{{ $placeholder }}" @endisset
-        @if($required ?? false) required @endif
-        @if($autofocus ?? false) autofocus @endif
-        @if(($type ?? null) === 'number') step="any" @endif
-        @isset($value) value="{{ $value }}" @endisset
-    >
+    @isset($help)
+        <p class="app-input__help">{{ $help }}</p>
+    @endisset
+
+    @if ($type === 'textarea')
+        <textarea
+            id="{{ $id }}"
+            name="{{ $name }}"
+            @isset($placeholder) placeholder="{{ $placeholder }}" @endisset
+            @isset($required) required @endisset
+            @isset($autofocus) autofocus @endisset
+            data-1p-ignore
+        >{{ $value }}</textarea>
+    @else
+        <input
+            id="{{ $id }}"
+            name="{{ $name }}"
+            type="{{ $type }}"
+            @isset($placeholder) placeholder="{{ $placeholder }}" @endisset
+            @isset($required) required @endisset
+            @isset($autofocus) autofocus @endisset
+            @if($type === 'number') step="any" @endif
+            value="{{ $value }}"
+            data-1p-ignore
+        >
+    @endif
 </div>
-
-<style>
-    .x-input {
-        align-items: flex-start;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .x-input label {
-        color: black;
-        margin-block-end: 4px;
-    }
-
-    .x-input input {
-        border: 1px solid darkgrey;
-        border-radius: 8px;
-        box-sizing: border-box;
-        font-size: 16px;
-        margin-block-end: 24px;
-        min-height: 40px;
-        padding: 8px 16px;
-        width: 100%;
-    }
-</style>

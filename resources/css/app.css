@@ -1,3 +1,6 @@
+@import "./components/app/app-button.css";
+@import "./components/app/app-input.css";
+
 :root {
   --border-radius-sm: var(--size-sm-7);
   --border-radius-md: var(--size-sm-4);
@@ -66,12 +69,18 @@ body {
   color: var(--color-stone-950);
   font-family: var(--font-family-sans);
   font-size: var(--size-base);
+  font-weight: var(--font-weight-regular);
   margin: 0;
   padding: 0;
 }
 
 * {
   color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  padding: 0;
 }
 
 .app-header {
@@ -121,6 +130,12 @@ body {
 .page-title {
   font-family: var(--font-family-display);
   font-size: var(--size-lg-10);
+  font-weight: var(--font-weight-medium);
   line-height: 1.15;
   letter-spacing: var(--tracking-tight);
+  margin-block: var(--size-lg-8);
+}
+
+.app-footer {
+  margin-block: var(--size-lg-10);
 }

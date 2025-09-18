@@ -1,0 +1,14 @@
+.app-button {
+  button {
+    background-color: var(--color-stone-500);
+    border: 2px solid transparent;
+    color: var(--color-white);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--tracking-wide);
+    padding: var(--size-sm-2);
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

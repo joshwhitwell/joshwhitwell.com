@@ -29,4 +29,6 @@
         <main>
             {{ $slot }}
         </main>
+
+        <footer class="app-footer"></footer>
 </html>
