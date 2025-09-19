@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTranslationRequest extends FormRequest
+class TranslationFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,11 @@ class StoreTranslationRequest extends FormRequest
      */
     public function rules(): array
     {
+        $translationId = $this->route('translation')->id ?? null;
         return [
-            //
+            'slug' => 'required|string|unique:translations,slug' . ($translationId ? ',' . $translationId : ''),
+            'title' => 'required|string|max:255',
+            'text' => 'required|string',
         ];
     }
 }

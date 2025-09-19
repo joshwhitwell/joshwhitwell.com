@@ -2,9 +2,10 @@
     $id = $id ?? $name;
     $type = $type ?? 'text';
     $value = $value ?? null;
+    $error = $errors->first($name);
 ?>
 
-<div class="app-input">
+<div class="app-input {{ !empty($error) ? 'app-input--has-error' : '' }}">
     @isset($label)
         <label for="{{ $name }}">{{ $label }}</label>
     @endisset
@@ -34,5 +35,9 @@
             value="{{ $value }}"
             data-1p-ignore
         >
+    @endif
+
+    @if($error)
+        <p class="app-input__error">{{ $error }}</p>
     @endif
 </div>

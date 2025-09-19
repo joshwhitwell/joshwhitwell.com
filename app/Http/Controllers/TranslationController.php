@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTranslationRequest;
-use App\Http\Requests\UpdateTranslationRequest;
+use App\Http\Requests\TranslationFormRequest;
 use App\Models\Translation;
 
 class TranslationController extends Controller
@@ -13,7 +12,8 @@ class TranslationController extends Controller
      */
     public function index()
     {
-        return view('app.translations.index');
+        $translations = Translation::orderByDesc('created_at')->paginate(100);
+        return view('app.translations.index', compact(['translations']));
     }
 
     /**
@@ -27,9 +27,10 @@ class TranslationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTranslationRequest $request)
+    public function store(TranslationFormRequest $request)
     {
-        //
+        $translation = Translation::create($request->safe()->all());
+        return redirect()->route('translations.edit', $translation);
     }
 
     /**
@@ -45,15 +46,16 @@ class TranslationController extends Controller
      */
     public function edit(Translation $translation)
     {
-        //
+        return view('app.translations.form', compact(['translation']));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTranslationRequest $request, Translation $translation)
+    public function update(TranslationFormRequest $request, Translation $translation)
     {
-        //
+        $translation->update($request->safe()->all());
+        return redirect()->route('translations.edit', $translation);
     }
 
     /**
@@ -61,6 +63,7 @@ class TranslationController extends Controller
      */
     public function destroy(Translation $translation)
     {
-        //
+        $translation->delete();
+        return redirect()->route('translations.index');
     }
 }
