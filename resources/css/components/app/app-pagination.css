@@ -1,0 +1,35 @@
+.app-pagination {
+  margin-block: var(--size-lg-8);
+
+  ul {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--size-sm-2);
+    list-style: none;
+  }
+
+  a {
+    align-items: center;
+    border: 1px solid transparent;
+    display: flex;
+    height: var(--size-lg-5);
+    justify-content: center;
+    text-decoration: none;
+    width: var(--size-lg-5);
+  }
+
+  li.active {
+    border: 1px solid var(--color-stone-200);
+  }
+
+  li.active,
+  li.disabled {
+    align-items: center;
+    display: flex;
+    height: var(--size-lg-5);
+    justify-content: center;
+    text-decoration: none;
+    width: var(--size-lg-5);
+  }
+}

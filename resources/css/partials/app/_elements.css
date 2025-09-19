@@ -1,0 +1,34 @@
+html,
+body {
+  background-color: var(--color-stone-100);
+  color: var(--color-stone-950);
+  font-family: var(--font-family-sans);
+  font-size: var(--size-base);
+  font-weight: var(--font-weight-regular);
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-line: line-through;
+    text-decoration-thickness: 2px;
+  }
+}
+
+ol,
+ul {
+  list-style: none;
+}

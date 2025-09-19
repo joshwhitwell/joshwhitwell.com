@@ -1,5 +1,5 @@
 <?php
-    $isCreating = $translation->doesntExist();
+    $isCreating = !$translation->exists;
     $title = $isCreating ? 'New Translation' : $translation->title;
 ?>
 
@@ -13,7 +13,7 @@
 
         <x-app.form
             action="{{ $isCreating ? route('translations.store') : route('translations.update', $translation) }}"
-            method="put"
+            method="{{ $isCreating ? 'post' : 'put' }}"
         >
             <x-input
                 name="slug"

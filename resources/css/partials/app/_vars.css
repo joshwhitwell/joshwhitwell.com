@@ -1,0 +1,73 @@
+:root {
+  --border-radius-sm: var(--size-sm-7);
+  --border-radius-md: var(--size-sm-4);
+  --border-radius-lg: var(--size-base);
+
+  --color-black: #000;
+
+  --color-red-50: oklch(0.971 0.013 17.38);
+  --color-red-100: oklch(0.936 0.032 17.717);
+  --color-red-200: oklch(0.885 0.062 18.334);
+  --color-red-300: oklch(0.808 0.114 19.571);
+  --color-red-400: oklch(0.704 0.191 22.216);
+  --color-red-500: oklch(0.637 0.237 25.331);
+  --color-red-600: oklch(0.577 0.245 27.325);
+  --color-red-700: oklch(0.505 0.213 27.518);
+  --color-red-800: oklch(0.444 0.177 26.899);
+  --color-red-900: oklch(0.396 0.141 25.723);
+  --color-red-950: oklch(0.258 0.092 26.042);
+
+  --color-stone-50: oklch(0.985 0.001 106.423);
+  --color-stone-100: oklch(0.97 0.001 106.424);
+  --color-stone-200: oklch(0.923 0.003 48.717);
+  --color-stone-300: oklch(0.869 0.005 56.366);
+  --color-stone-400: oklch(0.709 0.01 56.259);
+  --color-stone-500: oklch(0.553 0.013 58.071);
+  --color-stone-600: oklch(0.444 0.011 73.639);
+  --color-stone-700: oklch(0.374 0.01 67.558);
+  --color-stone-800: oklch(0.268 0.007 34.298);
+  --color-stone-900: oklch(0.216 0.006 56.043);
+  --color-stone-950: oklch(0.147 0.004 49.25);
+
+  --color-white: #fff;
+
+  --font-family-display: "Bricolage Grotesque", sans-serif;
+  --font-family-sans: "Inter", sans-serif;
+
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --size-lg-10: 99.07px;
+  --size-lg-9: 82.56px;
+  --size-lg-8: 68.8px;
+  --size-lg-7: 57.33px;
+  --size-lg-6: 47.78px;
+  --size-lg-5: 39.81px;
+  --size-lg-4: 33.18px;
+  --size-lg-3: 27.65px;
+  --size-lg-2: 23.04px;
+  --size-lg-1: 19.2px;
+  --size-base: 16px;
+  --size-sm-1: 13.33px;
+  --size-sm-2: 11.11px;
+  --size-sm-3: 9.26px;
+  --size-sm-4: 7.72px;
+  --size-sm-5: 6.43px;
+  --size-sm-6: 5.36px;
+  --size-sm-7: 4.47px;
+  --size-sm-8: 3.73px;
+  --size-sm-9: 3.11px;
+  --size-sm-10: 2.59px;
+
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+}
