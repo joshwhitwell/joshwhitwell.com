@@ -1,0 +1,19 @@
+html,
+body {
+  background-color: var(--color-background);
+  color: var(--color-black);
+  font-family: var(--font-family-sans);
+  font-size: var(--size-16);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+input:focus {
+  outline: none;
+}
