@@ -7,8 +7,8 @@
     </div>
 
     <x-form action="{{ route('login') }}">
-      <x-input name="email" type="email" label="Email" autocomplete="email" autofocus required />
-      <x-input name="password" type="password" label="Password" required />
+      <x-input name="email" type="email" label="Email" autocomplete="email" autofocus required data-1p-ignore="{{ false }}" />
+      <x-input name="password" type="password" label="Password" required data-1p-ignore="{{ false }}" />
       <x-button>Log in</x-button>
     </x-form>
   </div>
