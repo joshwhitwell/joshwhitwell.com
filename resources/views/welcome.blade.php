@@ -18,7 +18,6 @@
 </head>
 
 <body>
-  <h1>{{ config('app.name', 'Laravel') }}</h1>
 </body>
 
 </html>
