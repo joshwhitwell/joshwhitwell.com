@@ -147,23 +147,25 @@ self.addEventListener('fetch', (event) => {
         if (url.search && url.search.includes('v=')) {
             // If versioned, we can use cache-first approach
             event.respondWith(
-                caches.match(event.request).then(cachedResponse => {
+                caches.match(event.request).then((cachedResponse) => {
                     if (cachedResponse) {
                         return cachedResponse;
                     }
-                    return fetch(event.request).then(networkResponse => {
-                        if (networkResponse.ok) {
-                            const clonedResponse = networkResponse.clone();
-                            caches.open(ICON_CACHE_NAME).then(cache => {
-                                cache.put(event.request, clonedResponse);
-                            });
-                        }
-                        return networkResponse;
-                    }).catch(() => {
-                        // Fallback to any cached version if available
-                        return caches.match(url.pathname);
-                    });
-                })
+                    return fetch(event.request)
+                        .then((networkResponse) => {
+                            if (networkResponse.ok) {
+                                const clonedResponse = networkResponse.clone();
+                                caches.open(ICON_CACHE_NAME).then((cache) => {
+                                    cache.put(event.request, clonedResponse);
+                                });
+                            }
+                            return networkResponse;
+                        })
+                        .catch(() => {
+                            // Fallback to any cached version if available
+                            return caches.match(url.pathname);
+                        });
+                }),
             );
         } else {
             // If not versioned, we use network-first approach
@@ -180,7 +182,7 @@ self.addEventListener('fetch', (event) => {
                     })
                     .catch((err) => {
                         return caches.match(event.request);
-                    })
+                    }),
             );
         }
         return;

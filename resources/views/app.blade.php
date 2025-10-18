@@ -83,7 +83,7 @@
                                     // Only show the notification if it's a genuine update
                                     const lastUpdateCheck = localStorage.getItem('sw-last-update');
                                     const now = Date.now();
-                                    
+
                                     // Only show update prompt if we haven't shown it in the last hour
                                     if (!lastUpdateCheck || (now - parseInt(lastUpdateCheck)) > 3600000) {
                                         if (confirm('New content is available! Click OK to refresh.')) {
