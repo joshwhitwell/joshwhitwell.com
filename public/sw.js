@@ -1,6 +1,7 @@
 // Service worker for PWA
-const CACHE_NAME = 'laravel-pwa-v3'; // Incremented version number
-const ASSETS_CACHE_NAME = 'assets-cache-v2';
+const CACHE_NAME = 'laravel-pwa-v4'; // Incremented version number
+const ASSETS_CACHE_NAME = 'assets-cache-v3';
+const ICON_CACHE_NAME = 'icon-cache-v1';
 const urlsToCache = [
     // Offline page is the highest priority
     '/offline.html',
@@ -95,7 +96,7 @@ self.addEventListener('install', (event) => {
 
 // Activate event - clean up old caches and claim clients
 self.addEventListener('activate', (event) => {
-    const currentCaches = [CACHE_NAME, ASSETS_CACHE_NAME];
+    const currentCaches = [CACHE_NAME, ASSETS_CACHE_NAME, ICON_CACHE_NAME];
 
     event.waitUntil(
         (async () => {
@@ -133,6 +134,33 @@ self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
     if (url.pathname === '/offline.html') {
         event.respondWith(caches.match('/offline.html'));
+        return;
+    }
+
+    // Special handling for icon resources - always re-fetch from network first
+    if (
+        url.pathname.match(
+            /\/(favicon|icon|apple-touch-icon|site\.webmanifest)/,
+        )
+    ) {
+        event.respondWith(
+            fetch(event.request)
+                .then((networkResponse) => {
+                    // Clone the response to store in cache
+                    const clonedResponse = networkResponse.clone();
+
+                    // Store in icon cache
+                    caches.open(ICON_CACHE_NAME).then((cache) => {
+                        cache.put(event.request, clonedResponse);
+                    });
+
+                    return networkResponse;
+                })
+                .catch((err) => {
+                    // If network fetch fails, try to return from cache
+                    return caches.match(event.request);
+                }),
+        );
         return;
     }
 

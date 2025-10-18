@@ -42,15 +42,15 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
         <meta name="apple-mobile-web-app-title" content="{{ config('app.name', 'Laravel') }}">
 
-        <link rel="manifest" href="/site.webmanifest">
-        <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <link rel="manifest" href="/site.webmanifest?v={{ time() }}">
+        <link rel="icon" href="/favicon.ico?v={{ time() }}" sizes="any">
+        <link rel="icon" href="/favicon.svg?v={{ time() }}" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v={{ time() }}">
 
         <!-- Apple PWA specific icons -->
-        <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
-        <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png">
-        <link rel="mask-icon" href="/favicon.svg" color="#ff2d20">
+        <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png?v={{ time() }}">
+        <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png?v={{ time() }}">
+        <link rel="mask-icon" href="/favicon.svg?v={{ time() }}" color="#ff2d20">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
@@ -63,7 +63,7 @@
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
                     // Force update the service worker to get the latest version
-                    navigator.serviceWorker.register('/sw.js?v=3').then(function(registration) {
+                    navigator.serviceWorker.register('/sw.js?v={{ time() }}').then(function(registration) {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
 
                         // Check for updates on each page load

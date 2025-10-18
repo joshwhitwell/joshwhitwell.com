@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uninstall PWA - Josh Whitwell</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            padding: 2rem;
+            background-color: white;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        p {
+            margin-bottom: 1.5rem;
+        }
+        .button {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .instructions {
+            background-color: #f1f5f9;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1.5rem;
+        }
+        .browser-instructions {
+            margin-bottom: 2rem;
+        }
+        .success-message {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #111;
+                color: #f5f5f5;
+            }
+            .instructions {
+                background-color: #374151;
+            }
+            .success-message {
+                background-color: #064e3b;
+                color: #d1fae5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Uninstall PWA</h1>
+        <p>If you're experiencing issues with outdated icons or need to completely reset the PWA installation, follow these steps:</p>
+
+        <button class="button" id="uninstall-btn">Clear PWA Cache & Data</button>
+
+        <div id="success-message" class="success-message">
+            Cache cleared successfully! Now you need to uninstall the PWA from your device.
+        </div>
+
+        <div class="browser-instructions">
+            <h2>Chrome (Desktop)</h2>
+            <div class="instructions">
+                <ol>
+                    <li>Open Chrome Settings (⋮ menu)</li>
+                    <li>Select "Apps" from the left sidebar</li>
+                    <li>Find this app in the list</li>
+                    <li>Click on the options menu (⋮) for the app</li>
+                    <li>Select "Uninstall"</li>
+                </ol>
+            </div>
+
+            <h2>Chrome (Android)</h2>
+            <div class="instructions">
+                <ol>
+                    <li>Long press on the app icon on your home screen</li>
+                    <li>Select "Uninstall" or drag to the Uninstall area</li>
+                    <li>Go to Chrome and visit this site again</li>
+                </ol>
+            </div>
+
+            <h2>Safari (iOS)</h2>
+            <div class="instructions">
+                <ol>
+                    <li>Long press on the app icon on your home screen</li>
+                    <li>Select "Delete App" or "Remove App"</li>
+                    <li>Confirm deletion</li>
+                    <li>Go to Safari and visit this site again</li>
+                </ol>
+            </div>
+
+            <h2>Clear Browser Cache</h2>
+            <div class="instructions">
+                <p>For a complete reset, also clear your browser's cache:</p>
+                <ul>
+                    <li><strong>Chrome:</strong> Settings → Privacy and Security → Clear browsing data</li>
+                    <li><strong>Safari:</strong> Settings → Safari → Clear History and Website Data</li>
+                    <li><strong>Firefox:</strong> Settings → Privacy & Security → Cookies and Site Data → Clear Data</li>
+                </ul>
+            </div>
+        </div>
+
+        <p>After completing these steps, refresh this page and you should see the updated icons.</p>
+        <p><a href="/" class="button">Return to Homepage</a></p>
+    </div>
+
+    <script>
+        document.getElementById('uninstall-btn').addEventListener('click', async function() {
+            // Clear caches
+            if ('caches' in window) {
+                try {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(
+                        cacheNames.filter(name => name.includes('laravel-pwa') || name.includes('assets-cache') || name.includes('icon-cache'))
+                            .map(name => {
+                                console.log(`Deleting cache: ${name}`);
+                                return caches.delete(name);
+                            })
+                    );
+
+                    // Unregister service worker
+                    if ('serviceWorker' in navigator) {
+                        const registrations = await navigator.serviceWorker.getRegistrations();
+                        await Promise.all(registrations.map(registration => registration.unregister()));
+                        console.log('Service workers unregistered');
+                    }
+
+                    // Show success message
+                    document.getElementById('success-message').style.display = 'block';
+
+                } catch (error) {
+                    console.error('Error clearing caches:', error);
+                    alert('Error clearing caches. Please try again or clear your browser cache manually.');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
