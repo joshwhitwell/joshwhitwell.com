@@ -1,9 +1,10 @@
 // Service worker for PWA
-const CACHE_NAME = 'laravel-pwa-v2'; // Incremented version number
-const ASSETS_CACHE_NAME = 'assets-cache-v1';
+const CACHE_NAME = 'laravel-pwa-v3'; // Incremented version number
+const ASSETS_CACHE_NAME = 'assets-cache-v2';
 const urlsToCache = [
-    '/',
+    // Offline page is the highest priority
     '/offline.html',
+    '/',
     '/favicon.ico',
     '/favicon.svg',
     '/apple-touch-icon.png',
@@ -128,15 +129,22 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    // Special handling for the offline page
+    const url = new URL(event.request.url);
+    if (url.pathname === '/offline.html') {
+        event.respondWith(caches.match('/offline.html'));
+        return;
+    }
+
     event.respondWith(
         (async () => {
-            // Try to get from cache first
-            const cachedResponse = await caches.match(event.request);
-            if (cachedResponse) {
-                return cachedResponse;
-            }
-
             try {
+                // Try to get from cache first
+                const cachedResponse = await caches.match(event.request);
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
+
                 // If not in cache, try network
                 const networkResponse = await fetch(event.request);
 
@@ -151,20 +159,51 @@ self.addEventListener('fetch', (event) => {
 
                 return networkResponse;
             } catch (err) {
-                // Network failed, try to return appropriate fallback
-                const url = new URL(event.request.url);
+                console.log(
+                    'Fetch failed; returning offline page instead.',
+                    err,
+                );
 
-                // For navigation requests, show the offline page
+                // If this is a navigation request (for a page)
                 if (event.request.mode === 'navigate') {
-                    return caches.match('/offline.html');
+                    // Return the cached offline page
+                    const offlineResponse = await caches.match('/offline.html');
+                    if (offlineResponse) {
+                        return offlineResponse;
+                    }
+
+                    // Fallback if offline page isn't cached
+                    return new Response(
+                        '<html><head><title>Offline</title><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="padding: 2rem; text-align: center; font-family: system-ui, sans-serif;"><h1>You\'re Offline</h1><p>Please check your connection and try again.</p></body></html>',
+                        {
+                            status: 200,
+                            headers: { 'Content-Type': 'text/html' },
+                        },
+                    );
                 }
 
-                // For image requests, maybe return a placeholder
+                // For image requests, return a transparent placeholder
                 if (event.request.destination === 'image') {
                     return new Response('', {
                         status: 200,
                         headers: new Headers({
                             'Content-Type': 'image/svg+xml',
+                        }),
+                    });
+                }
+
+                // For JavaScript or CSS, return empty response to prevent errors
+                if (
+                    event.request.destination === 'script' ||
+                    event.request.destination === 'style'
+                ) {
+                    return new Response('', {
+                        status: 200,
+                        headers: new Headers({
+                            'Content-Type':
+                                event.request.destination === 'script'
+                                    ? 'application/javascript'
+                                    : 'text/css',
                         }),
                     });
                 }

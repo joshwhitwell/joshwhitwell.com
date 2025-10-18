@@ -63,7 +63,7 @@
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
                     // Force update the service worker to get the latest version
-                    navigator.serviceWorker.register('/sw.js?v=2').then(function(registration) {
+                    navigator.serviceWorker.register('/sw.js?v=3').then(function(registration) {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
 
                         // Check for updates on each page load
@@ -89,6 +89,16 @@
                     // Listen for controller change events
                     navigator.serviceWorker.addEventListener('controllerchange', function() {
                         console.log('New service worker activated');
+                    });
+
+                    // Handle offline/online events
+                    window.addEventListener('online', function() {
+                        console.log('App is online. Reloading to get fresh content.');
+                        window.location.reload();
+                    });
+
+                    window.addEventListener('offline', function() {
+                        console.log('App is offline. Service worker will handle requests.');
                     });
                 });
             }

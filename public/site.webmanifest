@@ -1,8 +1,8 @@
 {
-  "name": "Laravel PWA",
-  "short_name": "PWA",
-  "description": "Progressive Web App using Laravel, Vue and Inertia.js",
-  "start_url": "/",
+  "name": "Josh Whitwell",
+  "short_name": "Josh Whitwell",
+  "description": "Josh Whitwell’s personal website",
+  "start_url": "/dashboard",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",

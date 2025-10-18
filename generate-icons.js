@@ -1,13 +1,15 @@
 // generate-icons.js
+import fs from 'fs/promises';
 import path from 'path';
 import sharp from 'sharp';
+import toIco from 'to-ico';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const SIZES = [192, 512];
-const SOURCE_SVG = path.join(__dirname, 'public', 'icon-base.svg');
+const SOURCE_SVG = path.join(__dirname, 'public', 'favicon.svg');
 
 async function generateIcons() {
     try {
@@ -36,7 +38,7 @@ async function generateIcons() {
                     bottom: padding,
                     left: padding,
                     right: padding,
-                    background: { r: 255, g: 45, b: 32 }, // Laravel red
+                    background: { r: 0, g: 0, b: 0, alpha: 0 }, // Transparent background
                 })
                 .png()
                 .toFile(
@@ -45,6 +47,33 @@ async function generateIcons() {
 
             console.log(`Generated icon-maskable-${size}.png`);
         }
+
+        // Generate apple-touch-icon.png (180x180 is standard size)
+        await sharp(SOURCE_SVG)
+            .resize(180, 180)
+            .png()
+            .toFile(path.join(__dirname, 'public', 'apple-touch-icon.png'));
+
+        console.log('Generated apple-touch-icon.png');
+
+        // Generate favicon.ico (multiple sizes: 16x16, 32x32, 48x48)
+        const faviconSizes = [16, 32, 48];
+        const faviconBuffers = await Promise.all(
+            faviconSizes.map((size) =>
+                sharp(SOURCE_SVG).resize(size, size).png().toBuffer(),
+            ),
+        );
+
+        // Convert PNG buffers to ICO
+        const icoBuffer = await toIco(faviconBuffers);
+
+        // Write the ICO file
+        await fs.writeFile(
+            path.join(__dirname, 'public', 'favicon.ico'),
+            icoBuffer,
+        );
+
+        console.log('Generated favicon.ico');
 
         console.log('All icons generated successfully!');
     } catch (error) {
