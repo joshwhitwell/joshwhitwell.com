@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @class(['dark' => ($appearance ?? 'system') == 'dark'])>
+<!-- App version: {{ config('app.version', '1.0') }}, Build time: {{ date('Y-m-d H:i:s') }} -->
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['dark' => ($appearance ?? 'system') == 'dark'])>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -62,21 +63,34 @@
         <script>
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
-                    // Force update the service worker to get the latest version
-                    navigator.serviceWorker.register('/sw.js?v={{ time() }}').then(function(registration) {
+                    // Use a fixed version number that only changes when you actually update the SW
+                    navigator.serviceWorker.register('/sw.js?v=4').then(function(registration) {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
 
-                        // Check for updates on each page load
-                        registration.update();
+                        // Only check for updates once per session, not on every page load
+                        if (!window.sessionStorage.getItem('sw-checked-update')) {
+                            window.sessionStorage.setItem('sw-checked-update', 'true');
+                            registration.update();
+                        }
 
-                        // Detect SW updates and offer reload
+                        // Only show update notification when we actually have a new service worker
+                        let refreshing = false;
                         registration.addEventListener('updatefound', () => {
                             const newWorker = registration.installing;
 
                             newWorker.addEventListener('statechange', function() {
                                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    if (confirm('New content is available! Click OK to refresh.')) {
-                                        window.location.reload();
+                                    // Only show the notification if it's a genuine update
+                                    const lastUpdateCheck = localStorage.getItem('sw-last-update');
+                                    const now = Date.now();
+                                    
+                                    // Only show update prompt if we haven't shown it in the last hour
+                                    if (!lastUpdateCheck || (now - parseInt(lastUpdateCheck)) > 3600000) {
+                                        if (confirm('New content is available! Click OK to refresh.')) {
+                                            localStorage.setItem('sw-last-update', now.toString());
+                                            refreshing = true;
+                                            window.location.reload();
+                                        }
                                     }
                                 }
                             });
@@ -89,6 +103,10 @@
                     // Listen for controller change events
                     navigator.serviceWorker.addEventListener('controllerchange', function() {
                         console.log('New service worker activated');
+                        if (!refreshing) {
+                            // Only reload the page if we aren't already doing so
+                            console.log('Controller changed but not from user update confirmation');
+                        }
                     });
 
                     // Handle offline/online events

@@ -143,24 +143,46 @@ self.addEventListener('fetch', (event) => {
             /\/(favicon|icon|apple-touch-icon|site\.webmanifest)/,
         )
     ) {
-        event.respondWith(
-            fetch(event.request)
-                .then((networkResponse) => {
-                    // Clone the response to store in cache
-                    const clonedResponse = networkResponse.clone();
-
-                    // Store in icon cache
-                    caches.open(ICON_CACHE_NAME).then((cache) => {
-                        cache.put(event.request, clonedResponse);
+        // Check if the URL has a version parameter
+        if (url.search && url.search.includes('v=')) {
+            // If versioned, we can use cache-first approach
+            event.respondWith(
+                caches.match(event.request).then(cachedResponse => {
+                    if (cachedResponse) {
+                        return cachedResponse;
+                    }
+                    return fetch(event.request).then(networkResponse => {
+                        if (networkResponse.ok) {
+                            const clonedResponse = networkResponse.clone();
+                            caches.open(ICON_CACHE_NAME).then(cache => {
+                                cache.put(event.request, clonedResponse);
+                            });
+                        }
+                        return networkResponse;
+                    }).catch(() => {
+                        // Fallback to any cached version if available
+                        return caches.match(url.pathname);
                     });
-
-                    return networkResponse;
                 })
-                .catch((err) => {
-                    // If network fetch fails, try to return from cache
-                    return caches.match(event.request);
-                }),
-        );
+            );
+        } else {
+            // If not versioned, we use network-first approach
+            event.respondWith(
+                fetch(event.request)
+                    .then((networkResponse) => {
+                        if (networkResponse.ok) {
+                            const clonedResponse = networkResponse.clone();
+                            caches.open(ICON_CACHE_NAME).then((cache) => {
+                                cache.put(event.request, clonedResponse);
+                            });
+                        }
+                        return networkResponse;
+                    })
+                    .catch((err) => {
+                        return caches.match(event.request);
+                    })
+            );
+        }
         return;
     }
 
