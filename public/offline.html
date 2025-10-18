@@ -1,90 +1,103 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#ffffff">
-    <title>Offline - Josh Whitwell</title>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.5;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            min-height: 100vh;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background-color: white;
-            color: #333;
-        }
-        .container {
-            padding: 2rem;
-            max-width: 500px;
-        }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        p {
-            margin-bottom: 1.5rem;
-        }
-        .icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-        .retry-button {
-            display: inline-block;
-            background-color: #2563eb;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.375rem;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            border: none;
-            font-size: 1rem;
-            transition: background-color 0.2s;
-        }
-        .retry-button:hover {
-            background-color: #1d4ed8;
-        }
-        @media (prefers-color-scheme: dark) {
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#ffffff" />
+        <title>Offline - Josh Whitwell</title>
+        <style>
             body {
-                background-color: #111;
-                color: #f5f5f5;
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    'Segoe UI',
+                    Roboto,
+                    Oxygen,
+                    Ubuntu,
+                    Cantarell,
+                    sans-serif;
+                line-height: 1.5;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                min-height: 100vh;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                background-color: white;
+                color: #333;
+            }
+            .container {
+                padding: 2rem;
+                max-width: 500px;
+            }
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+            p {
+                margin-bottom: 1.5rem;
+            }
+            .icon {
+                font-size: 4rem;
+                margin-bottom: 1rem;
             }
             .retry-button {
-                background-color: #3b82f6;
+                display: inline-block;
+                background-color: #2563eb;
+                color: white;
+                padding: 0.75rem 1.5rem;
+                border-radius: 0.375rem;
+                font-weight: 500;
+                cursor: pointer;
+                text-decoration: none;
+                border: none;
+                font-size: 1rem;
+                transition: background-color 0.2s;
             }
             .retry-button:hover {
-                background-color: #2563eb;
+                background-color: #1d4ed8;
             }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="icon">📶</div>
-        <h1>You're Offline</h1>
-        <p>It looks like you're not connected to the internet right now. Please check your connection and try again.</p>
-        <p>Some features of this app are available offline if you've visited them before.</p>
-        <button class="retry-button" onclick="retryConnection()">Try Again</button>
-    </div>
+            @media (prefers-color-scheme: dark) {
+                body {
+                    background-color: #111;
+                    color: #f5f5f5;
+                }
+                .retry-button {
+                    background-color: #3b82f6;
+                }
+                .retry-button:hover {
+                    background-color: #2563eb;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>You're Offline</h1>
+            <p>
+                It looks like you're not connected to the internet right now.
+                Please check your connection and try again.
+            </p>
+            <p>
+                Some features of this app are available offline if you've
+                visited them before.
+            </p>
+        </div>
 
-    <script>
-        // Function to retry connection
-        function retryConnection() {
-            // Reload the page
-            window.location.reload();
-        }
+        <script>
+            // Function to retry connection
+            function retryConnection() {
+                // Reload the page
+                window.location.reload();
+            }
 
-        // Listen for online status changes
-        window.addEventListener('online', function() {
-            // When we come back online, reload the page
-            window.location.reload();
-        });
-    </script>
-</body>
+            // Listen for online status changes
+            window.addEventListener('online', function () {
+                // When we come back online, reload the page
+                window.location.reload();
+            });
+        </script>
+    </body>
 </html>
