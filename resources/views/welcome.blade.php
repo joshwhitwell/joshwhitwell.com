@@ -10,6 +10,11 @@
 
     <title>{{ config('app.name', 'Josh Whitwell') }}</title>
 
+    <link
+      href="/site.webmanifest"
+      rel="manifest"
+    >
+
     <!-- Fonts -->
     <link
       href="https://fonts.bunny.net"
