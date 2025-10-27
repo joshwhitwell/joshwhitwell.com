@@ -12,6 +12,7 @@ $hasError = $errors->has($name);
   @endisset
 
   <input
+    autocomplete="{{ $name }}"
     class="{{ $hasError ? 'border-orange-300' : 'border-neutral-300' }} border-box min-h-[40px] w-full rounded-sm border border-2 px-2 focus:outline-neutral-600"
     id="{{ $id ?? $name }}"
     name="{{ $name }}"
