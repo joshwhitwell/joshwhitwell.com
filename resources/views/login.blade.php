@@ -8,11 +8,11 @@
         class="size-10 text-neutral-500"
         data-lucide="log-in"
       ></i>
-      <h1 class="my-3 text-5xl">Log in</h1>
+      <h1 class="my-2 text-5xl">Log in</h1>
       <a
         class="text-neutral-400"
-        href="{{ config("app.url") }}"
-      >{{ config("app.url") }}</a>
+        href="{{ config('app.url') }}"
+      >{{ config('app.url') }}</a>
     </div>
     <x-forms.input
       label="Email"

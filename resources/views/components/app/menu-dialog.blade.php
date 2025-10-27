@@ -1,5 +1,5 @@
   <dialog
-    class="fixed inset-0 h-screen w-full px-3 py-4"
+    class="fixed inset-0 h-screen w-full px-3 py-4 pb-8"
     id="menu-popover"
     popover
   >
