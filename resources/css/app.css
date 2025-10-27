@@ -9,3 +9,12 @@
   --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
+
+*:focus {
+  outline-color: oklch(44.4% 0.011 73.639);
+  outline-offset: 3px;
+}
+
+input:focus {
+  outline-offset: 0px;
+}

@@ -15,11 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $shouldSeedAdminUser = env('ADMIN_NAME')
+            && env('ADMIN_EMAIL')
+            && env('ADMIN_PASSWORD')
+            && !User::where('email', env('ADMIN_EMAIL'))->exists();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        if ($shouldSeedAdminUser) {
+            User::create([
+                'name' => env('ADMIN_NAME'),
+                'email' => env('ADMIN_EMAIL'),
+                'email_verified_at' => now(),
+                'password' => bcrypt(env('ADMIN_PASSWORD')),
+            ]);
+        }
     }
 }
